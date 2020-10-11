@@ -1,0 +1,40 @@
+{
+  "name": "@endless-trash/build",
+  "description": "This is the build tool for Endless Trash.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/endless-trash"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jasmine": "3.5.14",
+    "@typescript-eslint/eslint-plugin": "4.3.0",
+    "@typescript-eslint/parser": "4.3.0",
+    "del-cli": "3.0.1",
+    "eslint": "7.10.0",
+    "eslint-config-prettier": "6.12.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "jasmine": "3.6.1",
+    "npm-run-all": "4.1.5",
+    "nyc": "15.1.0",
+    "prettier": "2.1.2",
+    "typescript": "4.0.3"
+  },
+  "scripts": {
+    "buildClean": "del-cli \"**/*.js\" \"**/*.d.ts\" \"!**/node_modules/**/*\"",
+    "buildLint": "eslint \"**/*.ts\"",
+    "buildLintFix": "eslint --fix \"**/*.ts\"",
+    "buildToolsTypeScript": "tsc --project tools.tsconfig.json",
+    "buildToolsRun": "node build",
+    "buildTypeScript": "tsc --project packages.tsconfig.json",
+    "buildNyc": "nyc --check-coverage --all --exclude \"**/*.ts\" --exclude \"**/*.d.ts\" --exclude \"**/unit.*\" --exclude \"build/**/*\" --exclude \"publish/**/*\" --lines 100 --functions 100 --branches 100 --statements 100 npm run-script buildJasmine",
+    "buildJasmine": "jasmine --config=jasmine.json",
+    "buildToolsPublish": "node publish",
+    "test": "npm-run-all buildClean buildLintFix buildToolsTypeScript buildToolsRun buildTypeScript buildNyc"
+  }
+}

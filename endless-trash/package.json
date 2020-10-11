@@ -1,0 +1,29 @@
+{
+  "name": "endless-trash",
+  "description": "This is a stub package.  You probably want a @endless-trash/* package instead.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/endless-trash"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "4.0.3"
+  },
+  "scripts": {
+    "postinstall": "echo This is a stub package.  You probably want a @endless-trash/* package instead."
+  }
+}
