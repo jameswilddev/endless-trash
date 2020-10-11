@@ -4,10 +4,11 @@ Less a framework, more a collection of random bits and pieces which just so happ
 
 ## NPM packages
 
-Name                                                                     | Version                                                                                                                                           | Description                                                                   
------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------
-[@endless-trash/immutable-json-type](@endless-trash/immutable-json-type) | [![0.0.0](https://img.shields.io/npm/v/@endless-trash/immutable-json-type.svg)](https://www.npmjs.com/package/@endless-trash/immutable-json-type) | A type for immutable JSON.                                                    
-[endless-trash](endless-trash)                                           | [![0.0.0](https://img.shields.io/npm/v/endless-trash.svg)](https://www.npmjs.com/package/endless-trash)                                           | This is a stub package.  You probably want a @endless-trash/* package instead.
+Name                                                                     | Version                                                                                                                                           | Description                                                                        
+------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- | -----------------------------------------------------------------------------------
+[@endless-trash/immutable-json-type](@endless-trash/immutable-json-type) | [![0.0.0](https://img.shields.io/npm/v/@endless-trash/immutable-json-type.svg)](https://www.npmjs.com/package/@endless-trash/immutable-json-type) | A type for immutable JSON.                                                         
+[@endless-trash/key-value-store](@endless-trash/key-value-store)         | [![0.0.0](https://img.shields.io/npm/v/@endless-trash/key-value-store.svg)](https://www.npmjs.com/package/@endless-trash/key-value-store)         | Types and testing helpers for key-value stores with optimistic concurrency control.
+[endless-trash](endless-trash)                                           | [![0.0.0](https://img.shields.io/npm/v/endless-trash.svg)](https://www.npmjs.com/package/endless-trash)                                           | This is a stub package.  You probably want a @endless-trash/* package instead.     
 
 ## License
 
