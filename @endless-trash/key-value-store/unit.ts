@@ -1,1 +1,3 @@
-import ".";
+import { testKeyValueStore } from ".";
+
+testKeyValueStore;

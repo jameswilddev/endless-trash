@@ -1,7 +1,7 @@
 {
   "name": "endless-trash",
-  "description": "This is a stub package.  You probably want a @endless-trash/* package instead.",
-  "version": "0.0.0",
+  "description": "This is a stub package.  You probably want an @endless-trash/* package instead.",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },
