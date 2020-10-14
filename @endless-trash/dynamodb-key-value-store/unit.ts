@@ -1,3 +1,4 @@
+import { ChildProcess } from "child_process";
 import { Credentials } from "aws-sdk";
 import { launch } from "local-dynamo";
 import { testKeyValueStore } from "@endless-trash/key-value-store";
@@ -7,54 +8,58 @@ import {
   DynamodbKeyValueStoreConfiguration,
 } from ".";
 
-let portCounter = 61000;
+let tableCounter = 0;
 
-testKeyValueStore(
-  `DynamodbKeyValueStore`,
-  async () => {
-    const port = portCounter;
-    portCounter++;
+describe(`DynamodbKeyValueStore`, () => {
+  let localDynamoProcess: ChildProcess;
 
-    const localDynamoProcess = launch({
-      port,
+  beforeAll(() => {
+    localDynamoProcess = launch({
+      port: 61000,
     });
+  });
 
-    const dynamodbKeyValueStoreConfiguration: DynamodbKeyValueStoreConfiguration = {
-      tableName: `TestTableName`,
-      keyAttributeName: `TestKeyAttributeName`,
-      valueAttributeName: `TestValueAttributeName`,
-      versionAttributeName: `TestVersionAttributeName`,
-      billing: { type: `payPerRequest` },
-      encryption: { type: `none` },
-      tags: {},
-      clientConfiguration: {
-        credentials: new Credentials(
-          `Test Access Key Id`,
-          `Test Secret Access Key`
-        ),
-        endpoint: `http://localhost:${port}`,
-        region: `local`,
-      },
-    };
+  afterAll(async () => {
+    localDynamoProcess.kill();
+    await new Promise((resolve) => localDynamoProcess.on(`exit`, resolve));
+  });
 
-    await initializeDynamodbKeyValueStore(dynamodbKeyValueStoreConfiguration);
+  testKeyValueStore(
+    ``,
+    async () => {
+      const dynamodbKeyValueStoreConfiguration: DynamodbKeyValueStoreConfiguration = {
+        tableName: `TestTableName${tableCounter++}`,
+        keyAttributeName: `TestKeyAttributeName`,
+        valueAttributeName: `TestValueAttributeName`,
+        versionAttributeName: `TestVersionAttributeName`,
+        billing: { type: `payPerRequest` },
+        encryption: { type: `none` },
+        tags: {},
+        clientConfiguration: {
+          credentials: new Credentials(
+            `Test Access Key Id`,
+            `Test Secret Access Key`
+          ),
+          endpoint: `http://localhost:61000`,
+          region: `local`,
+        },
+      };
 
-    return {
-      localDynamoProcess,
-      dynamodbKeyValueStoreConfiguration,
-    };
-  },
-  async (preparedScenario) => {
-    return new DynamodbKeyValueStore(
-      preparedScenario.dynamodbKeyValueStoreConfiguration
-    );
-  },
-  async (preparedScenario) => {
-    preparedScenario.localDynamoProcess.kill();
-    await new Promise((resolve) =>
-      preparedScenario.localDynamoProcess.on(`exit`, resolve)
-    );
-  },
-  (version) => version,
-  false
-);
+      await initializeDynamodbKeyValueStore(dynamodbKeyValueStoreConfiguration);
+
+      return {
+        dynamodbKeyValueStoreConfiguration,
+      };
+    },
+    async (preparedScenario) => {
+      return new DynamodbKeyValueStore(
+        preparedScenario.dynamodbKeyValueStoreConfiguration
+      );
+    },
+    async () => {
+      // Nothing to do.
+    },
+    (version) => version,
+    false
+  );
+});
