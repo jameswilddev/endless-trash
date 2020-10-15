@@ -1,0 +1,3 @@
+import { testFileStore } from ".";
+
+testFileStore;
