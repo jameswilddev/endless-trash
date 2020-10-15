@@ -408,5 +408,10 @@ export function testFileStore<TPreparedScenario>(
       [41, 211, 79, 203],
       [82, 89, 28, 131, 202, 199, 220],
     ]);
+
+    scenario([
+      { type: `save`, path: `Test Path`, content: [] },
+      { type: `getUrlSuccessful`, path: `Test Path`, expectedResult: [] },
+    ]);
   });
 }
