@@ -1,0 +1,37 @@
+{
+  "name": "@endless-trash/s3-file-store",
+  "description": "A file store backed by a S3 bucket.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/endless-trash"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "2.766.0"
+  },
+  "devDependencies": {
+    "@endless-trash/file-store": "0.0.1",
+    "@endless-trash/immutable-json-type": "0.0.0",
+    "@types/rimraf": "^3.0.0",
+    "@types/s3rver": "0.0.32",
+    "@types/uuid": "^8.3.0",
+    "rimraf": "^3.0.2",
+    "s3rver": "3.6.1",
+    "uuid": "^8.3.1"
+  },
+  "types": "index.d.ts"
+}
