@@ -12,13 +12,15 @@ import {
 
 export type TestKey = `Test Key A` | `Test Key B`;
 
-export type TestValue = { readonly value: number };
+export type TestValue = { value: number };
 
 const testValues: TestValue[] = [];
 
 while (testValues.length < 5000) {
   testValues.push({ value: testValues.length });
 }
+
+let uniqueValue = testValues.length;
 
 type Result<TVersion> =
   | KeyValueStoreGetResult<TestValue, TVersion>
@@ -141,6 +143,8 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
                       expect(result.version).toEqual(versions[versionIndex]);
                     }
 
+                    result.value.value = uniqueValue++;
+
                     previousResults.push([
                       result,
                       {
@@ -181,7 +185,11 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
 
               case `insertSuccessfully`:
                 {
-                  const result = await instance.insert(event.key, event.value);
+                  const valueCopy: TestValue = { value: event.value.value };
+
+                  const result = await instance.insert(event.key, valueCopy);
+
+                  valueCopy.value = -event.value.value;
 
                   if (result.type === `successful`) {
                     versions.push(result.version);
