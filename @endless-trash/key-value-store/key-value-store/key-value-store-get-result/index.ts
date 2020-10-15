@@ -1,6 +1,6 @@
-import { KeyValueStoreDoesNotExistGetResult } from "./key-value-store-does-not-exist-result";
+import { KeyValueStoreDoesNotExistGetResult } from "./key-value-store-does-not-exist-get-result";
 import { KeyValueStoreSuccessfulGetResult } from "./key-value-store-successful-get-result";
-export { KeyValueStoreDoesNotExistGetResult } from "./key-value-store-does-not-exist-result";
+export { KeyValueStoreDoesNotExistGetResult } from "./key-value-store-does-not-exist-get-result";
 export { KeyValueStoreSuccessfulGetResult } from "./key-value-store-successful-get-result";
 
 export type KeyValueStoreGetResult<TValue, TVersion> =
