@@ -15,7 +15,7 @@ describe(`DynamodbKeyValueStore`, () => {
 
   beforeAll(() => {
     localDynamoProcess = launch({
-      port: 61000,
+      port: 61001,
     });
   });
 
@@ -40,7 +40,7 @@ describe(`DynamodbKeyValueStore`, () => {
             `Test Access Key Id`,
             `Test Secret Access Key`
           ),
-          endpoint: `http://localhost:61000`,
+          endpoint: `http://localhost:61001`,
           region: `local`,
         },
       };

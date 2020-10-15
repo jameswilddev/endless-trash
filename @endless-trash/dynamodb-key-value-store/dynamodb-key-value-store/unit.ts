@@ -15,7 +15,7 @@ const dynamodbKeyValueStoreConfiguration: DynamodbKeyValueStoreConfiguration = {
       `Test Access Key Id`,
       `Test Secret Access Key`
     ),
-    endpoint: `http://localhost:60999`,
+    endpoint: `http://localhost:61000`,
     region: `local`,
     maxRetries: 0,
   },
@@ -40,7 +40,7 @@ describe(`DynamodbKeyValueStore`, () => {
 
       it(`throws the expected error`, () => {
         expect(error).toEqual(
-          new Error(`connect ECONNREFUSED 127.0.0.1:60999`)
+          new Error(`connect ECONNREFUSED 127.0.0.1:61000`)
         );
       });
     });
@@ -64,7 +64,7 @@ describe(`DynamodbKeyValueStore`, () => {
 
       it(`throws the expected error`, () => {
         expect(error).toEqual(
-          new Error(`connect ECONNREFUSED 127.0.0.1:60999`)
+          new Error(`connect ECONNREFUSED 127.0.0.1:61000`)
         );
       });
     });
