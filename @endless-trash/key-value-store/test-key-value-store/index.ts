@@ -333,7 +333,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
     ): void {
       scenario(events);
 
-      if (events.length < 5) {
+      if (events.length < 4) {
         if (!volatile) {
           recurse(
             [
