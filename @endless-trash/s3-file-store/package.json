@@ -26,12 +26,12 @@
   "devDependencies": {
     "@endless-trash/file-store": "0.0.1",
     "@endless-trash/immutable-json-type": "0.0.0",
-    "@types/rimraf": "^3.0.0",
+    "@types/rimraf": "3.0.0",
     "@types/s3rver": "0.0.32",
-    "@types/uuid": "^8.3.0",
-    "rimraf": "^3.0.2",
+    "@types/uuid": "8.3.0",
+    "rimraf": "3.0.2",
     "s3rver": "3.6.1",
-    "uuid": "^8.3.1"
+    "uuid": "8.3.1"
   },
   "types": "index.d.ts"
 }
