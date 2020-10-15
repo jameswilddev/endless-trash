@@ -56,12 +56,8 @@ export class S3FileStore implements FileStore {
     const paths: string[] = [];
 
     while (true) {
-      if (result.Contents) {
-        for (const content of result.Contents) {
-          if (content.Key !== undefined) {
-            paths.push(content.Key);
-          }
-        }
+      for (const content of result.Contents as S3.ObjectList) {
+        paths.push(content.Key as string);
       }
 
       if (result.IsTruncated) {
