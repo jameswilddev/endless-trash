@@ -90,6 +90,7 @@ export function testFileStore<TPreparedScenario>(
         it(`does not fail`, async () => {
           const previousResults: (readonly [Result, Result])[] = [];
           const urls: (readonly [string, ReadonlyArray<number>])[] = [];
+          const requests: (readonly [Buffer, ReadonlyArray<number>])[] = [];
 
           for (const event of events) {
             switch (event.type) {
@@ -135,10 +136,11 @@ export function testFileStore<TPreparedScenario>(
               }
 
               case `save`: {
-                await instance.save(
-                  event.path,
-                  Buffer.from(Uint8Array.from(event.content))
-                );
+                const content = Buffer.from(Uint8Array.from(event.content));
+
+                requests.push([content, event.content]);
+
+                await instance.save(event.path, content);
                 break;
               }
 
@@ -147,6 +149,13 @@ export function testFileStore<TPreparedScenario>(
                 break;
               }
             }
+          }
+
+          for (const request of requests) {
+            expect(request[0]).toEqual(
+              Buffer.from(Uint8Array.from(request[1])),
+              `A value passed as input was unexpectedly mutated`
+            );
           }
 
           for (const indexOfValidUrl of indicesOfValidUrls) {
