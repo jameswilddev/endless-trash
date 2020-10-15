@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/key-value-store",
   "description": "Types and testing helpers for key-value JSON stores with optimistic concurrency control.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": ">=12.13.0"
   },
