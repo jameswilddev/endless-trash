@@ -10,8 +10,6 @@ import {
   KeyValueStoreUpdateResult,
 } from "../key-value-store";
 
-export type TestKey = `Test Key A` | `Test Key B`;
-
 export type TestValue = { value: number };
 
 const testValues: TestValue[] = [];
@@ -30,36 +28,36 @@ type Result<TVersion> =
 type Event =
   | {
       readonly type: `getSuccessfully`;
-      readonly key: TestKey;
+      readonly key: string;
       readonly value: TestValue;
       readonly versionIndices: ReadonlyArray<number>;
     }
-  | { readonly type: `getNonexistent`; readonly key: TestKey }
+  | { readonly type: `getNonexistent`; readonly key: string }
   | {
       readonly type: `insertSuccessfully`;
-      readonly key: TestKey;
+      readonly key: string;
       readonly value: TestValue;
     }
   | {
       readonly type: `insertAlreadyExists`;
-      readonly key: TestKey;
+      readonly key: string;
       readonly value: TestValue;
     }
   | {
       readonly type: `updateNonexistent`;
-      readonly key: TestKey;
+      readonly key: string;
       readonly value: TestValue;
       readonly versionIndex: number;
     }
   | {
       readonly type: `updateWithMismatchingVersion`;
-      readonly key: TestKey;
+      readonly key: string;
       readonly value: TestValue;
       readonly versionIndex: number;
     }
   | {
       readonly type: `updateSuccessfully`;
-      readonly key: TestKey;
+      readonly key: string;
       readonly value: TestValue;
       readonly versionIndex: number;
     }
@@ -72,7 +70,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
   prepareScenario: () => Promise<TPreparedScenario>,
   createInstance: (
     preparedScenario: TPreparedScenario
-  ) => Promise<KeyValueStore<TestKey, TestValue, TVersion>>,
+  ) => Promise<KeyValueStore<TestValue, TVersion>>,
   cleanUpScenario: (preparedScenatio: TPreparedScenario) => Promise<void>,
   cloneVersion: (version: TVersion) => TVersion,
   volatile: boolean
@@ -111,7 +109,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
 
       describe(description, () => {
         let preparedScenario: TPreparedScenario;
-        let instance: KeyValueStore<TestKey, TestValue, TVersion>;
+        let instance: KeyValueStore<TestValue, TVersion>;
 
         beforeAll(async () => {
           preparedScenario = await prepareScenario();
@@ -667,7 +665,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
 
   describe(`when many inserts on the same key occur within a single instance in parallel`, () => {
     let preparedScenario: TPreparedScenario;
-    let instance: KeyValueStore<TestKey, TestValue, TVersion>;
+    let instance: KeyValueStore<TestValue, TVersion>;
     let results: ReadonlyArray<KeyValueStoreInsertResult<TVersion>>;
 
     beforeAll(async () => {
@@ -766,7 +764,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
 
   describe(`when many updates on the same key occur within a single instance in parallel`, () => {
     let preparedScenario: TPreparedScenario;
-    let instance: KeyValueStore<TestKey, TestValue, TVersion>;
+    let instance: KeyValueStore<TestValue, TVersion>;
     let results: ReadonlyArray<KeyValueStoreUpdateResult<TVersion>>;
 
     beforeAll(async () => {
@@ -828,7 +826,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
   if (!volatile) {
     describe(`when many updates on the same key occur within multiple instances in parallel`, () => {
       let preparedScenario: TPreparedScenario;
-      let instance: KeyValueStore<TestKey, TestValue, TVersion>;
+      let instance: KeyValueStore<TestValue, TVersion>;
       let results: ReadonlyArray<KeyValueStoreUpdateResult<TVersion>>;
 
       beforeAll(async () => {
@@ -904,7 +902,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
 
   describe(`when many gets occur within a single instance while an insert is running`, () => {
     let preparedScenario: TPreparedScenario;
-    let instance: KeyValueStore<TestKey, TestValue, TVersion>;
+    let instance: KeyValueStore<TestValue, TVersion>;
     let results: ReadonlyArray<KeyValueStoreGetResult<TestValue, TVersion>>;
 
     beforeAll(async () => {
@@ -966,20 +964,20 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
   if (!volatile) {
     describe(`when many gets occur within multiple instances while an insert is running`, () => {
       let preparedScenario: TPreparedScenario;
-      let instance: KeyValueStore<TestKey, TestValue, TVersion>;
+      let instance: KeyValueStore<TestValue, TVersion>;
       let results: ReadonlyArray<KeyValueStoreGetResult<TestValue, TVersion>>;
 
       beforeAll(async () => {
         preparedScenario = await prepareScenario();
         instance = await createInstance(preparedScenario);
 
-        const instancesA: KeyValueStore<TestKey, TestValue, TVersion>[] = [];
+        const instancesA: KeyValueStore<TestValue, TVersion>[] = [];
 
         while (instancesA.length < 50) {
           instancesA.push(await createInstance(preparedScenario));
         }
 
-        const instancesB: KeyValueStore<TestKey, TestValue, TVersion>[] = [];
+        const instancesB: KeyValueStore<TestValue, TVersion>[] = [];
 
         while (instancesB.length < 50) {
           instancesB.push(await createInstance(preparedScenario));
@@ -1032,7 +1030,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
 
   describe(`when many gets occur within a single instance while an update is running`, () => {
     let preparedScenario: TPreparedScenario;
-    let instance: KeyValueStore<TestKey, TestValue, TVersion>;
+    let instance: KeyValueStore<TestValue, TVersion>;
     let previousVersion: TVersion;
     let nextVersion: TVersion;
     let results: ReadonlyArray<KeyValueStoreGetResult<TestValue, TVersion>>;
@@ -1132,7 +1130,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
   if (!volatile) {
     describe(`when many gets occur within multiple instances while an update is running`, () => {
       let preparedScenario: TPreparedScenario;
-      let instance: KeyValueStore<TestKey, TestValue, TVersion>;
+      let instance: KeyValueStore<TestValue, TVersion>;
       let previousVersion: TVersion;
       let nextVersion: TVersion;
       let results: ReadonlyArray<KeyValueStoreGetResult<TestValue, TVersion>>;
@@ -1148,13 +1146,13 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
         if (insertResult.type === `successful`) {
           previousVersion = insertResult.version;
 
-          const instancesA: KeyValueStore<TestKey, TestValue, TVersion>[] = [];
+          const instancesA: KeyValueStore<TestValue, TVersion>[] = [];
 
           while (instancesA.length < 50) {
             instancesA.push(await createInstance(preparedScenario));
           }
 
-          const instancesB: KeyValueStore<TestKey, TestValue, TVersion>[] = [];
+          const instancesB: KeyValueStore<TestValue, TVersion>[] = [];
 
           while (instancesB.length < 50) {
             instancesB.push(await createInstance(preparedScenario));
