@@ -1,7 +1,7 @@
 import { Database } from "sqlite3";
 import { SqliteKeyValueStoreConfiguration } from "../sqlite-key-value-store-configuration";
 
-const maximumAttempts = 10;
+const maximumAttempts = 25;
 const minimumRetryDelay = 125;
 const maximumRetryDelay = 250;
 
