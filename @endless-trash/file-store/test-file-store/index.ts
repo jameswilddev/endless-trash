@@ -30,6 +30,7 @@ type Event =
       readonly type: `save`;
       readonly path: string;
       readonly content: ReadonlyArray<number>;
+      readonly changeToContent: ReadonlyArray<number>;
     }
   | {
       readonly type: `reload`;
@@ -138,9 +139,18 @@ export function testFileStore<TPreparedScenario>(
               case `save`: {
                 const content = Buffer.from(Uint8Array.from(event.content));
 
-                requests.push([content, event.content]);
+                requests.push([content, event.changeToContent]);
 
                 await instance.save(event.path, content);
+
+                expect(content).toEqual(
+                  Buffer.from(Uint8Array.from(event.content))
+                );
+
+                for (let i = 0; i < event.changeToContent.length; i++) {
+                  content[i] = event.changeToContent[i];
+                }
+
                 break;
               }
 
@@ -194,7 +204,9 @@ export function testFileStore<TPreparedScenario>(
       valueABIndices: ReadonlyArray<number>,
       valueBA: null | ReadonlyArray<number>,
       valueBAIndices: ReadonlyArray<number>,
-      contents: ReadonlyArray<ReadonlyArray<number>>
+      contents: ReadonlyArray<
+        readonly [ReadonlyArray<number>, ReadonlyArray<number>]
+      >
     ): void {
       scenario(events, [
         ...valueAAIndices,
@@ -435,10 +447,11 @@ export function testFileStore<TPreparedScenario>(
             {
               type: `save`,
               path: `Test Prefix A Path A`,
-              content: contents[0],
+              content: contents[0][0],
+              changeToContent: contents[0][1],
             },
           ],
-          contents[0],
+          contents[0][0],
           [],
           valueAB,
           valueABIndices,
@@ -453,12 +466,13 @@ export function testFileStore<TPreparedScenario>(
             {
               type: `save`,
               path: `Test Prefix A Path B`,
-              content: contents[0],
+              content: contents[0][0],
+              changeToContent: contents[0][1],
             },
           ],
           valueAA,
           valueAAIndices,
-          contents[0],
+          contents[0][0],
           [],
           valueBA,
           valueBAIndices,
@@ -471,14 +485,15 @@ export function testFileStore<TPreparedScenario>(
             {
               type: `save`,
               path: `Test Prefix B Path A`,
-              content: contents[0],
+              content: contents[0][0],
+              changeToContent: contents[0][1],
             },
           ],
           valueAA,
           valueAAIndices,
           valueAB,
           valueABIndices,
-          contents[0],
+          contents[0][0],
           [],
           contents
         );
@@ -494,18 +509,37 @@ export function testFileStore<TPreparedScenario>(
       null,
       [],
       [
-        [186, 130, 212, 222, 232, 204, 148, 236, 150, 194, 146],
-        [151, 47, 35, 214, 19, 187, 91],
-        [23, 251, 1, 10, 40, 117, 175],
-        [41, 211, 79, 203],
-        [82, 89, 28, 131, 202, 199, 220],
+        [
+          [186, 130, 212, 222, 232, 204, 148, 236, 150, 194, 146],
+          [74, 209, 207, 191, 216, 63, 85, 183, 181, 14, 253],
+        ],
+        [
+          [151, 47, 35, 214, 19, 187, 91],
+          [203, 173, 133, 48, 230, 199, 8],
+        ],
+        [
+          [23, 251, 1, 10, 40, 117, 175],
+          [224, 247, 188, 225, 107, 109, 230],
+        ],
+        [
+          [41, 211, 79, 203],
+          [0, 228, 19, 207],
+        ],
+        [
+          [82, 89, 28, 131, 202, 199, 220],
+          [238, 164, 238, 180, 48, 185, 223],
+        ],
       ]
     );
 
     scenario(
       [
-        { type: `save`, path: `Test Path`, content: [] },
-        { type: `getUrlSuccessful`, path: `Test Path`, expectedResult: [] },
+        { type: `save`, path: `Test Path`, content: [], changeToContent: [] },
+        {
+          type: `getUrlSuccessful`,
+          path: `Test Path`,
+          expectedResult: [],
+        },
       ],
       []
     );
