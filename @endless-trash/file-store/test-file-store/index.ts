@@ -45,7 +45,10 @@ export function testFileStore<TPreparedScenario>(
   volatile: boolean
 ): void {
   describe(description, () => {
-    function scenario(events: ReadonlyArray<Event>): void {
+    function scenario(
+      events: ReadonlyArray<Event>,
+      indicesOfValidUrls: ReadonlyArray<number>
+    ): void {
       const description = events
         .map((event) => {
           switch (event.type) {
@@ -86,6 +89,7 @@ export function testFileStore<TPreparedScenario>(
 
         it(`does not fail`, async () => {
           const previousResults: (readonly [Result, Result])[] = [];
+          const urls: (readonly [string, ReadonlyArray<number>])[] = [];
 
           for (const event of events) {
             switch (event.type) {
@@ -103,21 +107,7 @@ export function testFileStore<TPreparedScenario>(
                     { type: `successful`, url: result.url },
                   ]);
 
-                  let actual: Buffer;
-
-                  try {
-                    actual = Buffer.from(dataUriToBuffer(result.url));
-                  } catch (e) {
-                    actual = (
-                      await got(result.url, {
-                        responseType: `buffer`,
-                      })
-                    ).body;
-                  }
-
-                  expect(actual).toEqual(
-                    Buffer.from(Uint8Array.from(event.expectedResult))
-                  );
+                  urls.push([result.url, event.expectedResult]);
                 } else {
                   fail(
                     `Get url of path ${JSON.stringify(
@@ -159,6 +149,24 @@ export function testFileStore<TPreparedScenario>(
             }
           }
 
+          for (const indexOfValidUrl of indicesOfValidUrls) {
+            const validUrl = urls[indexOfValidUrl];
+
+            let actual: Buffer;
+
+            try {
+              actual = Buffer.from(dataUriToBuffer(validUrl[0]));
+            } catch (e) {
+              actual = (
+                await got(validUrl[0], {
+                  responseType: `buffer`,
+                })
+              ).body;
+            }
+
+            expect(actual).toEqual(Buffer.from(Uint8Array.from(validUrl[1])));
+          }
+
           for (const response of previousResults) {
             expect(response[0]).toEqual(
               response[1],
@@ -172,19 +180,29 @@ export function testFileStore<TPreparedScenario>(
     function recurse(
       events: ReadonlyArray<Event>,
       valueAA: null | ReadonlyArray<number>,
+      valueAAIndices: ReadonlyArray<number>,
       valueAB: null | ReadonlyArray<number>,
+      valueABIndices: ReadonlyArray<number>,
       valueBA: null | ReadonlyArray<number>,
+      valueBAIndices: ReadonlyArray<number>,
       contents: ReadonlyArray<ReadonlyArray<number>>
     ): void {
-      scenario(events);
+      scenario(events, [
+        ...valueAAIndices,
+        ...valueABIndices,
+        ...valueBAIndices,
+      ]);
 
       if (events.length < 3) {
         if (!volatile) {
           recurse(
             [...events, { type: `reload` }],
             valueAA,
+            valueAAIndices,
             valueAB,
+            valueABIndices,
             valueBA,
+            valueBAIndices,
             contents
           );
         }
@@ -192,24 +210,33 @@ export function testFileStore<TPreparedScenario>(
         recurse(
           [...events, { type: `delete`, path: `Test Prefix A Path A` }],
           null,
+          [],
           valueAB,
+          valueABIndices,
           valueBA,
+          valueBAIndices,
           contents
         );
 
         recurse(
           [...events, { type: `delete`, path: `Test Prefix A Path B` }],
           valueAA,
+          valueAAIndices,
           null,
+          [],
           valueBA,
+          valueBAIndices,
           contents
         );
 
         recurse(
           [...events, { type: `delete`, path: `Test Prefix B Path A` }],
           valueAA,
+          valueAAIndices,
           valueAB,
+          valueABIndices,
           null,
+          [],
           contents
         );
 
@@ -220,8 +247,11 @@ export function testFileStore<TPreparedScenario>(
               { type: `getUrlDoesNotExist`, path: `Test Prefix A Path A` },
             ],
             valueAA,
+            valueAAIndices,
             valueAB,
+            valueABIndices,
             valueBA,
+            valueBAIndices,
             contents
           );
         } else {
@@ -235,8 +265,15 @@ export function testFileStore<TPreparedScenario>(
               },
             ],
             valueAA,
+            [
+              ...valueAAIndices,
+              events.filter((event) => event.type === `getUrlSuccessful`)
+                .length,
+            ],
             valueAB,
+            valueABIndices,
             valueBA,
+            valueBAIndices,
             contents
           );
         }
@@ -248,8 +285,11 @@ export function testFileStore<TPreparedScenario>(
               { type: `getUrlDoesNotExist`, path: `Test Prefix A Path B` },
             ],
             valueAA,
+            valueAAIndices,
             valueAB,
+            valueABIndices,
             valueBA,
+            valueBAIndices,
             contents
           );
         } else {
@@ -263,8 +303,15 @@ export function testFileStore<TPreparedScenario>(
               },
             ],
             valueAA,
+            valueAAIndices,
             valueAB,
+            [
+              ...valueABIndices,
+              events.filter((event) => event.type === `getUrlSuccessful`)
+                .length,
+            ],
             valueBA,
+            valueBAIndices,
             contents
           );
         }
@@ -276,8 +323,11 @@ export function testFileStore<TPreparedScenario>(
               { type: `getUrlDoesNotExist`, path: `Test Prefix B Path A` },
             ],
             valueAA,
+            valueAAIndices,
             valueAB,
+            valueABIndices,
             valueBA,
+            valueBAIndices,
             contents
           );
         } else {
@@ -291,8 +341,15 @@ export function testFileStore<TPreparedScenario>(
               },
             ],
             valueAA,
+            valueAAIndices,
             valueAB,
+            valueABIndices,
             valueBA,
+            [
+              ...valueBAIndices,
+              events.filter((event) => event.type === `getUrlSuccessful`)
+                .length,
+            ],
             contents
           );
         }
@@ -317,8 +374,11 @@ export function testFileStore<TPreparedScenario>(
             },
           ],
           valueAA,
+          valueAAIndices,
           valueAB,
+          valueABIndices,
           valueBA,
+          valueBAIndices,
           contents
         );
 
@@ -334,8 +394,11 @@ export function testFileStore<TPreparedScenario>(
             },
           ],
           valueAA,
+          valueAAIndices,
           valueAB,
+          valueABIndices,
           valueBA,
+          valueBAIndices,
           contents
         );
 
@@ -349,8 +412,11 @@ export function testFileStore<TPreparedScenario>(
             },
           ],
           valueAA,
+          valueAAIndices,
           valueAB,
+          valueABIndices,
           valueBA,
+          valueBAIndices,
           contents
         );
 
@@ -364,8 +430,11 @@ export function testFileStore<TPreparedScenario>(
             },
           ],
           contents[0],
+          [],
           valueAB,
+          valueABIndices,
           valueBA,
+          valueBAIndices,
           contents
         );
 
@@ -379,8 +448,11 @@ export function testFileStore<TPreparedScenario>(
             },
           ],
           valueAA,
+          valueAAIndices,
           contents[0],
+          [],
           valueBA,
+          valueBAIndices,
           contents
         );
 
@@ -394,24 +466,39 @@ export function testFileStore<TPreparedScenario>(
             },
           ],
           valueAA,
+          valueAAIndices,
           valueAB,
+          valueABIndices,
           contents[0],
+          [],
           contents
         );
       }
     }
 
-    recurse([], null, null, null, [
-      [186, 130, 212, 222, 232, 204, 148, 236, 150, 194, 146],
-      [151, 47, 35, 214, 19, 187, 91],
-      [23, 251, 1, 10, 40, 117, 175],
-      [41, 211, 79, 203],
-      [82, 89, 28, 131, 202, 199, 220],
-    ]);
+    recurse(
+      [],
+      null,
+      [],
+      null,
+      [],
+      null,
+      [],
+      [
+        [186, 130, 212, 222, 232, 204, 148, 236, 150, 194, 146],
+        [151, 47, 35, 214, 19, 187, 91],
+        [23, 251, 1, 10, 40, 117, 175],
+        [41, 211, 79, 203],
+        [82, 89, 28, 131, 202, 199, 220],
+      ]
+    );
 
-    scenario([
-      { type: `save`, path: `Test Path`, content: [] },
-      { type: `getUrlSuccessful`, path: `Test Path`, expectedResult: [] },
-    ]);
+    scenario(
+      [
+        { type: `save`, path: `Test Path`, content: [] },
+        { type: `getUrlSuccessful`, path: `Test Path`, expectedResult: [] },
+      ],
+      []
+    );
   });
 }
