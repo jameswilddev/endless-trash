@@ -148,7 +148,7 @@ describe(`executeRun`, () => {
       } catch (e) {
         error = e;
       }
-    });
+    }, 30000);
 
     it(`throws the expected error`, () => {
       expect(error).toEqual(
@@ -189,7 +189,7 @@ describe(`executeRun`, () => {
       } catch (e) {
         error = e;
       }
-    });
+    }, 30000);
 
     it(`throws the expected error`, () => {
       expect(error).toEqual(

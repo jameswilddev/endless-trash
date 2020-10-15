@@ -142,7 +142,7 @@ describe(`executeGet`, () => {
       } catch (e) {
         error = e;
       }
-    });
+    }, 30000);
 
     afterAll(async () => {
       await promises.unlink(filename);
@@ -179,7 +179,7 @@ describe(`executeGet`, () => {
       } catch (e) {
         error = e;
       }
-    });
+    }, 30000);
 
     it(`throws the expected error`, () => {
       expect(error).toEqual(
