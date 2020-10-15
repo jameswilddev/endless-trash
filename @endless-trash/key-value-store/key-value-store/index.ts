@@ -1,3 +1,4 @@
+import { Json } from "@endless-trash/immutable-json-type";
 import { KeyValueStoreGetResult } from "./key-value-store-get-result";
 import { KeyValueStoreInsertResult } from "./key-value-store-insert-result";
 import { KeyValueStoreUpdateResult } from "./key-value-store-update-result";
@@ -17,16 +18,16 @@ export {
   KeyValueStoreUpdateResult,
 } from "./key-value-store-update-result";
 
-export interface KeyValueStore<TKey, TValue, TVersion> {
-  get(key: TKey): Promise<KeyValueStoreGetResult<TValue, TVersion>>;
+export interface KeyValueStore<TValue extends Json, TVersion> {
+  get(key: string): Promise<KeyValueStoreGetResult<TValue, TVersion>>;
 
   insert(
-    key: TKey,
+    key: string,
     value: TValue
   ): Promise<KeyValueStoreInsertResult<TVersion>>;
 
   update(
-    key: TKey,
+    key: string,
     value: TValue,
     expectedVersion: TVersion
   ): Promise<KeyValueStoreUpdateResult<TVersion>>;
