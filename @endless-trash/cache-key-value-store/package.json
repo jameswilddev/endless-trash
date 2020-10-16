@@ -24,7 +24,7 @@
     "@endless-trash/immutable-json-type": "0.0.0",
     "@endless-trash/key-value-store": "0.0.5",
     "@endless-trash/key-value-cache": "0.0.2",
-    "@endless-trash/memory-key-value-store": "0.0.1",
+    "@endless-trash/memory-key-value-store": "0.0.2",
     "@endless-trash/memory-key-value-cache": "0.0.0"
   },
   "types": "index.d.ts"
