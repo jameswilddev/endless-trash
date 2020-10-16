@@ -25,8 +25,8 @@ const doesNotExistOrVersionDoesNotMatch: KeyValueStoreUpdateResult<number> = {
   type: `doesNotExistOrVersionDoesNotMatch`,
 };
 
-export class SqliteKeyValueStore<TKey extends string, TValue extends Json>
-  implements KeyValueStore<TKey, TValue, number> {
+export class SqliteKeyValueStore<TValue extends Json>
+  implements KeyValueStore<TValue, number> {
   constructor(
     private readonly sqliteKeyValueStoreConfiguration: SqliteKeyValueStoreConfiguration
   ) {}
@@ -43,7 +43,7 @@ export class SqliteKeyValueStore<TKey extends string, TValue extends Json>
     this.sqliteKeyValueStoreConfiguration
   );
 
-  async get(key: TKey): Promise<KeyValueStoreGetResult<TValue, number>> {
+  async get(key: string): Promise<KeyValueStoreGetResult<TValue, number>> {
     const result = await executeGet<{
       readonly value: string;
       readonly version: number;
@@ -61,7 +61,7 @@ export class SqliteKeyValueStore<TKey extends string, TValue extends Json>
   }
 
   async insert(
-    key: TKey,
+    key: string,
     value: TValue
   ): Promise<KeyValueStoreInsertResult<number>> {
     try {
@@ -85,7 +85,7 @@ export class SqliteKeyValueStore<TKey extends string, TValue extends Json>
   }
 
   async update(
-    key: TKey,
+    key: string,
     value: TValue,
     expectedVersion: number
   ): Promise<KeyValueStoreUpdateResult<number>> {

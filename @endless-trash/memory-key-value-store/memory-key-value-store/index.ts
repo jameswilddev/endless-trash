@@ -1,8 +1,8 @@
+import { Json } from "@endless-trash/immutable-json-type";
 import {
   KeyValueStore,
   KeyValueStoreGetResult,
   KeyValueStoreInsertResult,
-  KeyValueStoreSuccessfulGetResult,
   KeyValueStoreUpdateResult,
 } from "@endless-trash/key-value-store";
 
@@ -18,33 +18,36 @@ const doesNotExistOrVersionDoesNotMatch: KeyValueStoreUpdateResult<number> = {
   type: `doesNotExistOrVersionDoesNotMatch`,
 };
 
-export class MemoryKeyValueStore<TKey, TValue>
-  implements KeyValueStore<TKey, TValue, number> {
+export class MemoryKeyValueStore<TValue extends Json>
+  implements KeyValueStore<TValue, number> {
   private readonly data = new Map<
-    TKey,
-    KeyValueStoreSuccessfulGetResult<TValue, number>
+    string,
+    { valueJson: string; version: number }
   >();
 
-  async get(key: TKey): Promise<KeyValueStoreGetResult<TValue, number>> {
+  async get(key: string): Promise<KeyValueStoreGetResult<TValue, number>> {
     const item = this.data.get(key);
 
     if (item === undefined) {
       return doesNotExist;
     } else {
-      return item;
+      return {
+        type: `successful`,
+        value: JSON.parse(item.valueJson),
+        version: item.version,
+      };
     }
   }
 
   async insert(
-    key: TKey,
+    key: string,
     value: TValue
   ): Promise<KeyValueStoreInsertResult<number>> {
     if (this.data.has(key)) {
       return alreadyExists;
     } else {
       this.data.set(key, {
-        type: `successful`,
-        value,
+        valueJson: JSON.stringify(value),
         version: 0,
       });
       return { type: `successful`, version: 0 };
@@ -52,7 +55,7 @@ export class MemoryKeyValueStore<TKey, TValue>
   }
 
   async update(
-    key: TKey,
+    key: string,
     value: TValue,
     expectedVersion: number
   ): Promise<KeyValueStoreUpdateResult<number>> {
@@ -63,7 +66,8 @@ export class MemoryKeyValueStore<TKey, TValue>
     } else {
       if (item.version === expectedVersion) {
         const version = expectedVersion + 1;
-        this.data.set(key, { type: `successful`, value, version });
+        item.valueJson = JSON.stringify(value);
+        item.version = version;
         return { type: `successful`, version };
       } else {
         return doesNotExistOrVersionDoesNotMatch;

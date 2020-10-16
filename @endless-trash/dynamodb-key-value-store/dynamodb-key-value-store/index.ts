@@ -20,13 +20,13 @@ const doesNotExistOrVersionDoesNotMatch: KeyValueStoreUpdateResult<number> = {
   type: `doesNotExistOrVersionDoesNotMatch`,
 };
 
-export class DynamodbKeyValueStore<TKey extends string, TValue extends Json>
-  implements KeyValueStore<TKey, TValue, number> {
+export class DynamodbKeyValueStore<TValue extends Json>
+  implements KeyValueStore<TValue, number> {
   constructor(
     private readonly dynamodbKeyValueStoreConfiguration: DynamodbKeyValueStoreConfiguration
   ) {}
 
-  async get(key: TKey): Promise<KeyValueStoreGetResult<TValue, number>> {
+  async get(key: string): Promise<KeyValueStoreGetResult<TValue, number>> {
     const result = await new DynamoDB(
       this.dynamodbKeyValueStoreConfiguration.clientConfiguration
     )
@@ -64,7 +64,7 @@ export class DynamodbKeyValueStore<TKey extends string, TValue extends Json>
   }
 
   async insert(
-    key: TKey,
+    key: string,
     value: TValue
   ): Promise<KeyValueStoreInsertResult<number>> {
     try {
@@ -102,7 +102,7 @@ export class DynamodbKeyValueStore<TKey extends string, TValue extends Json>
   }
 
   async update(
-    key: TKey,
+    key: string,
     value: TValue,
     expectedVersion: number
   ): Promise<KeyValueStoreUpdateResult<number>> {

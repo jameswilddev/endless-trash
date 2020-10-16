@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/memory-key-value-store",
-  "description": "A volatile, in-memory key-value store.",
-  "version": "0.0.0",
+  "description": "A volatile, in-memory key-value JSON store.",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -21,7 +21,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@endless-trash/key-value-store": "0.0.2"
+    "@endless-trash/key-value-store": "0.0.3",
+    "@endless-trash/immutable-json-type": "0.0.0"
   },
   "types": "index.d.ts"
 }
