@@ -41,10 +41,11 @@ type Result = Buffer | FileStoreGetUrlResult | ReadonlyArray<string>;
 export function testFileStore<TPreparedScenario>(
   description: string,
   prepareScenario: () => Promise<TPreparedScenario>,
-  reload: (preparedScenario: TPreparedScenario) => Promise<TPreparedScenario>,
+  reload:
+    | null
+    | ((preparedScenario: TPreparedScenario) => Promise<TPreparedScenario>),
   createInstance: (preparedScenario: TPreparedScenario) => Promise<FileStore>,
-  cleanUpScenario: (preparedScenatio: TPreparedScenario) => Promise<void>,
-  volatile: boolean
+  cleanUpScenario: (preparedScenatio: TPreparedScenario) => Promise<void>
 ): void {
   describe(description, () => {
     function scenario(
@@ -156,7 +157,9 @@ export function testFileStore<TPreparedScenario>(
               }
 
               case `reload`: {
-                preparedScenario = await reload(preparedScenario);
+                if (reload !== null) {
+                  preparedScenario = await reload(preparedScenario);
+                }
                 instance = await createInstance(preparedScenario);
                 break;
               }
@@ -217,7 +220,7 @@ export function testFileStore<TPreparedScenario>(
       ]);
 
       if (events.length < 3) {
-        if (!volatile) {
+        if (reload !== null) {
           recurse(
             [...events, { type: `reload` }],
             valueAA,

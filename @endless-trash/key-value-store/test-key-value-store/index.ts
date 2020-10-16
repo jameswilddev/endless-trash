@@ -68,13 +68,14 @@ type Event =
 export function testKeyValueStore<TPreparedScenario, TVersion>(
   description: string,
   prepareScenario: () => Promise<TPreparedScenario>,
-  reload: (preparedScenario: TPreparedScenario) => Promise<TPreparedScenario>,
+  reload:
+    | null
+    | ((preparedScenario: TPreparedScenario) => Promise<TPreparedScenario>),
   createInstance: (
     preparedScenario: TPreparedScenario
   ) => Promise<KeyValueStore<TestValue, TVersion>>,
   cleanUpScenario: (preparedScenatio: TPreparedScenario) => Promise<void>,
-  cloneVersion: (version: TVersion) => TVersion,
-  volatile: boolean
+  cloneVersion: (version: TVersion) => TVersion
 ): void {
   describe(description, () => {
     function scenario(events: ReadonlyArray<Event>): void {
@@ -312,7 +313,9 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
 
               case `reload`:
                 {
-                  preparedScenario = await reload(preparedScenario);
+                  if (reload !== null) {
+                    preparedScenario = await reload(preparedScenario);
+                  }
                   instance = await createInstance(preparedScenario);
                 }
                 break;
@@ -342,7 +345,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
       scenario(events);
 
       if (events.length < 4) {
-        if (!volatile) {
+        if (reload !== null) {
           recurse(
             [
               ...events,
@@ -706,7 +709,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
     });
   });
 
-  if (!volatile) {
+  if (reload !== null) {
     describe(`when many inserts on the same key occur within multiple instances in parallel`, () => {
       let preparedScenario: TPreparedScenario;
       let results: ReadonlyArray<KeyValueStoreInsertResult<TVersion>>;
@@ -825,7 +828,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
     });
   });
 
-  if (!volatile) {
+  if (reload !== null) {
     describe(`when many updates on the same key occur within multiple instances in parallel`, () => {
       let preparedScenario: TPreparedScenario;
       let instance: KeyValueStore<TestValue, TVersion>;
@@ -963,7 +966,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
     });
   });
 
-  if (!volatile) {
+  if (reload !== null) {
     describe(`when many gets occur within multiple instances while an insert is running`, () => {
       let preparedScenario: TPreparedScenario;
       let instance: KeyValueStore<TestValue, TVersion>;
@@ -1129,7 +1132,7 @@ export function testKeyValueStore<TPreparedScenario, TVersion>(
     });
   });
 
-  if (!volatile) {
+  if (reload !== null) {
     describe(`when many gets occur within multiple instances while an update is running`, () => {
       let preparedScenario: TPreparedScenario;
       let instance: KeyValueStore<TestValue, TVersion>;

@@ -36,12 +36,13 @@ type Event =
 export function testKeyValueCache<TPreparedScenario>(
   description: string,
   prepareScenario: () => Promise<TPreparedScenario>,
-  reload: (preparedScenario: TPreparedScenario) => Promise<TPreparedScenario>,
+  reload:
+    | null
+    | ((preparedScenario: TPreparedScenario) => Promise<TPreparedScenario>),
   createInstance: (
     preparedScenario: TPreparedScenario
   ) => Promise<KeyValueCache<TestValue, TestVersion>>,
-  cleanUpScenario: (preparedScenatio: TPreparedScenario) => Promise<void>,
-  volatile: boolean
+  cleanUpScenario: (preparedScenatio: TPreparedScenario) => Promise<void>
 ): void {
   describe(description, () => {
     function scenario(events: ReadonlyArray<Event>): void {
@@ -155,7 +156,9 @@ export function testKeyValueCache<TPreparedScenario>(
               }
 
               case `reload`: {
-                preparedScenario = await reload(preparedScenario);
+                if (reload !== null) {
+                  preparedScenario = await reload(preparedScenario);
+                }
                 instance = await createInstance(preparedScenario);
                 break;
               }
@@ -194,7 +197,7 @@ export function testKeyValueCache<TPreparedScenario>(
       scenario(events);
 
       if (events.length < 4) {
-        if (!volatile) {
+        if (reload !== null) {
           recurse(
             [
               ...events,
