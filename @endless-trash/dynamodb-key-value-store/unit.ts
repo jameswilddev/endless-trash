@@ -52,6 +52,9 @@ describe(`DynamodbKeyValueStore`, () => {
       };
     },
     async (preparedScenario) => {
+      return preparedScenario;
+    },
+    async (preparedScenario) => {
       return new DynamodbKeyValueStore(
         preparedScenario.dynamodbKeyValueStoreConfiguration
       );
@@ -59,7 +62,6 @@ describe(`DynamodbKeyValueStore`, () => {
     async () => {
       // Nothing to do.
     },
-    (version) => version,
-    false
+    (version) => version
   );
 });

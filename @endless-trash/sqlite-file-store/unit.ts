@@ -32,12 +32,14 @@ testFileStore(
     return sqliteFileStoreConfiguration;
   },
   async (sqliteFileStoreConfiguration) => {
+    return sqliteFileStoreConfiguration;
+  },
+  async (sqliteFileStoreConfiguration) => {
     return new SqliteFileStore(sqliteFileStoreConfiguration);
   },
   async (sqliteFileStoreConfiguration) => {
     await promises.unlink(
       sqliteFileStoreConfiguration.sqliteConfiguration.filename
     );
-  },
-  false
+  }
 );

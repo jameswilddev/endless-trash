@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/s3-file-store",
   "description": "A file store backed by a S3 bucket.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -24,7 +24,7 @@
     "aws-sdk": "2.772.0"
   },
   "devDependencies": {
-    "@endless-trash/file-store": "0.0.2",
+    "@endless-trash/file-store": "0.0.4",
     "@endless-trash/immutable-json-type": "0.0.0",
     "@types/rimraf": "3.0.0",
     "@types/s3rver": "0.0.32",

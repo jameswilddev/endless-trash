@@ -6,12 +6,12 @@ testKeyValueStore(
   async () => {
     // Nothing to prepare.
   },
+  null,
   async () => {
     return new MemoryKeyValueStore();
   },
   async () => {
     // Nothing to clean up.
   },
-  (version) => version,
-  true
+  (version) => version
 );

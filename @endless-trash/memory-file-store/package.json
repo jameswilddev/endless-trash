@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/memory-file-store",
   "description": "A volatile, in-memory file store.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@endless-trash/file-store": "0.0.2"
+    "@endless-trash/file-store": "0.0.4"
   },
   "types": "index.d.ts"
 }

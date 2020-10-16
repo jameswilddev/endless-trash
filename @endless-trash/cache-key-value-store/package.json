@@ -1,7 +1,7 @@
 {
-  "name": "@endless-trash/memory-key-value-store",
-  "description": "A volatile, in-memory key-value JSON store.",
-  "version": "0.0.2",
+  "name": "@endless-trash/cache-key-value-store",
+  "description": "Creates a higher-order JSON key-value store by placing a JSON key-value cache in front of another JSON key-value store.",
+  "version": "0.0.0",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -21,8 +21,11 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@endless-trash/immutable-json-type": "0.0.0",
     "@endless-trash/key-value-store": "0.0.5",
-    "@endless-trash/immutable-json-type": "0.0.0"
+    "@endless-trash/key-value-cache": "0.0.2",
+    "@endless-trash/memory-key-value-store": "0.0.1",
+    "@endless-trash/memory-key-value-cache": "0.0.0"
   },
   "types": "index.d.ts"
 }

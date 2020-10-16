@@ -6,11 +6,11 @@ testFileStore(
   async () => {
     // Nothing to prepare.
   },
+  null,
   async () => {
     return new MemoryFileStore();
   },
   async () => {
     // Nothing to clean up.
-  },
-  true
+  }
 );

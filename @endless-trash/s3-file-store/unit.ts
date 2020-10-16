@@ -55,12 +55,14 @@ describe(`S3FileStore`, () => {
       return s3FileStoreConfiguration;
     },
     async (s3FileStoreConfiguration) => {
+      return s3FileStoreConfiguration;
+    },
+    async (s3FileStoreConfiguration) => {
       return new S3FileStore(s3FileStoreConfiguration);
     },
     async () => {
       // Nothing to clean up.
-    },
-    false
+    }
   );
 
   describe(`listPaths`, () => {

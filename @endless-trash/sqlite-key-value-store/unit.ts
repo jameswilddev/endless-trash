@@ -33,6 +33,9 @@ testKeyValueStore(
     return sqliteKeyValueStoreConfiguration;
   },
   async (sqliteKeyValueStoreConfiguration) => {
+    return sqliteKeyValueStoreConfiguration;
+  },
+  async (sqliteKeyValueStoreConfiguration) => {
     return new SqliteKeyValueStore(sqliteKeyValueStoreConfiguration);
   },
   async (sqliteKeyValueStoreConfiguration) => {
@@ -40,6 +43,5 @@ testKeyValueStore(
       sqliteKeyValueStoreConfiguration.sqliteConfiguration.filename
     );
   },
-  (version) => version,
-  false
+  (version) => version
 );
