@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/sqlite-key-value-store",
   "description": "A key-value JSON store backed by a SQLite database.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
