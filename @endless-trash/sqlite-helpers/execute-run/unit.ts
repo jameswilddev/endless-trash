@@ -49,6 +49,10 @@ describe(`executeRun`, () => {
       );
     });
 
+    afterAll(async () => {
+      await promises.unlink(sqliteConfiguration.filename);
+    });
+
     it(`executes in the correct database`, async () => {
       const rows = await executeAll(
         sqliteConfiguration,
@@ -131,6 +135,10 @@ describe(`executeRun`, () => {
           Buffer.from(Uint8Array.from([18, 221, 150, 209])),
         ]
       );
+    });
+
+    afterAll(async () => {
+      await promises.unlink(sqliteConfiguration.filename);
     });
 
     it(`executes in the correct database`, async () => {
@@ -221,6 +229,10 @@ describe(`executeRun`, () => {
       }
     }, 30000);
 
+    afterAll(async () => {
+      await promises.unlink(sqliteConfiguration.filename);
+    });
+
     it(`throws the expected error`, () => {
       expect(error).toEqual(
         new Error(`SQLITE_ERROR: no such column: isNumber2`)
@@ -261,6 +273,10 @@ describe(`executeRun`, () => {
         error = e;
       }
     }, 30000);
+
+    afterAll(async () => {
+      await promises.unlink(sqliteConfiguration.filename);
+    });
 
     it(`throws the expected error`, () => {
       expect(error).toEqual(
@@ -327,6 +343,10 @@ describe(`executeRun`, () => {
         result = row.value;
       }
     }, 300000);
+
+    afterAll(async () => {
+      await promises.unlink(sqliteConfiguration.filename);
+    });
 
     it(`executed every request at least once`, async () => {
       for (let i = 0; i < 5000; i++) {
