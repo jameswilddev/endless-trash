@@ -274,10 +274,6 @@ describe(`executeRun`, () => {
       }
     }, 30000);
 
-    afterAll(async () => {
-      await promises.unlink(sqliteConfiguration.filename);
-    });
-
     it(`throws the expected error`, () => {
       expect(error).toEqual(
         new Error(`SQLITE_CANTOPEN: unable to open database file`)
