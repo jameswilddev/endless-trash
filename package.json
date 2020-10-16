@@ -3,7 +3,7 @@
   "description": "This is the build tool for Endless Trash.",
   "version": "0.0.0",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=10.19.0"
   },
   "engineStrict": true,
   "repository": {

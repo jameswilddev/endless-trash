@@ -3,7 +3,7 @@
   "description": "A file store backed by a S3 bucket.",
   "version": "0.0.1",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=10.19.0"
   },
   "engineStrict": true,
   "publishConfig": {

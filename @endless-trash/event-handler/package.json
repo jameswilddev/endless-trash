@@ -1,9 +1,9 @@
 {
   "name": "@endless-trash/event-handler",
   "description": "Types for event handlers.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=10.19.0"
   },
   "engineStrict": true,
   "publishConfig": {

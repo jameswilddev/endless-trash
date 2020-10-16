@@ -3,7 +3,7 @@
   "description": "A volatile, in-memory key-value JSON cache.",
   "version": "0.0.0",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=10.19.0"
   },
   "engineStrict": true,
   "publishConfig": {

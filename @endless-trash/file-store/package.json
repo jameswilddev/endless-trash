@@ -1,9 +1,9 @@
 {
   "name": "@endless-trash/file-store",
   "description": "Types and testing helpers for file stores.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=10.19.0"
   },
   "engineStrict": true,
   "publishConfig": {

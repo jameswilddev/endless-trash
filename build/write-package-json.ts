@@ -40,7 +40,7 @@ export async function writePackageJson(
     description: originalPackageJson.description,
     version: originalPackageJson.version,
     engines: {
-      node: `>=12.13.0`,
+      node: `>=10.19.0`,
     },
     engineStrict: true,
     publishConfig: {

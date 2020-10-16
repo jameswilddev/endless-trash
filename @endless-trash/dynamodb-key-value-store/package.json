@@ -3,7 +3,7 @@
   "description": "A key-value JSON store backed by a DynamoDB table.",
   "version": "0.0.2",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=10.19.0"
   },
   "engineStrict": true,
   "publishConfig": {

@@ -3,7 +3,7 @@
   "description": "Creates a higher-order JSON key-value store by placing a JSON key-value cache in front of another JSON key-value store.",
   "version": "0.0.0",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=10.19.0"
   },
   "engineStrict": true,
   "publishConfig": {

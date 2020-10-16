@@ -1,9 +1,9 @@
 {
   "name": "@endless-trash/sqlite-helpers",
   "description": "Helpers for working with SQLite databases.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=10.19.0"
   },
   "engineStrict": true,
   "publishConfig": {

@@ -1,9 +1,9 @@
 {
   "name": "@endless-trash/immutable-json-type",
   "description": "A type for immutable JSON.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=10.19.0"
   },
   "engineStrict": true,
   "publishConfig": {
