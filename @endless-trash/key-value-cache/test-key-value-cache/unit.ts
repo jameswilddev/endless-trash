@@ -1,0 +1,3 @@
+import { testKeyValueCache } from ".";
+
+testKeyValueCache;
