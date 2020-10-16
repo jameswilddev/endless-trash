@@ -2,7 +2,6 @@ import { join } from "path";
 import { tmpdir } from "os";
 import { promises } from "fs";
 import { v4 } from "uuid";
-import { OPEN_CREATE, OPEN_READWRITE } from "sqlite3";
 import { executeAll, executeRun, SqliteConfiguration } from "..";
 
 type TestResult = {
@@ -33,14 +32,14 @@ describe(`executeAll`, () => {
 
       await executeRun(
         sqliteFileStoreConfiguration,
-        OPEN_CREATE | OPEN_READWRITE,
+        true,
         `CREATE TABLE strings (value TEXT NOT NULL);`,
         []
       );
 
       await executeRun(
         sqliteFileStoreConfiguration,
-        OPEN_CREATE | OPEN_READWRITE,
+        false,
         `INSERT INTO strings (value) VALUES (' Strings A'), (' Strings B'), (' Strings C');`,
         []
       );
@@ -111,7 +110,7 @@ describe(`executeAll`, () => {
 
       await executeRun(
         sqliteConfiguration,
-        OPEN_CREATE | OPEN_READWRITE,
+        true,
         `CREATE TABLE strings (value2 TEXT NOT NULL);`,
         []
       );
