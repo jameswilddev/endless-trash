@@ -1,14 +1,15 @@
-import { OPEN_READWRITE } from "sqlite3";
 import { FileStoreGetUrlResult, FileStore } from "@endless-trash/file-store";
 import { SqliteFileStoreConfiguration } from "../sqlite-file-store-configuration";
 import { generateDeleteQuery } from "./generate-delete-query";
 import { generateInsertQuery } from "./generate-insert-query";
 import { generateSelectContentQuery } from "./generate-select-content-query";
 import { generateSelectPathsQuery } from "./generate-select-paths-query";
-import { executeGet } from "../execute-get";
-import { executeRun } from "../execute-run";
-import { executeAll } from "../execute-all";
-import { escapeLike } from "../escape-like";
+import {
+  escapeLike,
+  executeAll,
+  executeGet,
+  executeRun,
+} from "@endless-trash/sqlite-helpers";
 
 const doesNotExist: { readonly type: `doesNotExist` } = {
   type: `doesNotExist`,
@@ -37,8 +38,8 @@ export class SqliteFileStore implements FileStore {
 
   async delete(path: string): Promise<void> {
     await executeRun(
-      this.sqliteFileStoreConfiguration,
-      OPEN_READWRITE,
+      this.sqliteFileStoreConfiguration.sqliteConfiguration,
+      false,
       this.deleteQuery,
       [path]
     );
@@ -46,7 +47,7 @@ export class SqliteFileStore implements FileStore {
 
   async getUrl(path: string): Promise<FileStoreGetUrlResult> {
     const content = await executeGet<{ readonly content: Buffer }>(
-      this.sqliteFileStoreConfiguration,
+      this.sqliteFileStoreConfiguration.sqliteConfiguration,
       this.selectContentQuery,
       [path]
     );
@@ -63,7 +64,7 @@ export class SqliteFileStore implements FileStore {
 
   async listPaths(prefix: string): Promise<ReadonlyArray<string>> {
     const rows = await executeAll<{ readonly path: string }>(
-      this.sqliteFileStoreConfiguration,
+      this.sqliteFileStoreConfiguration.sqliteConfiguration,
       this.selectPathsQuery,
       [`${escapeLike(prefix)}%`]
     );
@@ -73,8 +74,8 @@ export class SqliteFileStore implements FileStore {
 
   async save(path: string, content: Buffer): Promise<void> {
     await executeRun(
-      this.sqliteFileStoreConfiguration,
-      OPEN_READWRITE,
+      this.sqliteFileStoreConfiguration.sqliteConfiguration,
+      false,
       this.insertQuery,
       [path, content]
     );

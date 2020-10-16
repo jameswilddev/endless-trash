@@ -15,10 +15,15 @@ testFileStore(
     const directory = tmpdir();
 
     const sqliteFileStoreConfiguration: SqliteFileStoreConfiguration = {
-      filename: join(directory, v4()),
       tableName: `Test Table Name`,
       pathColumnName: `Test Path Column Name`,
       contentColumnName: `Test Content Column Name`,
+      sqliteConfiguration: {
+        filename: join(directory, v4()),
+        maximumAttempts: 3,
+        minimumRetryDelayMilliseconds: 125,
+        maximumRetryDelayMilliseconds: 250,
+      },
     };
 
     await promises.mkdir(directory, { recursive: true });
@@ -30,7 +35,9 @@ testFileStore(
     return new SqliteFileStore(sqliteFileStoreConfiguration);
   },
   async (sqliteFileStoreConfiguration) => {
-    await promises.unlink(sqliteFileStoreConfiguration.filename);
+    await promises.unlink(
+      sqliteFileStoreConfiguration.sqliteConfiguration.filename
+    );
   },
   false
 );

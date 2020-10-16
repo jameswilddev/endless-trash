@@ -1,4 +1,3 @@
-import { OPEN_READWRITE } from "sqlite3";
 import { Json } from "@endless-trash/immutable-json-type";
 import {
   KeyValueStore,
@@ -10,8 +9,8 @@ import { SqliteKeyValueStoreConfiguration } from "../sqlite-key-value-store-conf
 import { generateInsertQuery } from "./generate-insert-query";
 import { generateSelectQuery } from "./generate-select-query";
 import { generateUpdateQuery } from "./generate-update-query";
-import { executeGet } from "../execute-get";
-import { executeRun } from "../execute-run";
+import { executeGet } from "@endless-trash/sqlite-helpers";
+import { executeRun } from "@endless-trash/sqlite-helpers";
 
 const doesNotExist: { readonly type: `doesNotExist` } = {
   type: `doesNotExist`,
@@ -47,7 +46,11 @@ export class SqliteKeyValueStore<TValue extends Json>
     const result = await executeGet<{
       readonly value: string;
       readonly version: number;
-    }>(this.sqliteKeyValueStoreConfiguration, this.selectQuery, [key]);
+    }>(
+      this.sqliteKeyValueStoreConfiguration.sqliteConfiguration,
+      this.selectQuery,
+      [key]
+    );
 
     if (result === undefined) {
       return doesNotExist;
@@ -66,8 +69,8 @@ export class SqliteKeyValueStore<TValue extends Json>
   ): Promise<KeyValueStoreInsertResult<number>> {
     try {
       await executeRun(
-        this.sqliteKeyValueStoreConfiguration,
-        OPEN_READWRITE,
+        this.sqliteKeyValueStoreConfiguration.sqliteConfiguration,
+        false,
         this.insertQuery,
         [key, JSON.stringify(value)]
       );
@@ -90,8 +93,8 @@ export class SqliteKeyValueStore<TValue extends Json>
     expectedVersion: number
   ): Promise<KeyValueStoreUpdateResult<number>> {
     const changes = await executeRun(
-      this.sqliteKeyValueStoreConfiguration,
-      OPEN_READWRITE,
+      this.sqliteKeyValueStoreConfiguration.sqliteConfiguration,
+      false,
       this.updateQuery,
       [JSON.stringify(value), expectedVersion + 1, key, expectedVersion]
     );

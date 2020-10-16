@@ -1,4 +1,4 @@
-import { escapeName } from "../../escape-name";
+import { escapeName } from "@endless-trash/sqlite-helpers";
 import { SqliteFileStoreConfiguration } from "../../sqlite-file-store-configuration";
 
 export function generateCreateTableQuery(

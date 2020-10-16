@@ -1,4 +1,4 @@
-import { escapeName } from "../../escape-name";
+import { escapeName } from "@endless-trash/sqlite-helpers";
 import { SqliteKeyValueStoreConfiguration } from "../../sqlite-key-value-store-configuration";
 
 export function generateInsertQuery(

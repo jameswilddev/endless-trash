@@ -15,11 +15,16 @@ testKeyValueStore(
     const directory = tmpdir();
 
     const sqliteKeyValueStoreConfiguration: SqliteKeyValueStoreConfiguration = {
-      filename: join(directory, v4()),
       tableName: `Test Table Name`,
       keyColumnName: `Test Key Column Name`,
       valueColumnName: `Test Value Column Name`,
       versionColumnName: `Test Version Column Name`,
+      sqliteConfiguration: {
+        filename: join(directory, v4()),
+        maximumAttempts: 3,
+        minimumRetryDelayMilliseconds: 125,
+        maximumRetryDelayMilliseconds: 250,
+      },
     };
 
     await promises.mkdir(directory, { recursive: true });
@@ -31,7 +36,9 @@ testKeyValueStore(
     return new SqliteKeyValueStore(sqliteKeyValueStoreConfiguration);
   },
   async (sqliteKeyValueStoreConfiguration) => {
-    await promises.unlink(sqliteKeyValueStoreConfiguration.filename);
+    await promises.unlink(
+      sqliteKeyValueStoreConfiguration.sqliteConfiguration.filename
+    );
   },
   (version) => version,
   false

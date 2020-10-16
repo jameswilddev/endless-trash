@@ -4,11 +4,7 @@ A file store backed by a SQLite database.
 
 ## Dependencies
 
-This package has the following runtime dependencies:
-
-Name    | Version                                                                                    
-------- | -------------------------------------------------------------------------------------------
-sqlite3 | [![5.0.0](https://img.shields.io/npm/v/sqlite3.svg)](https://www.npmjs.com/package/sqlite3)
+This package has no runtime dependencies.
 
 ## Peer Dependencies
 

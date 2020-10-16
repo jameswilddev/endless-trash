@@ -16,11 +16,16 @@ describe(`SqliteKeyValueStore`, () => {
 
       filename = join(directory, v4());
       const sqliteKeyValueStoreConfiguration: SqliteKeyValueStoreConfiguration = {
-        filename,
         tableName: `Test Table Name`,
         keyColumnName: `Test Key Column Name`,
         valueColumnName: `Test Value Column Name`,
         versionColumnName: `Test Version Column Name`,
+        sqliteConfiguration: {
+          filename,
+          maximumAttempts: 3,
+          minimumRetryDelayMilliseconds: 125,
+          maximumRetryDelayMilliseconds: 250,
+        },
       };
 
       const sqliteKeyValueStore = new SqliteKeyValueStore(
