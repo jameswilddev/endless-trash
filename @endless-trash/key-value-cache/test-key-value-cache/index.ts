@@ -36,6 +36,7 @@ type Event =
 export function testKeyValueCache<TPreparedScenario>(
   description: string,
   prepareScenario: () => Promise<TPreparedScenario>,
+  reload: (preparedScenario: TPreparedScenario) => Promise<TPreparedScenario>,
   createInstance: (
     preparedScenario: TPreparedScenario
   ) => Promise<KeyValueCache<TestValue, TestVersion>>,
@@ -154,6 +155,7 @@ export function testKeyValueCache<TPreparedScenario>(
               }
 
               case `reload`: {
+                preparedScenario = await reload(preparedScenario);
                 instance = await createInstance(preparedScenario);
                 break;
               }

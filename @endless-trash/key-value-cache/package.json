@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/key-value-cache",
   "description": "Types and testing helpers for key-value JSON caches.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },
