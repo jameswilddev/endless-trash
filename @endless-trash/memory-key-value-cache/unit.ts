@@ -6,6 +6,7 @@ testKeyValueCache(
   async () => {
     // Nothing to prepare.
   },
+  null,
   async () => {
     return new MemoryKeyValueCache({
       maximumValues: 5,
@@ -13,6 +14,5 @@ testKeyValueCache(
   },
   async () => {
     // Nothing to clean up.
-  },
-  true
+  }
 );
