@@ -24,7 +24,7 @@
     "aws-sdk": "2.773.0"
   },
   "devDependencies": {
-    "@endless-trash/file-store": "0.0.4",
+    "@endless-trash/file-store": "0.0.5",
     "@endless-trash/immutable-json-type": "0.0.1",
     "@types/rimraf": "3.0.0",
     "@types/s3rver": "0.0.32",
