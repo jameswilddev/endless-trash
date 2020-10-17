@@ -1,5 +1,5 @@
 export type WebsocketHostOutputMessage = {
-  readonly connectionId: string;
+  readonly sessionId: string;
 
   readonly body: null | string | Buffer;
 };
