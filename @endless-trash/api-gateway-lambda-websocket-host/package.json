@@ -1,0 +1,36 @@
+{
+  "name": "@endless-trash/api-gateway-lambda-websocket-host",
+  "description": "Converts a WebSocket event handler into one usable by API Gateway Lambda.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=10.19.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/endless-trash"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "2.773.0",
+    "express": "4.17.1"
+  },
+  "devDependencies": {
+    "@endless-trash/event-handler": "0.0.0",
+    "@endless-trash/websocket-host": "0.0.1",
+    "@types/aws-lambda": "8.10.64",
+    "@types/express": "4.17.8",
+    "@types/http-terminator": "^2.0.1",
+    "http-terminator": "^2.0.3"
+  },
+  "types": "index.d.ts"
+}
