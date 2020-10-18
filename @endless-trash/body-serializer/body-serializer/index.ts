@@ -5,7 +5,10 @@ import { BodySerializerOutput } from "./body-serializer-output";
 export { BodySerializerInput } from "./body-serializer-input";
 export { BodySerializerOutput } from "./body-serializer-output";
 
-export type BodySerializer<T> = EventHandler<
-  BodySerializerInput<T>,
-  BodySerializerOutput
->;
+export interface BodySerializer<T> {
+  <TInput extends BodySerializerInput<T>>(): EventHandler<
+    TInput,
+    Pick<TInput, Exclude<keyof TInput, keyof BodySerializerOutput>> &
+      BodySerializerOutput
+  >;
+}

@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/body-serializer",
   "description": "Types for event handlers which serialize the output's body.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=10.19.0"
   },
