@@ -17,7 +17,7 @@ type SuccessfulEventHandler = EventHandler<
 type TestFailure = { readonly testFailureKey: `Test Failure Value` };
 type FailureEventHandler = EventHandler<TestInput, TestSuccessful>;
 
-fdescribe(`textBodyParser`, () => {
+describe(`textBodyParser`, () => {
   describe(`on construction`, () => {
     let onSuccessful: SuccessfulEventHandler;
     let onFailure: FailureEventHandler;
