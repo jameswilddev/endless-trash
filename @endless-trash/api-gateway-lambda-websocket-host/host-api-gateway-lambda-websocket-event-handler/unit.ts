@@ -9,7 +9,7 @@ describe(`hostApiGatewayLambdaWebsocketEventHandler`, () => {
   describe(`on construction`, () => {
     let server: Server;
     let request: jasmine.Spy;
-    let eventHandlerExecute: jasmine.Spy;
+    let eventHandler: jasmine.Spy;
 
     beforeAll(async () => {
       const clientConfiguration: ApiGatewayManagementApi.ClientConfiguration = {
@@ -26,10 +26,7 @@ describe(`hostApiGatewayLambdaWebsocketEventHandler`, () => {
         testInjectedKey: `Test Injected Value`,
       };
 
-      eventHandlerExecute = jasmine.createSpy(`eventHandlerExecute`);
-      const eventHandler = {
-        execute: eventHandlerExecute,
-      };
+      eventHandler = jasmine.createSpy(`eventHandler`);
 
       const expressInstance = express();
 
@@ -52,7 +49,7 @@ describe(`hostApiGatewayLambdaWebsocketEventHandler`, () => {
     });
 
     it(`does not invoke the event handler`, () => {
-      expect(eventHandlerExecute).not.toHaveBeenCalled();
+      expect(eventHandler).not.toHaveBeenCalled();
     });
 
     it(`does not communicate with the API Gateway Management API`, () => {
@@ -61,7 +58,7 @@ describe(`hostApiGatewayLambdaWebsocketEventHandler`, () => {
   });
 
   describe(`on execution`, () => {
-    let eventHandlerExecute: jasmine.Spy;
+    let eventHandler: jasmine.Spy;
     let server: Server;
     let correctRequestA: jasmine.Spy;
     let correctRequestB: jasmine.Spy;
@@ -88,30 +85,24 @@ describe(`hostApiGatewayLambdaWebsocketEventHandler`, () => {
         testInjectedKey: `Test Injected Value`,
       };
 
-      eventHandlerExecute = jasmine
-        .createSpy(`eventHandlerExecute`)
-        .and.resolveTo({
-          messages: [
-            {
-              sessionId: `Test Message A SessionId`,
-              body: Buffer.from(
-                Uint8Array.from([73, 40, 100, 61, 122, 190, 190, 147, 174])
-              ),
-            },
-            {
-              sessionId: `Test Message B SessionId`,
-              body: null,
-            },
-            {
-              sessionId: `Test Message C SessionId`,
-              body: `Test Message C Body`,
-            },
-          ],
-        });
-
-      const eventHandler = {
-        execute: eventHandlerExecute,
-      };
+      eventHandler = jasmine.createSpy(`eventHandler`).and.resolveTo({
+        messages: [
+          {
+            sessionId: `Test Message A SessionId`,
+            body: Buffer.from(
+              Uint8Array.from([73, 40, 100, 61, 122, 190, 190, 147, 174])
+            ),
+          },
+          {
+            sessionId: `Test Message B SessionId`,
+            body: null,
+          },
+          {
+            sessionId: `Test Message C SessionId`,
+            body: `Test Message C Body`,
+          },
+        ],
+      });
 
       const expressInstance = express();
 
@@ -256,11 +247,11 @@ describe(`hostApiGatewayLambdaWebsocketEventHandler`, () => {
     });
 
     it(`invokes the event handler once`, () => {
-      expect(eventHandlerExecute).toHaveBeenCalledTimes(1);
+      expect(eventHandler).toHaveBeenCalledTimes(1);
     });
 
     it(`invokes the event handler with an input converted from the event`, () => {
-      expect(eventHandlerExecute).toHaveBeenCalledWith({
+      expect(eventHandler).toHaveBeenCalledWith({
         testInjectedKey: `Test Injected Value`,
         sessionId: `Test Connection Id`,
         body: Buffer.from(

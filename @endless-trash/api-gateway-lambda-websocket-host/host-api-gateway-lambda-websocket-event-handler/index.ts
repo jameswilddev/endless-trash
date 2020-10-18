@@ -19,7 +19,7 @@ export function hostApiGatewayLambdaWebsocketEventHandler<T>(
   return async (event) => {
     const input = convertEventToInput(inject, event);
 
-    const output = await eventHandler.execute(input);
+    const output = await eventHandler(input);
 
     await Promise.all(
       output.messages.map(async (message) => {
