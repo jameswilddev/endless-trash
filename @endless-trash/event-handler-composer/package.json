@@ -1,0 +1,27 @@
+{
+  "name": "@endless-trash/event-handler-composer",
+  "description": "Composes a chain of event handlers into a single event handler.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=10.19.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/endless-trash"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@endless-trash/event-handler": "0.0.2"
+  },
+  "types": "index.d.ts"
+}
