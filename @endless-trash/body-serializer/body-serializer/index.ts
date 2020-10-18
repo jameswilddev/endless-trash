@@ -6,9 +6,11 @@ export { BodySerializerInput } from "./body-serializer-input";
 export { BodySerializerOutput } from "./body-serializer-output";
 
 export interface BodySerializer<T> {
-  <TInput extends BodySerializerInput<T>>(): EventHandler<
+  <TInput, TOutput extends BodySerializerInput<T>>(
+    eventHandler: EventHandler<TInput, TOutput>
+  ): EventHandler<
     TInput,
-    Pick<TInput, Exclude<keyof TInput, keyof BodySerializerOutput>> &
+    Pick<TOutput, Exclude<keyof TOutput, keyof BodySerializerOutput>> &
       BodySerializerOutput
   >;
 }
