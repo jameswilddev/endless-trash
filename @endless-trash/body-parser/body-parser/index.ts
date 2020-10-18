@@ -5,13 +5,8 @@ import { BodyParserOutput } from "./body-parser-output";
 export { BodyParserInput } from "./body-parser-input";
 export { BodyParserOutput } from "./body-parser-output";
 
-export interface BodyParser<
-  TInput extends BodyParserInput,
-  TParsed,
-  TSuccessfulOutput,
-  TFailureOutput
-> {
-  (
+export interface BodyParser<TParsed> {
+  <TInput extends BodyParserInput, TSuccessfulOutput, TFailureOutput>(
     onSuccessful: EventHandler<
       Pick<TInput, Exclude<keyof TInput, keyof BodyParserOutput<TParsed>>> &
         BodyParserOutput<TParsed>,
