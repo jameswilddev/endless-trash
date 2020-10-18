@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/api-gateway-lambda-websocket-host",
   "description": "Converts a WebSocket event handler into one usable by API Gateway Lambda.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=10.19.0"
   },

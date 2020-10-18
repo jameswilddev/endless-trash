@@ -9,7 +9,7 @@ export function convertEventToInput<T>(
       readonly connectionId?: string;
     };
   }
-): WebsocketHostInput & T {
+): Pick<T, Exclude<keyof T, keyof WebsocketHostInput>> & WebsocketHostInput {
   return {
     ...inject,
     sessionId: event.requestContext.connectionId as string,

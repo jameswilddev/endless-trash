@@ -11,7 +11,10 @@ import { sendMessage } from "./send-message";
 export function hostApiGatewayLambdaWebsocketEventHandler<T>(
   apiGatewayManagementApiClientConfiguration: ApiGatewayManagementApi.ClientConfiguration,
   inject: T,
-  eventHandler: EventHandler<WebsocketHostInput & T, WebsocketHostOutput>
+  eventHandler: EventHandler<
+    Pick<T, Exclude<keyof T, keyof WebsocketHostInput>> & WebsocketHostInput,
+    WebsocketHostOutput
+  >
 ): APIGatewayProxyHandler {
   return async (event) => {
     const input = convertEventToInput(inject, event);
