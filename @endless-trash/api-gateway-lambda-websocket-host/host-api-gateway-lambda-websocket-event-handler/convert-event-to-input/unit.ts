@@ -8,7 +8,7 @@ const inject: Injected = { testInjectedKey: `Test Injected Value` };
 
 type Result = {
   readonly testInjectedKey: `Test Injected Value`;
-  readonly body: null | string | Uint8Array;
+  readonly body: null | string | Buffer;
   readonly sessionId: string;
 };
 
