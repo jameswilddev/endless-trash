@@ -1,0 +1,32 @@
+{
+  "name": "@endless-trash/validator",
+  "description": "Validates the request body against a JSON schema.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=10.19.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/endless-trash"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "6.12.5"
+  },
+  "devDependencies": {
+    "@endless-trash/event-handler": "0.0.2",
+    "@endless-trash/immutable-json-type": "0.0.1",
+    "@types/json-schema": "6.0.1"
+  },
+  "types": "index.d.ts"
+}

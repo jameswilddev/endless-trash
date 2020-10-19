@@ -1,0 +1,32 @@
+{
+  "name": "@endless-trash/json-body-parser",
+  "description": "A body parser which parses the incoming request as JSON.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=10.19.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/endless-trash"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@endless-trash/text-body-parser": "0.0.0"
+  },
+  "devDependencies": {
+    "@endless-trash/body-parser": "0.0.0",
+    "@endless-trash/event-handler": "0.0.3",
+    "@endless-trash/immutable-json-type": "0.0.1"
+  },
+  "types": "index.d.ts"
+}
