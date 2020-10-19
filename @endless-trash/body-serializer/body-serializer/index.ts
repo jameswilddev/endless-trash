@@ -1,4 +1,4 @@
-import { PassthroughEventHandler } from "../../event-handler";
+import { PassthroughEventHandler } from "@endless-trash/event-handler";
 import { BodySerializerInput } from "./body-serializer-input";
 import { BodySerializerOutput } from "./body-serializer-output";
 
