@@ -8,7 +8,7 @@ This package has the following runtime dependencies:
 
 Name | Version                                                                             
 ---- | ------------------------------------------------------------------------------------
-ajv  | [![6.12.5](https://img.shields.io/npm/v/ajv.svg)](https://www.npmjs.com/package/ajv)
+ajv  | [![6.12.6](https://img.shields.io/npm/v/ajv.svg)](https://www.npmjs.com/package/ajv)
 
 ## Peer Dependencies
 
