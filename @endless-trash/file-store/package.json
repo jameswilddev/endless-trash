@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "got": "11.7.0",
+    "got": "11.8.0",
     "data-uri-to-buffer": "3.0.1"
   },
   "types": "index.d.ts"
