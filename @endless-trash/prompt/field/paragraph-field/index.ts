@@ -1,4 +1,4 @@
 export type ParagraphField = {
-  readonly type: `checkbox`;
+  readonly type: `paragraph`;
   readonly content: string;
 };
