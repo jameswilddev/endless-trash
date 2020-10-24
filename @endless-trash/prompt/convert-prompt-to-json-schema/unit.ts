@@ -6,9 +6,10 @@ import { Prompt } from "../prompt";
 const ajv = new Ajv();
 
 describe(`convertPromptToJsonSchema`, () => {
-  function createPrompt(hasBackButton: boolean): Prompt {
-    return {
-      hasBackButton,
+  let validateFunction: Ajv.ValidateFunction;
+
+  beforeAll(() => {
+    const prompt: Prompt = {
       forms: [
         {
           name: `Test Form A Name`,
@@ -84,325 +85,152 @@ describe(`convertPromptToJsonSchema`, () => {
         },
       ],
     };
-  }
 
-  function accepts(
-    description: string,
-    hasBackButton: boolean,
-    value: Json
-  ): void {
-    value;
+    const jsonSchema = convertPromptToJsonSchema(prompt);
 
+    validateFunction = ajv.compile(jsonSchema);
+  });
+
+  function accepts(description: string, value: Json): void {
     it(`accepts ${description}`, () => {
-      const jsonSchema = convertPromptToJsonSchema(createPrompt(hasBackButton));
-      const validateFunction = ajv.compile(jsonSchema);
-
       expect(validateFunction(value)).toBeTrue();
     });
   }
 
-  function rejects(
-    description: string,
-    hasBackButton: boolean,
-    value: Json,
-    error: string
-  ): void {
-    value;
-    error;
-
+  function rejects(description: string, value: Json, error: string): void {
     it(`rejects ${description}`, () => {
-      const jsonSchema = convertPromptToJsonSchema(createPrompt(hasBackButton));
-      const validateFunction = ajv.compile(jsonSchema);
-
       expect(validateFunction(value)).toBeFalse();
       expect(ajv.errorsText(validateFunction.errors)).toEqual(error);
     });
   }
 
-  describe(`when a back button is not present`, () => {
-    accepts(`valid refreshes`, true, {
-      type: `refresh`,
-    });
-
-    rejects(
-      `invalid refreshes`,
-      true,
-      {
-        type: `refresh`,
-        testUnexpectedKey: `Test Unexpected Value`,
-      },
-      `data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should match exactly one schema in oneOf`
-    );
-
-    accepts(`valid form submissions`, false, {
-      type: `formSubmitted`,
-      formName: `Test Form C Name`,
-      fields: {
-        testFieldCAName: `Test Field C A Value`,
-        testFieldCBName: ``,
-        testFieldCCName: `Test Field C C Value`,
-      },
-    });
-
-    rejects(
-      `invalid form submissions`,
-      false,
-      {
-        type: `formSubmitted`,
-        formName: `Test Form C Name`,
-        fields: {
-          testFieldCAName: ``,
-          testFieldCBName: ``,
-          testFieldCCName: `Test Field C C Value`,
-        },
-      },
-      `data should NOT have additional properties, data.formName should be equal to constant, data.fields.testFieldCAName should NOT be shorter than 4 characters, data.formName should be equal to constant, data should match exactly one schema in oneOf`
-    );
-
-    rejects(
-      `submissions of unsubmissible forms`,
-      false,
-      {
-        type: `formSubmitted`,
-        formName: `Test Form B Name`,
-        fields: {
-          testFieldBAName: `Test Field B A Value`,
-        },
-      },
-      `data should NOT have additional properties, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data should match exactly one schema in oneOf`
-    );
-
-    rejects(
-      `submissions of nonexistent forms`,
-      true,
-      {
-        type: `formSubmitted`,
-        formName: `Test Form E Name`,
-        fields: {
-          testFieldEAName: `Test Field E A Value`,
-          testFieldEBName: ``,
-          testFieldECName: `Test Field E C Value`,
-        },
-      },
-      `data should NOT have additional properties, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data should NOT have additional properties, data should match exactly one schema in oneOf`
-    );
-
-    rejects(
-      `valid back button presses`,
-      false,
-      {
-        type: `backPressed`,
-      },
-      `data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data should match exactly one schema in oneOf`
-    );
-
-    rejects(
-      `invalid back button presses`,
-      false,
-      {
-        type: `backPressed`,
-        testUnexpectedKey: `Test Unexpected Value`,
-      },
-      `data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should match exactly one schema in oneOf`
-    );
-
-    rejects(
-      `unexpected request types`,
-      false,
-      {
-        type: `Test Unexpected Request Type`,
-      },
-      `data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data should match exactly one schema in oneOf`
-    );
-
-    rejects(
-      `null`,
-      false,
-      null,
-      `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
-
-    rejects(
-      `arrays`,
-      false,
-      [],
-      `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
-
-    rejects(
-      `empty objects`,
-      false,
-      [],
-      `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
-
-    rejects(
-      `false`,
-      false,
-      false,
-      `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
-
-    rejects(
-      `true`,
-      false,
-      true,
-      `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
-
-    rejects(
-      `numbers`,
-      false,
-      5.21,
-      `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
-
-    rejects(
-      `strings`,
-      false,
-      `Test String`,
-      `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
+  accepts(`valid refreshes`, {
+    type: `refresh`,
   });
 
-  describe(`when a back button is present`, () => {
-    accepts(`valid refreshes`, true, {
+  rejects(
+    `invalid refreshes`,
+    {
       type: `refresh`,
-    });
+      testUnexpectedKey: `Test Unexpected Value`,
+    },
+    `data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `invalid refreshes`,
-      true,
-      {
-        type: `refresh`,
-        testUnexpectedKey: `Test Unexpected Value`,
-      },
-      `data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should match exactly one schema in oneOf`
-    );
+  accepts(`valid form submissions`, {
+    type: `formSubmitted`,
+    formName: `Test Form C Name`,
+    fields: {
+      testFieldCAName: `Test Field C A Value`,
+      testFieldCBName: ``,
+      testFieldCCName: `Test Field C C Value`,
+    },
+  });
 
-    accepts(`valid form submissions`, true, {
+  rejects(
+    `invalid form submissions`,
+    {
       type: `formSubmitted`,
       formName: `Test Form C Name`,
       fields: {
-        testFieldCAName: `Test Field C A Value`,
+        testFieldCAName: ``,
         testFieldCBName: ``,
         testFieldCCName: `Test Field C C Value`,
       },
-    });
+    },
+    `data should NOT have additional properties, data.formName should be equal to constant, data.fields.testFieldCAName should NOT be shorter than 4 characters, data.formName should be equal to constant, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `invalid form submissions`,
-      true,
-      {
-        type: `formSubmitted`,
-        formName: `Test Form C Name`,
-        fields: {
-          testFieldCAName: ``,
-          testFieldCBName: ``,
-          testFieldCCName: `Test Field C C Value`,
-        },
+  rejects(
+    `submissions of unsubmissible forms`,
+    {
+      type: `formSubmitted`,
+      formName: `Test Form B Name`,
+      fields: {
+        testFieldBAName: `Test Field B A Value`,
       },
-      `data should NOT have additional properties, data.formName should be equal to constant, data.fields.testFieldCAName should NOT be shorter than 4 characters, data.formName should be equal to constant, data should NOT have additional properties, data should match exactly one schema in oneOf`
-    );
+    },
+    `data should NOT have additional properties, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `submissions of unsubmissible forms`,
-      true,
-      {
-        type: `formSubmitted`,
-        formName: `Test Form B Name`,
-        fields: {
-          testFieldBAName: `Test Field B A Value`,
-        },
+  rejects(
+    `submissions of nonexistent forms`,
+    {
+      type: `formSubmitted`,
+      formName: `Test Form E Name`,
+      fields: {
+        testFieldEAName: `Test Field E A Value`,
+        testFieldEBName: ``,
+        testFieldECName: `Test Field E C Value`,
       },
-      `data should NOT have additional properties, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data should NOT have additional properties, data should match exactly one schema in oneOf`
-    );
+    },
+    `data should NOT have additional properties, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `submissions of nonexistent forms`,
-      true,
-      {
-        type: `formSubmitted`,
-        formName: `Test Form E Name`,
-        fields: {
-          testFieldEAName: `Test Field E A Value`,
-          testFieldEBName: ``,
-          testFieldECName: `Test Field E C Value`,
-        },
-      },
-      `data should NOT have additional properties, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data should NOT have additional properties, data should match exactly one schema in oneOf`
-    );
-
-    accepts(`valid back button presses`, true, {
+  rejects(
+    `valid back button presses`,
+    {
       type: `backPressed`,
-    });
+    },
+    `data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `invalid back button presses`,
-      true,
-      {
-        type: `backPressed`,
-        testUnexpectedKey: `Test Unexpected Value`,
-      },
-      `data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should match exactly one schema in oneOf`
-    );
+  rejects(
+    `invalid back button presses`,
+    {
+      type: `backPressed`,
+      testUnexpectedKey: `Test Unexpected Value`,
+    },
+    `data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `unexpected request types`,
-      true,
-      {
-        type: `Test Unexpected Request Type`,
-      },
-      `data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data should match exactly one schema in oneOf`
-    );
+  rejects(
+    `unexpected request types`,
+    {
+      type: `Test Unexpected Request Type`,
+    },
+    `data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `null`,
-      true,
-      null,
-      `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
+  rejects(
+    `null`,
+    null,
+    `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `arrays`,
-      true,
-      [],
-      `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
+  rejects(
+    `arrays`,
+    [],
+    `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `empty objects`,
-      true,
-      [],
-      `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
+  rejects(
+    `empty objects`,
+    [],
+    `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `false`,
-      true,
-      false,
-      `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
+  rejects(
+    `false`,
+    false,
+    `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `true`,
-      true,
-      true,
-      `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
+  rejects(
+    `true`,
+    true,
+    `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `numbers`,
-      true,
-      5.21,
-      `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
+  rejects(
+    `numbers`,
+    5.21,
+    `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+  );
 
-    rejects(
-      `strings`,
-      true,
-      `Test String`,
-      `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-    );
-  });
+  rejects(
+    `strings`,
+    `Test String`,
+    `data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+  );
 });
