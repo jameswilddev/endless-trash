@@ -1,8 +1,8 @@
-import { BoundType } from "../../bound-type";
+import { BoundType } from "../../../bound-type";
 
-export type IntegerField = {
+export type FloatField = {
   readonly name: string;
-  readonly type: `integer`;
+  readonly type: `float`;
   readonly label: string;
   readonly value: null | number;
   readonly minimum: null | readonly [number, BoundType];

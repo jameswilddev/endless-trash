@@ -5,6 +5,7 @@ export {
   FileField,
   FloatField,
   IntegerField,
+  NamedField,
   ParagraphField,
   StringField,
   SubtitleField,
