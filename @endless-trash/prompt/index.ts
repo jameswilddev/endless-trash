@@ -12,6 +12,7 @@ export {
   TitleField,
   Field,
 } from "./field";
+export { filterNamedField } from "./filter-named-field";
 export { Form } from "./form";
 export { FormGroup } from "./form-group";
 export { Prompt } from "./prompt";
