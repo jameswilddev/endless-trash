@@ -1,6 +1,6 @@
 import Ajv = require("ajv");
 import { Json } from "@endless-trash/immutable-json-type";
-import { convertPromptToJsonSchema } from ".";
+import { convertPromptToJsonSchema } from "..";
 import { Prompt } from "../prompt";
 
 const ajv = new Ajv();
