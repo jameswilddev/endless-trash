@@ -2,8 +2,8 @@ import { EventHandler } from "@endless-trash/event-handler";
 import { BodyParserInput } from "./body-parser-input";
 import { BodyParserOutput } from "./body-parser-output";
 
-export * from "./body-parser-input";
-export * from "./body-parser-output";
+export { BodyParserInput } from "./body-parser-input";
+export { BodyParserOutput } from "./body-parser-output";
 
 export interface BodyParser<TParsed> {
   <TInput extends BodyParserInput, TSuccessfulOutput, TFailureOutput>(

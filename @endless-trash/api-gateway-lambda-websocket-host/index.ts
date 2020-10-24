@@ -1,1 +1,1 @@
-export * from "./host-api-gateway-lambda-websocket-event-handler";
+export { hostApiGatewayLambdaWebsocketEventHandler } from "./host-api-gateway-lambda-websocket-event-handler";

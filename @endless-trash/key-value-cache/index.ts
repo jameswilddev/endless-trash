@@ -1,2 +1,8 @@
-export * from "./key-value-cache";
-export * from "./test-key-value-cache";
+export {
+  KeyValueCacheDoesNotExistGetResult,
+  KeyValueCacheSuccessfulGetResult,
+  KeyValueCacheGetResult,
+  KeyValueCache,
+} from "./key-value-cache";
+
+export { testKeyValueCache } from "./test-key-value-cache";

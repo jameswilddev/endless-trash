@@ -1,1 +1,1 @@
-export * from "./cache-key-value-store";
+export { CacheKeyValueStore } from "./cache-key-value-store";

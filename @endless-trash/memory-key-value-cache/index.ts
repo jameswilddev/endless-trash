@@ -1,1 +1,1 @@
-export * from "./memory-key-value-cache";
+export { MemoryKeyValueCache } from "./memory-key-value-cache";

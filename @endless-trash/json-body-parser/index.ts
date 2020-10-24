@@ -1,1 +1,1 @@
-export * from "./json-body-parser";
+export { jsonBodyParser } from "./json-body-parser";

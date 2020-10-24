@@ -1,1 +1,1 @@
-export * from "./memory-key-value-store";
+export { MemoryKeyValueStore } from "./memory-key-value-store";

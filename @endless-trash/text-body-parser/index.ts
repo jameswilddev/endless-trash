@@ -1,1 +1,1 @@
-export * from "./text-body-parser";
+export { textBodyParser } from "./text-body-parser";

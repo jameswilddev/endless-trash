@@ -1,1 +1,1 @@
-export * from "./json-body-serializer";
+export { jsonBodySerializer } from "./json-body-serializer";
