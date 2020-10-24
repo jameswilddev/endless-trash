@@ -15,7 +15,9 @@ export function convertPromptToJsonSchema(prompt: Prompt): JSONSchema7 {
           },
         },
       },
-      ...prompt.forms
+      ...Object.values(prompt.formGroups)
+        .map((formGroup) => formGroup.forms)
+        .reduce((a, b) => [...a, ...b], [])
         .map(convertFormToJsonSchema)
         .filter((jsonSchema): jsonSchema is JSONSchema7 => jsonSchema !== null),
     ],

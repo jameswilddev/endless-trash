@@ -1,5 +1,5 @@
-import { Form } from "../form";
+import { FormGroup } from "../form-group";
 
 export type Prompt = {
-  readonly forms: ReadonlyArray<Form>;
+  readonly formGroups: ReadonlyArray<FormGroup>;
 };

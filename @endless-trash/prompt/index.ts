@@ -12,4 +12,5 @@ export {
   Field,
 } from "./field";
 export { Form } from "./form";
+export { FormGroup } from "./form-group";
 export { Prompt } from "./prompt";
