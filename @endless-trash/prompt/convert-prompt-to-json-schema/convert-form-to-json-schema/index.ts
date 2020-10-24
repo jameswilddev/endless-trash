@@ -19,7 +19,7 @@ export function convertFormToJsonSchema(form: Form): null | JSONSchema7 {
       additionalProperties: false,
       properties: {
         type: {
-          const: `formSubmitted`,
+          const: `formSubmission`,
         },
         formName: {
           const: form.name,

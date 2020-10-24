@@ -161,7 +161,7 @@ describe(`convertPromptToJsonSchema`, () => {
   );
 
   accepts(`valid form submissions`, {
-    type: `formSubmitted`,
+    type: `formSubmission`,
     formName: `Test Form C Name`,
     fields: {
       testFieldCAName: `Test Field C A Value`,
@@ -173,7 +173,7 @@ describe(`convertPromptToJsonSchema`, () => {
   rejects(
     `invalid form submissions`,
     {
-      type: `formSubmitted`,
+      type: `formSubmission`,
       formName: `Test Form C Name`,
       fields: {
         testFieldCAName: ``,
@@ -187,7 +187,7 @@ describe(`convertPromptToJsonSchema`, () => {
   rejects(
     `submissions of unsubmissible forms`,
     {
-      type: `formSubmitted`,
+      type: `formSubmission`,
       formName: `Test Form B Name`,
       fields: {
         testFieldBAName: `Test Field B A Value`,
@@ -199,7 +199,7 @@ describe(`convertPromptToJsonSchema`, () => {
   rejects(
     `submissions of nonexistent forms`,
     {
-      type: `formSubmitted`,
+      type: `formSubmission`,
       formName: `Test Form E Name`,
       fields: {
         testFieldEAName: `Test Field E A Value`,
