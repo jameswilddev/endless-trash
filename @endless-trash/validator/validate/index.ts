@@ -6,8 +6,8 @@ import { EventHandler } from "@endless-trash/event-handler";
 import { ValidateInput } from "./validate-input";
 import { ValidateOutput } from "./validate-output";
 
-export { ValidateInput } from "./validate-input";
-export { ValidateOutput } from "./validate-output";
+export * from "./validate-input";
+export * from "./validate-output";
 
 const jsonSchemaDraft6 = JSON.parse(
   readFileSync(

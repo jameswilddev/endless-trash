@@ -1,1 +1,1 @@
-export { composeEventHandlers } from "./compose-event-handlers";
+export * from "./compose-event-handlers";

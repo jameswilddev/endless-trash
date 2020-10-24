@@ -1,1 +1,1 @@
-export { MemoryFileStore } from "./memory-file-store";
+export * from "./memory-file-store";

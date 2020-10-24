@@ -1,1 +1,1 @@
-export { ValidateInput, ValidateOutput, validate } from "./validate";
+export * from "./validate";

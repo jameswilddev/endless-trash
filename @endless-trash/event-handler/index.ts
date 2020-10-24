@@ -1,2 +1,2 @@
-export { EventHandler } from "./event-handler";
-export { PassthroughEventHandler } from "./passthrough-event-handler";
+export * from "./event-handler";
+export * from "./passthrough-event-handler";
