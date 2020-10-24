@@ -1,4 +1,4 @@
 export type SubtitleField = {
   readonly type: `subtitle`;
-  readonly label: string;
+  readonly content: string;
 };

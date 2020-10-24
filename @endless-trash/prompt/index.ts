@@ -1,4 +1,5 @@
 export { BoundType } from "./bound-type";
+export { convertPromptToJsonSchema } from "./convert-prompt-to-json-schema";
 export {
   CheckboxField,
   FileField,

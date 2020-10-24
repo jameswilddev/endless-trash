@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/prompt",
-  "description": "Types for describing prompts of forms of fields.",
-  "version": "0.0.0",
+  "description": "Types and helpers for describing and working with prompts of forms of fields.",
+  "version": "0.0.1",
   "engines": {
     "node": ">=10.19.0"
   },
@@ -20,5 +20,10 @@
     "url": "https://github.com/jameswilddev/endless-trash"
   },
   "license": "MIT",
+  "devDependencies": {
+    "ajv": "6.12.5",
+    "@endless-trash/immutable-json-type": "0.0.1",
+    "@types/json-schema": "7.0.6"
+  },
   "types": "index.d.ts"
 }

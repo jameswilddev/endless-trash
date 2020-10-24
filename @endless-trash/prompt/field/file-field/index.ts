@@ -4,4 +4,5 @@ export type FileField = {
   readonly label: string;
   readonly url: null | string;
   readonly required: boolean;
+  readonly maximumBytes: null | number;
 };
