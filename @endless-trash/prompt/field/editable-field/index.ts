@@ -10,7 +10,7 @@ export { FloatField } from "./float-field";
 export { IntegerField } from "./integer-field";
 export { StringField } from "./string-field";
 
-export type NamedField =
+export type EditableField =
   | CheckboxField
   | FileField
   | FloatField

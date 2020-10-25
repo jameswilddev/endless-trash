@@ -6,14 +6,14 @@ export {
   FileField,
   FloatField,
   IntegerField,
-  NamedField,
+  EditableField,
   ParagraphField,
   StringField,
   SubtitleField,
   TitleField,
   Field,
 } from "./field";
-export { filterNamedField } from "./filter-named-field";
+export { filterEditableField } from "./filter-editable-field";
 export { Form } from "./form";
 export { FormGroup } from "./form-group";
 export { Prompt } from "./prompt";

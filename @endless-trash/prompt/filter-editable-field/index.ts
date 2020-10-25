@@ -1,6 +1,6 @@
-import { Field, NamedField } from "../field";
+import { Field, EditableField } from "../field";
 
-export function filterNamedField(field: Field): null | NamedField {
+export function filterEditableField(field: Field): null | EditableField {
   switch (field.type) {
     case `checkbox`:
     case `file`:

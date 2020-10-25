@@ -1,26 +1,26 @@
-import { Field, NamedField, filterNamedField } from "..";
+import { Field, EditableField, filterEditableField } from "..";
 
-describe(`filterNamedField`, () => {
-  function accepts(description: string, namedField: NamedField): void {
+describe(`filterEditableField`, () => {
+  function accepts(description: string, editableField: EditableField): void {
     describe(`accepts ${description}`, () => {
-      let result: null | NamedField;
+      let result: null | EditableField;
 
       beforeAll(() => {
-        result = filterNamedField(namedField);
+        result = filterEditableField(editableField);
       });
 
-      it(`returns the named field`, () => {
-        expect(result).toEqual(namedField);
+      it(`returns the editable field`, () => {
+        expect(result).toEqual(editableField);
       });
     });
   }
 
   function rejects(description: string, field: Field): void {
     describe(`rejects ${description}`, () => {
-      let result: null | NamedField;
+      let result: null | EditableField;
 
       beforeAll(() => {
-        result = filterNamedField(field);
+        result = filterEditableField(field);
       });
 
       it(`returns null`, () => {
