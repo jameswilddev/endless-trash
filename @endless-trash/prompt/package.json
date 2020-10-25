@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/prompt",
   "description": "Types and helpers for describing and working with prompts of forms of fields.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=10.19.0"
   },
