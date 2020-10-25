@@ -77,15 +77,18 @@ describe(`filterEditableField`, () => {
   rejects(`paragraph`, {
     type: `paragraph`,
     content: `Test Content`,
+    name: `Test Name`,
   });
 
   rejects(`subtitle`, {
     type: `subtitle`,
     content: `Test Content`,
+    name: `Test Name`,
   });
 
   rejects(`title`, {
     type: `title`,
     content: `Test Content`,
+    name: `Test Name`,
   });
 });

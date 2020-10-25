@@ -5393,7 +5393,11 @@ describe(`convertFieldToJsonSchema`, () => {
     ]
   );
 
-  noOutputScenario(`paragraph`, { type: `paragraph`, content: `Test Content` });
+  noOutputScenario(`paragraph`, {
+    type: `paragraph`,
+    content: `Test Content`,
+    name: `Test Name`,
+  });
 
   scenario(
     `string with minimum length with maximum length`,
@@ -5631,6 +5635,15 @@ describe(`convertFieldToJsonSchema`, () => {
     ]
   );
 
-  noOutputScenario(`subtitle`, { type: `subtitle`, content: `Test Content` });
-  noOutputScenario(`title`, { type: `title`, content: `Test Content` });
+  noOutputScenario(`subtitle`, {
+    type: `subtitle`,
+    content: `Test Content`,
+    name: `Test Name`,
+  });
+
+  noOutputScenario(`title`, {
+    type: `title`,
+    content: `Test Content`,
+    name: `Test Name`,
+  });
 });

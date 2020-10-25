@@ -1154,7 +1154,7 @@ describe(`convertFieldToFormSubmissionRequestField`, () => {
 
   scenario(
     `paragraph`,
-    { type: `paragraph`, content: `Test Content` },
+    { type: `paragraph`, content: `Test Content`, name: `Test Name` },
     undefined
   );
 
@@ -1212,8 +1212,13 @@ describe(`convertFieldToFormSubmissionRequestField`, () => {
 
   scenario(
     `subtitle`,
-    { type: `subtitle`, content: `Test Content` },
+    { type: `subtitle`, content: `Test Content`, name: `Test Name` },
     undefined
   );
-  scenario(`title`, { type: `title`, content: `Test Content` }, undefined);
+
+  scenario(
+    `title`,
+    { type: `title`, content: `Test Content`, name: `Test Name` },
+    undefined
+  );
 });
