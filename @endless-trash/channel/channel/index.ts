@@ -5,6 +5,7 @@ export interface Channel<TRequest, TResponse> {
     onResponse: (
       response: TExecutedResponse,
       send: ChannelSend<TExecutedRequest>
-    ) => Promise<void>
+    ) => Promise<void>,
+    onError: (error: Error) => void
   ): Promise<ChannelSend<TExecutedRequest>>;
 }
