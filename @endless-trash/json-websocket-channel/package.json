@@ -1,0 +1,38 @@
+{
+  "name": "@endless-trash/json-websocket-channel",
+  "description": "A channel implementation which communicates in JSON with a host using a WebSocket.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=10.19.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/endless-trash"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "ws": "7.3.1"
+  },
+  "devDependencies": {
+    "@endless-trash/channel": "0.0.1",
+    "@endless-trash/immutable-json-type": "0.0.1",
+    "@types/ws": "5.1.0",
+    "utf-8-validate": "5.0.2",
+    "bufferutil": "4.0.1"
+  },
+  "peerDependencies": {
+    "utf-8-validate": "5.0.2",
+    "bufferutil": "4.0.1"
+  },
+  "types": "index.d.ts"
+}
