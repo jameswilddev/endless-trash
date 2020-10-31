@@ -29,36 +29,38 @@ export const jsonWebsocketChannel: (address: string) => Channel<Json, Json> = (
     let starting = true;
 
     await new Promise((resolve, reject) => {
-      webSocket
-        .on(`error`, (error) => {
-          if (starting) {
-            reject(error);
-            starting = false;
-          } else {
-            // todo coverage
-            onError(error);
-          }
-        })
-        .on(`open`, () => {
-          resolve();
+      webSocket.onerror = (error) => {
+        if (starting) {
+          reject(error.error);
           starting = false;
-        })
-        .on(`message`, (data) => {
-          if (typeof data === `string`) {
-            let json: TResponse;
+        } else {
+          onError(error.error);
+        }
+      };
 
-            try {
-              json = JSON.parse(data);
-            } catch (e) {
-              onError(e);
-              return;
-            }
+      webSocket.onopen = () => {
+        resolve();
+        starting = false;
+      };
 
-            onResponse(json, send).catch(onError);
-          } else {
-            onError(new Error(`Non-text message received.`));
+      webSocket.onmessage = (message) => {
+        const data = message.data;
+
+        if (typeof data === `string`) {
+          let json: TResponse;
+
+          try {
+            json = JSON.parse(data);
+          } catch (e) {
+            onError(e);
+            return;
           }
-        });
+
+          onResponse(json, send).catch(onError);
+        } else {
+          onError(new Error(`Non-text message received.`));
+        }
+      };
     });
 
     return send;
