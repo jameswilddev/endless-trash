@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/json-websocket-channel",
   "description": "A channel implementation which communicates in JSON with a host using a WebSocket.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=10.19.0"
   },
@@ -21,16 +21,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "ws": "7.3.1"
+    "isomorphic-ws": "4.0.1"
   },
   "devDependencies": {
     "@endless-trash/channel": "0.0.1",
     "@endless-trash/immutable-json-type": "0.0.1",
-    "@types/ws": "5.1.0",
+    "ws": "7.3.1",
     "utf-8-validate": "5.0.2",
-    "bufferutil": "4.0.1"
+    "bufferutil": "4.0.1",
+    "@types/ws": "5.1.0"
   },
   "peerDependencies": {
+    "ws": "7.3.1",
     "utf-8-validate": "5.0.2",
     "bufferutil": "4.0.1"
   },

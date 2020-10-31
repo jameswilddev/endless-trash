@@ -6,9 +6,9 @@ A channel implementation which communicates in JSON with a host using a WebSocke
 
 This package has the following runtime dependencies:
 
-Name | Version                                                                          
----- | ---------------------------------------------------------------------------------
-ws   | [![7.3.1](https://img.shields.io/npm/v/ws.svg)](https://www.npmjs.com/package/ws)
+Name          | Version                                                                                                
+------------- | -------------------------------------------------------------------------------------------------------
+isomorphic-ws | [![4.0.1](https://img.shields.io/npm/v/isomorphic-ws.svg)](https://www.npmjs.com/package/isomorphic-ws)
 
 ## Peer Dependencies
 
@@ -18,6 +18,7 @@ Name           | Version
 -------------- | ---------------------------------------------------------------------------------------------------------
 bufferutil     | [![4.0.1](https://img.shields.io/npm/v/bufferutil.svg)](https://www.npmjs.com/package/bufferutil)        
 utf-8-validate | [![5.0.2](https://img.shields.io/npm/v/utf-8-validate.svg)](https://www.npmjs.com/package/utf-8-validate)
+ws             | [![7.3.1](https://img.shields.io/npm/v/ws.svg)](https://www.npmjs.com/package/ws)                        
 
 ## License
 

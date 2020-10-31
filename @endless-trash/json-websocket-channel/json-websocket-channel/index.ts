@@ -1,4 +1,4 @@
-import WebSocket = require("ws");
+import WebSocket = require("isomorphic-ws");
 import { Json } from "@endless-trash/immutable-json-type";
 import { Channel, ChannelSend } from "@endless-trash/channel";
 
