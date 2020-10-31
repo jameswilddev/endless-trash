@@ -9,7 +9,7 @@
     "inlineSourceMap": false,
     "inlineSources": false,
     "jsx": "react",
-    "jsxFactory": "superfine.h",
+    "jsxFactory": "h",
     "listFiles": false,
     "module": "none",
     "newLine": "LF",
