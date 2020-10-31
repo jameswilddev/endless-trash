@@ -12,7 +12,7 @@ isomorphic-ws | [![4.0.1](https://img.shields.io/npm/v/isomorphic-ws.svg)](https
 
 ## Peer Dependencies
 
-This package has the following runtime dependencies; that is, it expects the following packages to be installed alongside itself:
+This package has the following runtime peer dependencies; that is, it expects the following packages to be installed alongside itself:
 
 Name           | Version                                                                                                  
 -------------- | ---------------------------------------------------------------------------------------------------------

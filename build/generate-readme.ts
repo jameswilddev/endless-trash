@@ -27,7 +27,7 @@ ${generateReadmeDependencies(
   peerDependencies,
   `Peer Dependencies`,
   `This package has no runtime peer dependencies (it does not expect any other packages to be installed alongside itself).`,
-  `This package has the following runtime dependencies; that is, it expects the following packages to be installed alongside itself:`
+  `This package has the following runtime peer dependencies; that is, it expects the following packages to be installed alongside itself:`
 )}
 
 ${generateReadmeFooter()}
