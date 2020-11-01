@@ -7,9 +7,11 @@ import { v4 } from "uuid";
 import { Credentials } from "aws-sdk";
 import S3rver = require("s3rver");
 import { testFileStore } from "@endless-trash/file-store";
-import { S3FileStore } from ".";
-import { S3FileStoreConfiguration } from "./s3-file-store-configuration";
-import { initializeS3FileStore } from "./initialize-s3-file-store";
+import {
+  S3FileStore,
+  S3FileStoreConfiguration,
+  initializeS3FileStore,
+} from ".";
 
 let bucketCounter = 0;
 
