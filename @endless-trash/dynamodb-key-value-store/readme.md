@@ -2,6 +2,20 @@
 
 A key-value JSON store backed by a DynamoDB table.
 
+## IAM Permissions
+
+### initializeDynamodbKeyValueStore
+
+- CreateTable
+
+### DynamodbKeyValueStore
+
+| Method    | IAM Permissions       |
+| --------- | --------------------- |
+| get       | GetObject             |
+| insert    | PutObject             |
+| update    | PutObject             |
+
 ## Dependencies
 
 This package has the following runtime dependencies:
