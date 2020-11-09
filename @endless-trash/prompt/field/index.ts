@@ -4,8 +4,6 @@ import { SubtitleField } from "./subtitle-field";
 import { TitleField } from "./title-field";
 
 export {
-  CheckboxField,
-  FileField,
   FloatField,
   IntegerField,
   StringField,

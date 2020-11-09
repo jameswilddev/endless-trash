@@ -1,42 +1,10 @@
 import { JSONSchema7 } from "json-schema";
 import { Field } from "../../../field";
-import { generateBase64Pattern } from "./generate-base64-pattern";
 
 export function convertFieldToJsonSchema(
   field: Field
 ): null | { readonly [name: string]: JSONSchema7 } {
   switch (field.type) {
-    case `checkbox`:
-      return {
-        [field.name]: {
-          type: `boolean`,
-        },
-      };
-
-    case `file`: {
-      let output: JSONSchema7 = {
-        type: `string`,
-        contentEncoding: `base64`,
-        pattern: generateBase64Pattern(field.maximumBytes),
-      };
-
-      if (!field.required && field.url === null) {
-        output = {
-          oneOf: [output, { type: `null` }],
-        };
-      } else if (!field.required && field.url !== null) {
-        output = {
-          oneOf: [output, { const: `$keep` }, { type: `null` }],
-        };
-      } else if (field.required && field.url !== null) {
-        output = { oneOf: [output, { const: `$keep` }] };
-      }
-
-      return {
-        [field.name]: output,
-      };
-    }
-
     case `float`: {
       const asRequired: JSONSchema7 = {
         type: `number`,

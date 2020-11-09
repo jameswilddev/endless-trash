@@ -29,22 +29,6 @@ describe(`filterEditableField`, () => {
     });
   }
 
-  accepts(`checkbox`, {
-    type: `checkbox`,
-    value: false,
-    label: `Test Label`,
-    name: `Test Name`,
-  });
-
-  accepts(`file`, {
-    name: `Test Name`,
-    type: `file`,
-    label: `Test Label`,
-    url: null,
-    required: false,
-    maximumBytes: null,
-  });
-
   accepts(`float`, {
     type: `float`,
     name: `Test Name`,
