@@ -1,17 +1,13 @@
-import {
-  convertFieldToFormSubmissionRequestField,
-  Field,
-  FormSubmissionRequestField,
-} from "..";
+import { convertFieldToRequestField, Field, RequestField } from "..";
 
-describe(`convertFieldToFormSubmissionRequestField`, () => {
+describe(`convertFieldToRequestField`, () => {
   function scenario(
     description: string,
     field: Field,
-    expected: undefined | FormSubmissionRequestField
+    expected: undefined | RequestField
   ): void {
     it(description, () => {
-      const actual = convertFieldToFormSubmissionRequestField(field);
+      const actual = convertFieldToRequestField(field);
 
       expect(actual).toEqual(expected);
     });

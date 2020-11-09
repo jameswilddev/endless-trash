@@ -1,9 +1,9 @@
 import { Field } from "../field";
-import { FormSubmissionRequestField } from "../request";
+import { RequestField } from "../request";
 
-export function convertFieldToFormSubmissionRequestField(
+export function convertFieldToRequestField(
   field: Field
-): undefined | FormSubmissionRequestField {
+): undefined | RequestField {
   switch (field.type) {
     case `checkbox`:
       return field.value;

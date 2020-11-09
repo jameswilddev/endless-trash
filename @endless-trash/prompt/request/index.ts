@@ -1,27 +1,28 @@
-import { FormSubmissionRequest } from "./form-submission-request";
-import { RefreshRequest } from "./refresh-request";
+import { RequestField } from "./request-field";
 
 export {
-  FormSubmissionRequestCheckboxField,
-  DeleteOrKeepUnsetFormSubmissionRequestFileField,
-  KeepSetFormSubmissionRequestFileField,
-  ReplaceWithBase64FormSubmissionRequestFileField,
-  FormSubmissionRequestRequiredFileFieldWithValue,
-  FormSubmissionRequestRequiredFileField,
-  FormSubmissionRequestNullableFileFieldWithValue,
-  FormSubmissionRequestNullableFileField,
-  FormSubmissionRequestFileField,
-  FormSubmissionRequestRequiredFloatField,
-  FormSubmissionRequestNullableFloatField,
-  FormSubmissionRequestFloatField,
-  FormSubmissionRequestRequiredIntegerField,
-  FormSubmissionRequestNullableIntegerField,
-  FormSubmissionRequestIntegerField,
-  FormSubmissionRequestStringField,
-  FormSubmissionRequestField,
-  FormSubmissionRequest,
-} from "./form-submission-request";
+  RequestCheckboxField,
+  DeleteOrKeepUnsetRequestFileField,
+  KeepSetRequestFileField,
+  ReplaceWithBase64RequestFileField,
+  RequestRequiredFileFieldWithValue,
+  RequestRequiredFileField,
+  RequestNullableFileFieldWithValue,
+  RequestNullableFileField,
+  RequestFileField,
+  RequestRequiredFloatField,
+  RequestNullableFloatField,
+  RequestFloatField,
+  RequestRequiredIntegerField,
+  RequestNullableIntegerField,
+  RequestIntegerField,
+  RequestStringField,
+  RequestField,
+} from "./request-field";
 
-export { RefreshRequest } from "./refresh-request";
-
-export type Request = FormSubmissionRequest | RefreshRequest;
+export type Request = {
+  readonly formName: string;
+  readonly fields: {
+    readonly [fieldName: string]: RequestField;
+  };
+};

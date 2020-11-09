@@ -147,21 +147,7 @@ describe(`convertPromptToJsonSchema`, () => {
     });
   }
 
-  accepts(`valid refreshes`, {
-    type: `refresh`,
-  });
-
-  rejects(
-    `invalid refreshes`,
-    {
-      type: `refresh`,
-      testUnexpectedKey: `Test Unexpected Value`,
-    },
-    `data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should NOT have additional properties, data should match exactly one schema in oneOf`
-  );
-
   accepts(`valid form submissions`, {
-    type: `formSubmission`,
     formName: `Test Form C Name`,
     fields: {
       testFieldCAName: `Test Field C A Value`,
@@ -173,7 +159,6 @@ describe(`convertPromptToJsonSchema`, () => {
   rejects(
     `invalid form submissions`,
     {
-      type: `formSubmission`,
       formName: `Test Form C Name`,
       fields: {
         testFieldCAName: ``,
@@ -181,25 +166,23 @@ describe(`convertPromptToJsonSchema`, () => {
         testFieldCCName: `Test Field C C Value`,
       },
     },
-    `data should NOT have additional properties, data.formName should be equal to constant, data.formName should be equal to constant, data.fields.testFieldCAName should NOT be shorter than 4 characters, data.formName should be equal to constant, data.formName should be equal to constant, data should match exactly one schema in oneOf`
+    `data.formName should be equal to constant, data.formName should be equal to constant, data.fields.testFieldCAName should NOT be shorter than 4 characters, data.formName should be equal to constant, data.formName should be equal to constant, data should match exactly one schema in oneOf`
   );
 
   rejects(
     `submissions of unsubmissible forms`,
     {
-      type: `formSubmission`,
       formName: `Test Form B Name`,
       fields: {
         testFieldBAName: `Test Field B A Value`,
       },
     },
-    `data should NOT have additional properties, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data should match exactly one schema in oneOf`
+    `data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data should match exactly one schema in oneOf`
   );
 
   rejects(
     `submissions of nonexistent forms`,
     {
-      type: `formSubmission`,
       formName: `Test Form E Name`,
       fields: {
         testFieldEAName: `Test Field E A Value`,
@@ -207,56 +190,48 @@ describe(`convertPromptToJsonSchema`, () => {
         testFieldECName: `Test Field E C Value`,
       },
     },
-    `data should NOT have additional properties, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data should match exactly one schema in oneOf`
-  );
-
-  rejects(
-    `unexpected request types`,
-    {
-      type: `Test Unexpected Request Type`,
-    },
-    `data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data.type should be equal to constant, data should match exactly one schema in oneOf`
+    `data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data should match exactly one schema in oneOf`
   );
 
   rejects(
     `null`,
     null,
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
   );
 
   rejects(
     `arrays`,
     [],
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
   );
 
   rejects(
     `empty objects`,
     [],
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
   );
 
   rejects(
     `false`,
     false,
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
   );
 
   rejects(
     `true`,
     true,
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
   );
 
   rejects(
     `numbers`,
     5.21,
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
   );
 
   rejects(
     `strings`,
     `Test String`,
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
+    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
   );
 });

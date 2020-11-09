@@ -1,5 +1,5 @@
 export { BoundType } from "./bound-type";
-export { convertFieldToFormSubmissionRequestField } from "./convert-field-to-form-submission-request-field";
+export { convertFieldToRequestField } from "./convert-field-to-request-field";
 export { convertPromptToJsonSchema } from "./convert-prompt-to-json-schema";
 export {
   CheckboxField,
@@ -18,24 +18,22 @@ export { Form } from "./form";
 export { FormGroup } from "./form-group";
 export { Prompt } from "./prompt";
 export {
-  FormSubmissionRequestCheckboxField,
-  DeleteOrKeepUnsetFormSubmissionRequestFileField,
-  KeepSetFormSubmissionRequestFileField,
-  ReplaceWithBase64FormSubmissionRequestFileField,
-  FormSubmissionRequestRequiredFileFieldWithValue,
-  FormSubmissionRequestRequiredFileField,
-  FormSubmissionRequestNullableFileFieldWithValue,
-  FormSubmissionRequestNullableFileField,
-  FormSubmissionRequestFileField,
-  FormSubmissionRequestRequiredFloatField,
-  FormSubmissionRequestNullableFloatField,
-  FormSubmissionRequestFloatField,
-  FormSubmissionRequestRequiredIntegerField,
-  FormSubmissionRequestNullableIntegerField,
-  FormSubmissionRequestIntegerField,
-  FormSubmissionRequestStringField,
-  FormSubmissionRequestField,
-  FormSubmissionRequest,
-  RefreshRequest,
+  RequestCheckboxField,
+  DeleteOrKeepUnsetRequestFileField,
+  KeepSetRequestFileField,
+  ReplaceWithBase64RequestFileField,
+  RequestRequiredFileFieldWithValue,
+  RequestRequiredFileField,
+  RequestNullableFileFieldWithValue,
+  RequestNullableFileField,
+  RequestFileField,
+  RequestRequiredFloatField,
+  RequestNullableFloatField,
+  RequestFloatField,
+  RequestRequiredIntegerField,
+  RequestNullableIntegerField,
+  RequestIntegerField,
+  RequestStringField,
+  RequestField,
   Request,
 } from "./request";

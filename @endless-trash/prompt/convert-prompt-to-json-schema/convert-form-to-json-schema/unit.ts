@@ -91,7 +91,6 @@ describe(`convertFormToJsonSchema`, () => {
 
     it(`accepts valid form submissions`, () => {
       const value = {
-        type: `formSubmission`,
         formName: `Test Form Name`,
         fields: {
           testFieldAName: `Test Field A Value`,
@@ -111,36 +110,8 @@ describe(`convertFormToJsonSchema`, () => {
     }
 
     rejects(
-      `type missing`,
-      {
-        formName: `Test Form Name`,
-        fields: {
-          testFieldAName: `Test Field A Value`,
-          testFieldBName: ``,
-          testFieldCName: `Test Field C Value`,
-        },
-      },
-      `data should have required property 'type'`
-    );
-
-    rejects(
-      `type invalid`,
-      {
-        type: `Test Invalid Type`,
-        formName: `Test Form Name`,
-        fields: {
-          testFieldAName: `Test Field A Value`,
-          testFieldBName: ``,
-          testFieldCName: `Test Field C Value`,
-        },
-      },
-      `data.type should be equal to constant`
-    );
-
-    rejects(
       `formName missing`,
       {
-        type: `formSubmission`,
         fields: {
           testFieldAName: `Test Field A Value`,
           testFieldBName: ``,
@@ -153,7 +124,6 @@ describe(`convertFormToJsonSchema`, () => {
     rejects(
       `formName invalid`,
       {
-        type: `formSubmission`,
         formName: `Test Invalid Form Name`,
         fields: {
           testFieldAName: `Test Field A Value`,
@@ -167,7 +137,6 @@ describe(`convertFormToJsonSchema`, () => {
     rejects(
       `fields missing`,
       {
-        type: `formSubmission`,
         formName: `Test Form Name`,
       },
       `data should have required property 'fields'`
@@ -176,7 +145,6 @@ describe(`convertFormToJsonSchema`, () => {
     rejects(
       `fields missing properties`,
       {
-        type: `formSubmission`,
         formName: `Test Form Name`,
         fields: {
           testFieldAName: `Test Field A Value`,
@@ -189,7 +157,6 @@ describe(`convertFormToJsonSchema`, () => {
     rejects(
       `fields unexpected properties`,
       {
-        type: `formSubmission`,
         formName: `Test Form Name`,
         fields: {
           testFieldAName: `Test Field A Value`,
@@ -204,7 +171,6 @@ describe(`convertFormToJsonSchema`, () => {
     rejects(
       `fields null`,
       {
-        type: `formSubmission`,
         formName: `Test Form Name`,
         fields: null,
       },
@@ -214,7 +180,6 @@ describe(`convertFormToJsonSchema`, () => {
     rejects(
       `fields false`,
       {
-        type: `formSubmission`,
         formName: `Test Form Name`,
         fields: false,
       },
@@ -224,7 +189,6 @@ describe(`convertFormToJsonSchema`, () => {
     rejects(
       `fields true`,
       {
-        type: `formSubmission`,
         formName: `Test Form Name`,
         fields: true,
       },
@@ -234,7 +198,6 @@ describe(`convertFormToJsonSchema`, () => {
     rejects(
       `fields number`,
       {
-        type: `formSubmission`,
         formName: `Test Form Name`,
         fields: 56.2342,
       },
@@ -244,7 +207,6 @@ describe(`convertFormToJsonSchema`, () => {
     rejects(
       `fields string`,
       {
-        type: `formSubmission`,
         formName: `Test Form Name`,
         fields: `Test String`,
       },
@@ -254,7 +216,6 @@ describe(`convertFormToJsonSchema`, () => {
     rejects(
       `fields array`,
       {
-        type: `formSubmission`,
         formName: `Test Form Name`,
         fields: [],
       },
@@ -264,7 +225,6 @@ describe(`convertFormToJsonSchema`, () => {
     rejects(
       `unexpected properties`,
       {
-        type: `formSubmission`,
         formName: `Test Form Name`,
         fields: {
           testFieldAName: `Test Field A Value`,
