@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "2.786.0"
+    "aws-sdk": "2.788.0"
   },
   "devDependencies": {
     "@endless-trash/key-value-store": "0.0.5",
