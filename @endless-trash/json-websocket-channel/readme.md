@@ -18,7 +18,7 @@ Name           | Version
 -------------- | ---------------------------------------------------------------------------------------------------------
 bufferutil     | [![4.0.2](https://img.shields.io/npm/v/bufferutil.svg)](https://www.npmjs.com/package/bufferutil)        
 utf-8-validate | [![5.0.3](https://img.shields.io/npm/v/utf-8-validate.svg)](https://www.npmjs.com/package/utf-8-validate)
-ws             | [![7.3.1](https://img.shields.io/npm/v/ws.svg)](https://www.npmjs.com/package/ws)                        
+ws             | [![7.4.0](https://img.shields.io/npm/v/ws.svg)](https://www.npmjs.com/package/ws)                        
 
 ## License
 
