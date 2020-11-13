@@ -1,0 +1,32 @@
+{
+  "name": "@endless-trash/dom-prompt-client",
+  "description": "A client which displays prompts using the DOM.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=10.19.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/endless-trash"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "hyperapp": "^2.0.8",
+    "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "@endless-trash/channel": "0.0.1",
+    "@endless-trash/prompt": "0.0.5",
+    "@types/lodash": "^4.14.165"
+  }
+}
