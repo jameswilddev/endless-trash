@@ -6,10 +6,10 @@ A client which displays prompts using the DOM.
 
 This package has the following runtime dependencies:
 
-Name     | Version                                                                                       
--------- | ----------------------------------------------------------------------------------------------
-hyperapp | [![^2.0.8](https://img.shields.io/npm/v/hyperapp.svg)](https://www.npmjs.com/package/hyperapp)
-lodash   | [![^4.17.20](https://img.shields.io/npm/v/lodash.svg)](https://www.npmjs.com/package/lodash)  
+Name     | Version                                                                                      
+-------- | ---------------------------------------------------------------------------------------------
+hyperapp | [![2.0.8](https://img.shields.io/npm/v/hyperapp.svg)](https://www.npmjs.com/package/hyperapp)
+lodash   | [![4.17.20](https://img.shields.io/npm/v/lodash.svg)](https://www.npmjs.com/package/lodash)  
 
 ## Peer Dependencies
 
