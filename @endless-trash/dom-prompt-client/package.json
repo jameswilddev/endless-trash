@@ -21,12 +21,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "hyperapp": "^2.0.8",
-    "lodash": "^4.17.20"
+    "hyperapp": "2.0.8",
+    "lodash": "4.17.20"
   },
   "devDependencies": {
     "@endless-trash/channel": "0.0.1",
     "@endless-trash/prompt": "0.0.5",
-    "@types/lodash": "^4.14.165"
+    "@types/lodash": "4.14.165"
   }
 }
