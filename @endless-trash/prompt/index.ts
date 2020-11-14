@@ -9,6 +9,8 @@ export {
   StringField,
   SubtitleField,
   TitleField,
+  MessageField,
+  StaticField,
   Field,
 } from "./field";
 export { filterEditableField } from "./filter-editable-field";

@@ -1,7 +1,5 @@
 import { EditableField } from "./editable-field";
-import { ParagraphField } from "./paragraph-field";
-import { SubtitleField } from "./subtitle-field";
-import { TitleField } from "./title-field";
+import { StaticField } from "./static-field";
 
 export {
   FloatField,
@@ -9,8 +7,12 @@ export {
   StringField,
   EditableField,
 } from "./editable-field";
-export { ParagraphField } from "./paragraph-field";
-export { SubtitleField } from "./subtitle-field";
-export { TitleField } from "./title-field";
+export {
+  ParagraphField,
+  SubtitleField,
+  TitleField,
+  MessageField,
+  StaticField,
+} from "./static-field";
 
-export type Field = EditableField | ParagraphField | SubtitleField | TitleField;
+export type Field = EditableField | StaticField;
