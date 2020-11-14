@@ -6,10 +6,22 @@ describe(`updateFieldRaw`, () => {
 
   beforeAll(() => {
     const promptState: PromptState = {
+      prompt: {
+        formGroups: [],
+      },
       formGroups: {
         "Test Other Form Group Name": {
+          formGroup: {
+            name: `Test Other Form Group Name`,
+            forms: [],
+          },
           forms: {
             "Test Form Name": {
+              form: {
+                name: `Test Form Name`,
+                fields: [],
+                submitButtonLabel: `Test Submit Button Label`,
+              },
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -40,6 +52,11 @@ describe(`updateFieldRaw`, () => {
               },
             },
             "Test Other Form Name": {
+              form: {
+                name: `Test Other Form Name`,
+                fields: [],
+                submitButtonLabel: `Test Submit Button Label`,
+              },
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -72,8 +89,17 @@ describe(`updateFieldRaw`, () => {
           },
         },
         "Test Form Group Name": {
+          formGroup: {
+            name: `Test Form Group Name`,
+            forms: [],
+          },
           forms: {
             "Test Form Name": {
+              form: {
+                name: `Test Form Name`,
+                fields: [],
+                submitButtonLabel: `Test Submit Button Label`,
+              },
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -104,6 +130,11 @@ describe(`updateFieldRaw`, () => {
               },
             },
             "Test Other Form Name": {
+              form: {
+                name: `Test Other Form Name`,
+                fields: [],
+                submitButtonLabel: `Test Submit Button Label`,
+              },
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -150,10 +181,22 @@ describe(`updateFieldRaw`, () => {
 
   it(`replaces the field's raw value`, () => {
     expect(output).toEqual({
+      prompt: {
+        formGroups: [],
+      },
       formGroups: {
         "Test Other Form Group Name": {
+          formGroup: {
+            name: `Test Other Form Group Name`,
+            forms: [],
+          },
           forms: {
             "Test Form Name": {
+              form: {
+                name: `Test Form Name`,
+                fields: [],
+                submitButtonLabel: `Test Submit Button Label`,
+              },
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -184,6 +227,11 @@ describe(`updateFieldRaw`, () => {
               },
             },
             "Test Other Form Name": {
+              form: {
+                name: `Test Other Form Name`,
+                fields: [],
+                submitButtonLabel: `Test Submit Button Label`,
+              },
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -216,8 +264,17 @@ describe(`updateFieldRaw`, () => {
           },
         },
         "Test Form Group Name": {
+          formGroup: {
+            name: `Test Form Group Name`,
+            forms: [],
+          },
           forms: {
             "Test Form Name": {
+              form: {
+                name: `Test Form Name`,
+                fields: [],
+                submitButtonLabel: `Test Submit Button Label`,
+              },
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -248,6 +305,11 @@ describe(`updateFieldRaw`, () => {
               },
             },
             "Test Other Form Name": {
+              form: {
+                name: `Test Other Form Name`,
+                fields: [],
+                submitButtonLabel: `Test Submit Button Label`,
+              },
               fields: {
                 "Test Other Field Name": {
                   editableField: {

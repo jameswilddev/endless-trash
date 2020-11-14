@@ -1,224 +1,117 @@
-import { Prompt } from "@endless-trash/prompt";
-import { initialPromptState } from ".";
-import { PromptState } from "../prompt-state";
+import { FormGroup } from "@endless-trash/prompt";
+import { initialFormGroupsState } from ".";
+import { FormGroupsState } from "../form-groups-state";
 
 describe(`initialFormGroupsState`, () => {
-  let output: PromptState;
+  let output: FormGroupsState;
 
   beforeAll(() => {
-    const prompt: Prompt = {
-      formGroups: [
-        {
-          name: `Test Form Group A Name`,
-          forms: [
-            {
-              name: `Test Form A A Name`,
-              fields: [
-                {
-                  type: `string`,
-                  name: `Test Field A A A Name`,
-                  label: `Test Field A A A Label`,
-                  value: `Test Field A A A Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-                {
-                  type: `string`,
-                  name: `Test Field A A B Name`,
-                  label: `Test Field A A B Label`,
-                  value: `Test Field A A B Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-              ],
-              submitButtonLabel: `Test Form A A Submit Button Label`,
-            },
-            {
-              name: `Test Form A B Name`,
-              fields: [
-                {
-                  type: `string`,
-                  name: `Test Field A B A Name`,
-                  label: `Test Field A B A Label`,
-                  value: `Test Field A B A Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-                {
-                  type: `string`,
-                  name: `Test Field A B B Name`,
-                  label: `Test Field A B B Label`,
-                  value: `Test Field A B B Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-              ],
-              submitButtonLabel: `Test Form A B Submit Button Label`,
-            },
-          ],
-        },
-        {
-          name: `Test Form Group B Name`,
-          forms: [
-            {
-              name: `Test Form B A Name`,
-              fields: [
-                {
-                  type: `string`,
-                  name: `Test Field B A A Name`,
-                  label: `Test Field B A A Label`,
-                  value: `Test Field B A A Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-                {
-                  type: `string`,
-                  name: `Test Field B A B Name`,
-                  label: `Test Field B A B Label`,
-                  value: `Test Field B A B Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-              ],
-              submitButtonLabel: `Test Form B A Submit Button Label`,
-            },
-            {
-              name: `Test Form B B Name`,
-              fields: [
-                {
-                  type: `string`,
-                  name: `Test Field B B A Name`,
-                  label: `Test Field B B A Label`,
-                  value: `Test Field B B A Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-                {
-                  type: `string`,
-                  name: `Test Field B B B Name`,
-                  label: `Test Field B B B Label`,
-                  value: `Test Field B B B Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-              ],
-              submitButtonLabel: `Test Form B B Submit Button Label`,
-            },
-          ],
-        },
-      ],
-    };
+    const formGroups: ReadonlyArray<FormGroup> = [
+      {
+        name: `Test Form Group A Name`,
+        forms: [
+          {
+            name: `Test Form A A Name`,
+            fields: [
+              {
+                type: `string`,
+                name: `Test Field A A A Name`,
+                label: `Test Field A A A Label`,
+                value: `Test Field A A A Value`,
+                minimumLength: null,
+                maximumLength: null,
+              },
+              {
+                type: `string`,
+                name: `Test Field A A B Name`,
+                label: `Test Field A A B Label`,
+                value: `Test Field A A B Value`,
+                minimumLength: null,
+                maximumLength: null,
+              },
+            ],
+            submitButtonLabel: `Test Form A A Submit Button Label`,
+          },
+          {
+            name: `Test Form A B Name`,
+            fields: [
+              {
+                type: `string`,
+                name: `Test Field A B A Name`,
+                label: `Test Field A B A Label`,
+                value: `Test Field A B A Value`,
+                minimumLength: null,
+                maximumLength: null,
+              },
+              {
+                type: `string`,
+                name: `Test Field A B B Name`,
+                label: `Test Field A B B Label`,
+                value: `Test Field A B B Value`,
+                minimumLength: null,
+                maximumLength: null,
+              },
+            ],
+            submitButtonLabel: `Test Form A B Submit Button Label`,
+          },
+        ],
+      },
+      {
+        name: `Test Form Group B Name`,
+        forms: [
+          {
+            name: `Test Form B A Name`,
+            fields: [
+              {
+                type: `string`,
+                name: `Test Field B A A Name`,
+                label: `Test Field B A A Label`,
+                value: `Test Field B A A Value`,
+                minimumLength: null,
+                maximumLength: null,
+              },
+              {
+                type: `string`,
+                name: `Test Field B A B Name`,
+                label: `Test Field B A B Label`,
+                value: `Test Field B A B Value`,
+                minimumLength: null,
+                maximumLength: null,
+              },
+            ],
+            submitButtonLabel: `Test Form B A Submit Button Label`,
+          },
+          {
+            name: `Test Form B B Name`,
+            fields: [
+              {
+                type: `string`,
+                name: `Test Field B B A Name`,
+                label: `Test Field B B A Label`,
+                value: `Test Field B B A Value`,
+                minimumLength: null,
+                maximumLength: null,
+              },
+              {
+                type: `string`,
+                name: `Test Field B B B Name`,
+                label: `Test Field B B B Label`,
+                value: `Test Field B B B Value`,
+                minimumLength: null,
+                maximumLength: null,
+              },
+            ],
+            submitButtonLabel: `Test Form B B Submit Button Label`,
+          },
+        ],
+      },
+    ];
 
-    output = initialPromptState(prompt);
+    output = initialFormGroupsState(formGroups);
   });
 
-  it(`includes the prompt`, () => {
-    expect(output.prompt).toEqual({
-      formGroups: [
-        {
-          name: `Test Form Group A Name`,
-          forms: [
-            {
-              name: `Test Form A A Name`,
-              fields: [
-                {
-                  type: `string`,
-                  name: `Test Field A A A Name`,
-                  label: `Test Field A A A Label`,
-                  value: `Test Field A A A Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-                {
-                  type: `string`,
-                  name: `Test Field A A B Name`,
-                  label: `Test Field A A B Label`,
-                  value: `Test Field A A B Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-              ],
-              submitButtonLabel: `Test Form A A Submit Button Label`,
-            },
-            {
-              name: `Test Form A B Name`,
-              fields: [
-                {
-                  type: `string`,
-                  name: `Test Field A B A Name`,
-                  label: `Test Field A B A Label`,
-                  value: `Test Field A B A Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-                {
-                  type: `string`,
-                  name: `Test Field A B B Name`,
-                  label: `Test Field A B B Label`,
-                  value: `Test Field A B B Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-              ],
-              submitButtonLabel: `Test Form A B Submit Button Label`,
-            },
-          ],
-        },
-        {
-          name: `Test Form Group B Name`,
-          forms: [
-            {
-              name: `Test Form B A Name`,
-              fields: [
-                {
-                  type: `string`,
-                  name: `Test Field B A A Name`,
-                  label: `Test Field B A A Label`,
-                  value: `Test Field B A A Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-                {
-                  type: `string`,
-                  name: `Test Field B A B Name`,
-                  label: `Test Field B A B Label`,
-                  value: `Test Field B A B Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-              ],
-              submitButtonLabel: `Test Form B A Submit Button Label`,
-            },
-            {
-              name: `Test Form B B Name`,
-              fields: [
-                {
-                  type: `string`,
-                  name: `Test Field B B A Name`,
-                  label: `Test Field B B A Label`,
-                  value: `Test Field B B A Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-                {
-                  type: `string`,
-                  name: `Test Field B B B Name`,
-                  label: `Test Field B B B Label`,
-                  value: `Test Field B B B Value`,
-                  minimumLength: null,
-                  maximumLength: null,
-                },
-              ],
-              submitButtonLabel: `Test Form B B Submit Button Label`,
-            },
-          ],
-        },
-      ],
-    });
-  });
-
-  it(`includes the form groups`, () => {
-    expect(output.formGroups).toEqual({
+  it(`generates state for the form groups`, () => {
+    expect(output).toEqual({
       "Test Form Group A Name": {
         formGroup: {
           name: `Test Form Group A Name`,
@@ -526,9 +419,5 @@ describe(`initialFormGroupsState`, () => {
         },
       },
     });
-  });
-
-  it(`defaults to interactive mode`, () => {
-    expect(output.send).toBeNull();
   });
 });

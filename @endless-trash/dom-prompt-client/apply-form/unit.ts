@@ -7,6 +7,11 @@ describe(`applyForm`, () => {
 
   beforeAll(() => {
     const formState: FormState = {
+      form: {
+        name: `Test Previous Form Name`,
+        fields: [],
+        submitButtonLabel: `Test Previous Submit Button Label`,
+      },
       fields: {
         "Test Retained Field": {
           editableField: {
@@ -63,6 +68,33 @@ describe(`applyForm`, () => {
     };
 
     output = applyForm(formState, form);
+  });
+
+  it(`includes the form`, () => {
+    expect(output.form).toEqual({
+      name: `Test Name`,
+      fields: [
+        {
+          type: `integer`,
+          name: `Test Reset Field`,
+          label: `Test Label`,
+          minimum: null,
+          maximum: null,
+          required: true,
+          value: 31.1,
+        },
+        {
+          type: `integer`,
+          name: `Test Retained Field`,
+          label: `Test Label`,
+          minimum: null,
+          maximum: null,
+          required: true,
+          value: 44.5,
+        },
+      ],
+      submitButtonLabel: `Test Submit Button Label`,
+    });
   });
 
   it(`applies field state`, () => {

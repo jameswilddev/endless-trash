@@ -16,7 +16,7 @@ export function applyFormGroups(
     output[formGroup.name] = applyFormGroup(
       Object.prototype.hasOwnProperty.call(formGroupsState, formGroup.name)
         ? formGroupsState[formGroup.name]
-        : initialFormGroupState,
+        : initialFormGroupState(formGroup),
       formGroup
     );
   }

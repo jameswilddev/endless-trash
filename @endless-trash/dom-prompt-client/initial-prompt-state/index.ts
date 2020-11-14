@@ -1,6 +1,11 @@
+import { Prompt } from "@endless-trash/prompt";
+import { initialFormGroupsState } from "../initial-form-groups-state";
 import { PromptState } from "../prompt-state";
 
-export const initialPromptState: PromptState = {
-  formGroups: {},
-  send: null,
-};
+export function initialPromptState(prompt: Prompt): PromptState {
+  return {
+    prompt,
+    formGroups: initialFormGroupsState(prompt.formGroups),
+    send: null,
+  };
+}

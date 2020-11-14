@@ -16,7 +16,7 @@ export function applyForms(
     output[form.name] = applyForm(
       Object.prototype.hasOwnProperty.call(formsState, form.name)
         ? formsState[form.name]
-        : initialFormState,
+        : initialFormState(form),
       form
     );
   }

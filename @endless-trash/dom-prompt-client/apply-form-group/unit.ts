@@ -7,8 +7,17 @@ describe(`applyFormGroup`, () => {
 
   beforeAll(() => {
     const formGroupState: FormGroupState = {
+      formGroup: {
+        name: `Test Form Group Name`,
+        forms: [],
+      },
       forms: {
         "Test Removed Form": {
+          form: {
+            name: `Test Removed Form`,
+            fields: [],
+            submitButtonLabel: `Test Previous Removed Submit Button Label`,
+          },
           fields: {
             "Test Removed Field": {
               editableField: {
@@ -26,6 +35,11 @@ describe(`applyFormGroup`, () => {
           },
         },
         "Test Retained Form": {
+          form: {
+            name: `Test Retained Form`,
+            fields: [],
+            submitButtonLabel: `Test Previous Retained Submit Button Label`,
+          },
           fields: {
             "Test Retained Field": {
               editableField: {
@@ -106,9 +120,71 @@ describe(`applyFormGroup`, () => {
     output = applyFormGroup(formGroupState, formGroup);
   });
 
+  it(`includes the form group`, () => {
+    expect(output.formGroup).toEqual({
+      name: `Test Name`,
+      forms: [
+        {
+          name: `Test Added Form`,
+          fields: [
+            {
+              type: `integer`,
+              name: `Test Added Field`,
+              label: `Test Label`,
+              minimum: null,
+              maximum: null,
+              required: true,
+              value: 64.5,
+            },
+          ],
+          submitButtonLabel: `Test Submit Button Label`,
+        },
+        {
+          name: `Test Retained Form`,
+          fields: [
+            {
+              type: `integer`,
+              name: `Test Reset Field`,
+              label: `Test Label`,
+              minimum: null,
+              maximum: null,
+              required: true,
+              value: 31.1,
+            },
+            {
+              type: `integer`,
+              name: `Test Retained Field`,
+              label: `Test Label`,
+              minimum: null,
+              maximum: null,
+              required: true,
+              value: 44.5,
+            },
+          ],
+          submitButtonLabel: `Test Submit Button Label`,
+        },
+      ],
+    });
+  });
+
   it(`applies form state`, () => {
     expect(output.forms).toEqual({
       "Test Added Form": {
+        form: {
+          name: `Test Added Form`,
+          fields: [
+            {
+              type: `integer`,
+              name: `Test Added Field`,
+              label: `Test Label`,
+              minimum: null,
+              maximum: null,
+              required: true,
+              value: 64.5,
+            },
+          ],
+          submitButtonLabel: `Test Submit Button Label`,
+        },
         fields: {
           "Test Added Field": {
             editableField: {
@@ -126,6 +202,30 @@ describe(`applyFormGroup`, () => {
         },
       },
       "Test Retained Form": {
+        form: {
+          name: `Test Retained Form`,
+          fields: [
+            {
+              type: `integer`,
+              name: `Test Reset Field`,
+              label: `Test Label`,
+              minimum: null,
+              maximum: null,
+              required: true,
+              value: 31.1,
+            },
+            {
+              type: `integer`,
+              name: `Test Retained Field`,
+              label: `Test Label`,
+              minimum: null,
+              maximum: null,
+              required: true,
+              value: 44.5,
+            },
+          ],
+          submitButtonLabel: `Test Submit Button Label`,
+        },
         fields: {
           "Test Retained Field": {
             editableField: {

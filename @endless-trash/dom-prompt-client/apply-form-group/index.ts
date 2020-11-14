@@ -7,6 +7,7 @@ export function applyFormGroup(
   formGroup: FormGroup
 ): FormGroupState {
   return {
+    formGroup,
     forms: applyForms(formGroupState.forms, formGroup.forms),
   };
 }

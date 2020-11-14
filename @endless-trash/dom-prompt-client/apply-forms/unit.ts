@@ -8,6 +8,11 @@ describe(`applyForms`, () => {
   beforeAll(() => {
     const formsState: FormsState = {
       "Test Removed Form": {
+        form: {
+          name: `Test Removed Form`,
+          fields: [],
+          submitButtonLabel: `Test Removed Submit Button Label`,
+        },
         fields: {
           "Test Removed Field": {
             editableField: {
@@ -25,6 +30,11 @@ describe(`applyForms`, () => {
         },
       },
       "Test Retained Form": {
+        form: {
+          name: `Test Retained Form`,
+          fields: [],
+          submitButtonLabel: `Test Previous Retained Submit Button Label`,
+        },
         fields: {
           "Test Retained Field": {
             editableField: {
@@ -103,6 +113,21 @@ describe(`applyForms`, () => {
 
   it(`adds state for added forms`, () => {
     expect(output[`Test Added Form`]).toEqual({
+      form: {
+        name: `Test Added Form`,
+        fields: [
+          {
+            type: `integer`,
+            name: `Test Added Field`,
+            label: `Test Label`,
+            minimum: null,
+            maximum: null,
+            required: true,
+            value: 64.5,
+          },
+        ],
+        submitButtonLabel: `Test Submit Button Label`,
+      },
       fields: {
         "Test Added Field": {
           editableField: {
@@ -123,6 +148,30 @@ describe(`applyForms`, () => {
 
   it(`updates state for retained forms`, () => {
     expect(output[`Test Retained Form`]).toEqual({
+      form: {
+        name: `Test Retained Form`,
+        fields: [
+          {
+            type: `integer`,
+            name: `Test Reset Field`,
+            label: `Test Label`,
+            minimum: null,
+            maximum: null,
+            required: true,
+            value: 31.1,
+          },
+          {
+            type: `integer`,
+            name: `Test Retained Field`,
+            label: `Test Label`,
+            minimum: null,
+            maximum: null,
+            required: true,
+            value: 44.5,
+          },
+        ],
+        submitButtonLabel: `Test Submit Button Label`,
+      },
       fields: {
         "Test Retained Field": {
           editableField: {

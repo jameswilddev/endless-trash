@@ -7,10 +7,22 @@ describe(`applyPrompt`, () => {
 
   beforeAll(() => {
     const promptState: PromptState = {
+      prompt: {
+        formGroups: [],
+      },
       formGroups: {
         "Test Removed Form Group": {
+          formGroup: {
+            name: `Test Removed Form Group`,
+            forms: [],
+          },
           forms: {
             "Test Removed Form": {
+              form: {
+                name: `Test Removed Form`,
+                fields: [],
+                submitButtonLabel: `Test Removed Form`,
+              },
               fields: {
                 "Test Removed Field": {
                   editableField: {
@@ -30,8 +42,17 @@ describe(`applyPrompt`, () => {
           },
         },
         "Test Retained Form Group": {
+          formGroup: {
+            name: `Test Retained Form Group`,
+            forms: [],
+          },
           forms: {
             "Test Retained Form": {
+              form: {
+                name: `Test Retained Form`,
+                fields: [],
+                submitButtonLabel: `Test Previous Retained Form`,
+              },
               fields: {
                 "Test Retained Field": {
                   editableField: {
@@ -124,11 +145,102 @@ describe(`applyPrompt`, () => {
     output = applyPrompt(promptState, prompt);
   });
 
+  it(`includes the prompt`, () => {
+    expect(output.prompt).toEqual({
+      formGroups: [
+        {
+          name: `Test Added Form Group`,
+          forms: [
+            {
+              name: `Test Added Form`,
+              fields: [
+                {
+                  type: `integer`,
+                  name: `Test Added Field`,
+                  label: `Test Label`,
+                  minimum: null,
+                  maximum: null,
+                  required: true,
+                  value: 64.5,
+                },
+              ],
+              submitButtonLabel: `Test Submit Button Label`,
+            },
+          ],
+        },
+        {
+          name: `Test Retained Form Group`,
+          forms: [
+            {
+              name: `Test Retained Form`,
+              fields: [
+                {
+                  type: `integer`,
+                  name: `Test Reset Field`,
+                  label: `Test Label`,
+                  minimum: null,
+                  maximum: null,
+                  required: true,
+                  value: 31.1,
+                },
+                {
+                  type: `integer`,
+                  name: `Test Retained Field`,
+                  label: `Test Label`,
+                  minimum: null,
+                  maximum: null,
+                  required: true,
+                  value: 44.5,
+                },
+              ],
+              submitButtonLabel: `Test Submit Button Label`,
+            },
+          ],
+        },
+      ],
+    });
+  });
+
   it(`applies form group state`, () => {
     expect(output.formGroups).toEqual({
       "Test Added Form Group": {
+        formGroup: {
+          name: `Test Added Form Group`,
+          forms: [
+            {
+              name: `Test Added Form`,
+              fields: [
+                {
+                  type: `integer`,
+                  name: `Test Added Field`,
+                  label: `Test Label`,
+                  minimum: null,
+                  maximum: null,
+                  required: true,
+                  value: 64.5,
+                },
+              ],
+              submitButtonLabel: `Test Submit Button Label`,
+            },
+          ],
+        },
         forms: {
           "Test Added Form": {
+            form: {
+              name: `Test Added Form`,
+              fields: [
+                {
+                  type: `integer`,
+                  name: `Test Added Field`,
+                  label: `Test Label`,
+                  minimum: null,
+                  maximum: null,
+                  required: true,
+                  value: 64.5,
+                },
+              ],
+              submitButtonLabel: `Test Submit Button Label`,
+            },
             fields: {
               "Test Added Field": {
                 editableField: {
@@ -148,8 +260,61 @@ describe(`applyPrompt`, () => {
         },
       },
       "Test Retained Form Group": {
+        formGroup: {
+          name: `Test Retained Form Group`,
+          forms: [
+            {
+              name: `Test Retained Form`,
+              fields: [
+                {
+                  type: `integer`,
+                  name: `Test Reset Field`,
+                  label: `Test Label`,
+                  minimum: null,
+                  maximum: null,
+                  required: true,
+                  value: 31.1,
+                },
+                {
+                  type: `integer`,
+                  name: `Test Retained Field`,
+                  label: `Test Label`,
+                  minimum: null,
+                  maximum: null,
+                  required: true,
+                  value: 44.5,
+                },
+              ],
+              submitButtonLabel: `Test Submit Button Label`,
+            },
+          ],
+        },
         forms: {
           "Test Retained Form": {
+            form: {
+              name: `Test Retained Form`,
+              fields: [
+                {
+                  type: `integer`,
+                  name: `Test Reset Field`,
+                  label: `Test Label`,
+                  minimum: null,
+                  maximum: null,
+                  required: true,
+                  value: 31.1,
+                },
+                {
+                  type: `integer`,
+                  name: `Test Retained Field`,
+                  label: `Test Label`,
+                  minimum: null,
+                  maximum: null,
+                  required: true,
+                  value: 44.5,
+                },
+              ],
+              submitButtonLabel: `Test Submit Button Label`,
+            },
             fields: {
               "Test Retained Field": {
                 editableField: {
