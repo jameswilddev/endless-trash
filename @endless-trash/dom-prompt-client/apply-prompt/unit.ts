@@ -7,6 +7,7 @@ describe(`applyPrompt`, () => {
 
   beforeAll(() => {
     const promptState: PromptState = {
+      type: `prompt`,
       prompt: {
         formGroups: [],
       },
@@ -143,6 +144,10 @@ describe(`applyPrompt`, () => {
     };
 
     output = applyPrompt(promptState, prompt);
+  });
+
+  it(`includes the type`, () => {
+    expect(output.type).toEqual(`prompt`);
   });
 
   it(`includes the prompt`, () => {

@@ -6,6 +6,7 @@ describe(`updateField`, () => {
 
   beforeAll(() => {
     const promptState: PromptState = {
+      type: `prompt`,
       prompt: {
         formGroups: [],
       },
@@ -182,6 +183,7 @@ describe(`updateField`, () => {
 
   it(`replaces the field's raw value`, () => {
     expect(output).toEqual({
+      type: `prompt`,
       prompt: {
         formGroups: [],
       },

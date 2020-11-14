@@ -7,6 +7,7 @@ export function applyPrompt(
   prompt: Prompt
 ): PromptState {
   return {
+    type: `prompt`,
     prompt,
     formGroups: applyFormGroups(promptState.formGroups, prompt.formGroups),
     send: null,

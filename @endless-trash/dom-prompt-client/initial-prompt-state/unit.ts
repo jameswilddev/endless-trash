@@ -217,6 +217,10 @@ describe(`initialFormGroupsState`, () => {
     });
   });
 
+  it(`includes the type`, () => {
+    expect(output.type).toEqual(`prompt`);
+  });
+
   it(`includes the form groups`, () => {
     expect(output.formGroups).toEqual({
       "Test Form Group A Name": {

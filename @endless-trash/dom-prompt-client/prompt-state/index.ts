@@ -3,6 +3,7 @@ import { FormGroupState } from "../form-group-state";
 import { SendState } from "../send-state";
 
 export type PromptState = {
+  readonly type: `prompt`;
   readonly prompt: Prompt;
   readonly formGroups: {
     readonly [name: string]: FormGroupState;

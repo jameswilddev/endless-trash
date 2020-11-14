@@ -4,6 +4,7 @@ import { PromptState } from "../prompt-state";
 
 export function initialPromptState(prompt: Prompt): PromptState {
   return {
+    type: `prompt`,
     prompt,
     formGroups: initialFormGroupsState(prompt.formGroups),
     send: null,
