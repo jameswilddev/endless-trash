@@ -13,12 +13,12 @@ export function applyFormGroups(
   } = {};
 
   for (const formGroup of formGroups) {
-    output[formGroup.name] = applyFormGroup(
-      Object.prototype.hasOwnProperty.call(formGroupsState, formGroup.name)
-        ? formGroupsState[formGroup.name]
-        : initialFormGroupState(formGroup),
-      formGroup
-    );
+    output[formGroup.name] = Object.prototype.hasOwnProperty.call(
+      formGroupsState,
+      formGroup.name
+    )
+      ? applyFormGroup(formGroupsState[formGroup.name], formGroup)
+      : initialFormGroupState(formGroup);
   }
 
   return output;

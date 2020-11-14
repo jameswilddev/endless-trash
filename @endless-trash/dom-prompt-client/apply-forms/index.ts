@@ -13,12 +13,12 @@ export function applyForms(
   } = {};
 
   for (const form of forms) {
-    output[form.name] = applyForm(
-      Object.prototype.hasOwnProperty.call(formsState, form.name)
-        ? formsState[form.name]
-        : initialFormState(form),
-      form
-    );
+    output[form.name] = Object.prototype.hasOwnProperty.call(
+      formsState,
+      form.name
+    )
+      ? applyForm(formsState[form.name], form)
+      : initialFormState(form);
   }
 
   return output;
