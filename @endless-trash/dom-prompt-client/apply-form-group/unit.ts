@@ -11,6 +11,7 @@ describe(`applyFormGroup`, () => {
         name: `Test Form Group Name`,
         forms: [],
       },
+      id: `Test Form Group Id`,
       forms: {
         "Test Removed Form": {
           form: {
@@ -18,6 +19,7 @@ describe(`applyFormGroup`, () => {
             fields: [],
             submitButtonLabel: `Test Previous Removed Submit Button Label`,
           },
+          id: `Test Removed Form Id`,
           fields: {
             "Test Removed Field": {
               editableField: {
@@ -29,6 +31,7 @@ describe(`applyFormGroup`, () => {
                 required: true,
                 value: 87.4,
               },
+              id: `Test Removed Field Id`,
               parsed: 13.3,
               raw: `Test Removed Raw`,
             },
@@ -40,6 +43,7 @@ describe(`applyFormGroup`, () => {
             fields: [],
             submitButtonLabel: `Test Previous Retained Submit Button Label`,
           },
+          id: `Test Retained Form Id`,
           fields: {
             "Test Retained Field": {
               editableField: {
@@ -51,6 +55,7 @@ describe(`applyFormGroup`, () => {
                 required: true,
                 value: 44.5,
               },
+              id: `Test Retained Field Id`,
               parsed: 11.2,
               raw: `Test Retained Raw`,
             },
@@ -64,6 +69,7 @@ describe(`applyFormGroup`, () => {
                 required: true,
                 value: 74.21,
               },
+              id: `Test Reset Field Id`,
               parsed: 82.4,
               raw: `Test Reset Raw`,
             },
@@ -73,7 +79,7 @@ describe(`applyFormGroup`, () => {
     };
 
     const formGroup: FormGroup = {
-      name: `Test Name`,
+      name: `Test Form Group Name`,
       forms: [
         {
           name: `Test Added Form`,
@@ -122,7 +128,7 @@ describe(`applyFormGroup`, () => {
 
   it(`includes the form group`, () => {
     expect(output.formGroup).toEqual({
-      name: `Test Name`,
+      name: `Test Form Group Name`,
       forms: [
         {
           name: `Test Added Form`,
@@ -167,6 +173,10 @@ describe(`applyFormGroup`, () => {
     });
   });
 
+  it(`does not change the id`, () => {
+    expect(output.id).toEqual(`Test Form Group Id`);
+  });
+
   it(`applies form state`, () => {
     expect(output.forms).toEqual({
       "Test Added Form": {
@@ -185,6 +195,7 @@ describe(`applyFormGroup`, () => {
           ],
           submitButtonLabel: `Test Submit Button Label`,
         },
+        id: `test-form-group-name--test-added-form`,
         fields: {
           "Test Added Field": {
             editableField: {
@@ -196,6 +207,7 @@ describe(`applyFormGroup`, () => {
               required: true,
               value: 64.5,
             },
+            id: `test-form-group-name--test-added-form--test-added-field`,
             parsed: 64.5,
             raw: `64.5`,
           },
@@ -226,6 +238,7 @@ describe(`applyFormGroup`, () => {
           ],
           submitButtonLabel: `Test Submit Button Label`,
         },
+        id: `Test Retained Form Id`,
         fields: {
           "Test Retained Field": {
             editableField: {
@@ -237,6 +250,7 @@ describe(`applyFormGroup`, () => {
               required: true,
               value: 44.5,
             },
+            id: `Test Retained Field Id`,
             parsed: 11.2,
             raw: `Test Retained Raw`,
           },
@@ -250,6 +264,7 @@ describe(`applyFormGroup`, () => {
               required: true,
               value: 31.1,
             },
+            id: `Test Reset Field Id`,
             parsed: 31.1,
             raw: `31.1`,
           },

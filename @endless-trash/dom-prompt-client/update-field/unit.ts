@@ -16,6 +16,7 @@ describe(`updateField`, () => {
             name: `Test Other Form Group Name`,
             forms: [],
           },
+          id: `Test Other Id`,
           forms: {
             "Test Form Name": {
               form: {
@@ -23,6 +24,7 @@ describe(`updateField`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
+              id: `Test Other Id`,
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -34,6 +36,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
@@ -47,6 +50,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 93.1,
                   raw: `Test Other Raw`,
                 },
@@ -58,6 +62,7 @@ describe(`updateField`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
+              id: `Test Other Id`,
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -69,6 +74,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
@@ -82,6 +88,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 93.1,
                   raw: `Test Other Raw`,
                 },
@@ -94,6 +101,7 @@ describe(`updateField`, () => {
             name: `Test Form Group Name`,
             forms: [],
           },
+          id: `Test Form Group Id`,
           forms: {
             "Test Form Name": {
               form: {
@@ -101,6 +109,7 @@ describe(`updateField`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
+              id: `Test Form Id`,
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -112,6 +121,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
@@ -125,6 +135,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Field Id`,
                   parsed: 494.2,
                   raw: `Test Raw`,
                 },
@@ -136,6 +147,7 @@ describe(`updateField`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
+              id: `Test Other Id`,
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -147,6 +159,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
@@ -160,6 +173,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 93.1,
                   raw: `Test Other Raw`,
                 },
@@ -181,7 +195,7 @@ describe(`updateField`, () => {
     );
   });
 
-  it(`replaces the field's raw value`, () => {
+  it(`replaces the field's parsed and raw values`, () => {
     expect(output).toEqual({
       type: `prompt`,
       prompt: {
@@ -193,6 +207,7 @@ describe(`updateField`, () => {
             name: `Test Other Form Group Name`,
             forms: [],
           },
+          id: `Test Other Id`,
           forms: {
             "Test Form Name": {
               form: {
@@ -200,6 +215,7 @@ describe(`updateField`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
+              id: `Test Other Id`,
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -211,6 +227,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
@@ -224,6 +241,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 93.1,
                   raw: `Test Other Raw`,
                 },
@@ -235,6 +253,7 @@ describe(`updateField`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
+              id: `Test Other Id`,
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -246,6 +265,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
@@ -259,6 +279,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 93.1,
                   raw: `Test Other Raw`,
                 },
@@ -271,6 +292,7 @@ describe(`updateField`, () => {
             name: `Test Form Group Name`,
             forms: [],
           },
+          id: `Test Form Group Id`,
           forms: {
             "Test Form Name": {
               form: {
@@ -278,6 +300,7 @@ describe(`updateField`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
+              id: `Test Form Id`,
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -289,6 +312,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
@@ -302,6 +326,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Field Id`,
                   parsed: 184.2,
                   raw: `Test Updated Raw`,
                 },
@@ -313,6 +338,7 @@ describe(`updateField`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
+              id: `Test Other Id`,
               fields: {
                 "Test Other Field Name": {
                   editableField: {
@@ -324,6 +350,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
@@ -337,6 +364,7 @@ describe(`updateField`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Other Id`,
                   parsed: 93.1,
                   raw: `Test Other Raw`,
                 },

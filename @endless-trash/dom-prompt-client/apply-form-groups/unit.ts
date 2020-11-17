@@ -12,6 +12,7 @@ describe(`applyFormGroups`, () => {
           name: `Test Removed Form Group`,
           forms: [],
         },
+        id: `Test Removed Form Group Id`,
         forms: {
           "Test Removed Form": {
             form: {
@@ -19,6 +20,7 @@ describe(`applyFormGroups`, () => {
               fields: [],
               submitButtonLabel: `Test Removed Submit Button Label`,
             },
+            id: `Test Removed Form Id`,
             fields: {
               "Test Removed Field": {
                 editableField: {
@@ -30,6 +32,7 @@ describe(`applyFormGroups`, () => {
                   required: true,
                   value: 87.4,
                 },
+                id: `Test Removed Field Id`,
                 parsed: 13.3,
                 raw: `Test Removed Raw`,
               },
@@ -42,6 +45,7 @@ describe(`applyFormGroups`, () => {
           name: `Test Retained Form Group`,
           forms: [],
         },
+        id: `Test Retained Form Group Id`,
         forms: {
           "Test Retained Form": {
             form: {
@@ -49,6 +53,7 @@ describe(`applyFormGroups`, () => {
               fields: [],
               submitButtonLabel: `Test Previous Retained Submit Button Label`,
             },
+            id: `Test Retained Form Id`,
             fields: {
               "Test Retained Field": {
                 editableField: {
@@ -60,6 +65,7 @@ describe(`applyFormGroups`, () => {
                   required: true,
                   value: 44.5,
                 },
+                id: `Test Retained Field Id`,
                 parsed: 11.2,
                 raw: `Test Retained Raw`,
               },
@@ -73,6 +79,7 @@ describe(`applyFormGroups`, () => {
                   required: true,
                   value: 74.21,
                 },
+                id: `Test Reset Field Id`,
                 parsed: 82.4,
                 raw: `Test Reset Raw`,
               },
@@ -159,6 +166,7 @@ describe(`applyFormGroups`, () => {
           },
         ],
       },
+      id: `test-added-form-group`,
       forms: {
         "Test Added Form": {
           form: {
@@ -176,6 +184,7 @@ describe(`applyFormGroups`, () => {
             ],
             submitButtonLabel: `Test Submit Button Label`,
           },
+          id: `test-added-form-group--test-added-form`,
           fields: {
             "Test Added Field": {
               editableField: {
@@ -187,6 +196,7 @@ describe(`applyFormGroups`, () => {
                 required: true,
                 value: 64.5,
               },
+              id: `test-added-form-group--test-added-form--test-added-field`,
               parsed: 64.5,
               raw: `64.5`,
             },
@@ -196,7 +206,7 @@ describe(`applyFormGroups`, () => {
     });
   });
 
-  it(`updates state for retained form grouops`, () => {
+  it(`updates state for retained form groups`, () => {
     expect(output[`Test Retained Form Group`]).toEqual({
       formGroup: {
         name: `Test Retained Form Group`,
@@ -227,6 +237,7 @@ describe(`applyFormGroups`, () => {
           },
         ],
       },
+      id: `Test Retained Form Group Id`,
       forms: {
         "Test Retained Form": {
           form: {
@@ -253,6 +264,7 @@ describe(`applyFormGroups`, () => {
             ],
             submitButtonLabel: `Test Submit Button Label`,
           },
+          id: `Test Retained Form Id`,
           fields: {
             "Test Retained Field": {
               editableField: {
@@ -264,6 +276,7 @@ describe(`applyFormGroups`, () => {
                 required: true,
                 value: 44.5,
               },
+              id: `Test Retained Field Id`,
               parsed: 11.2,
               raw: `Test Retained Raw`,
             },
@@ -277,6 +290,7 @@ describe(`applyFormGroups`, () => {
                 required: true,
                 value: 31.1,
               },
+              id: `Test Reset Field Id`,
               parsed: 31.1,
               raw: `31.1`,
             },

@@ -1,4 +1,4 @@
-import { Form } from "@endless-trash/prompt";
+import { Form, FormGroup } from "@endless-trash/prompt";
 import { applyForm } from ".";
 import { FormState } from "../form-state";
 
@@ -6,12 +6,18 @@ describe(`applyForm`, () => {
   let output: FormState;
 
   beforeAll(() => {
+    const formGroup: FormGroup = {
+      name: `Test Form Group Name`,
+      forms: [],
+    };
+
     const formState: FormState = {
       form: {
         name: `Test Previous Form Name`,
         fields: [],
         submitButtonLabel: `Test Previous Submit Button Label`,
       },
+      id: `Test Form Id`,
       fields: {
         "Test Retained Field": {
           editableField: {
@@ -23,6 +29,7 @@ describe(`applyForm`, () => {
             required: true,
             value: 44.5,
           },
+          id: `Test Retained Field Id`,
           parsed: 11.2,
           raw: `Test Retained Raw`,
         },
@@ -36,6 +43,7 @@ describe(`applyForm`, () => {
             required: true,
             value: 74.21,
           },
+          id: `Test Reset Field Id`,
           parsed: 82.4,
           raw: `Test Reset Raw`,
         },
@@ -67,7 +75,7 @@ describe(`applyForm`, () => {
       submitButtonLabel: `Test Submit Button Label`,
     };
 
-    output = applyForm(formState, form);
+    output = applyForm(formGroup, formState, form);
   });
 
   it(`includes the form`, () => {
@@ -97,6 +105,10 @@ describe(`applyForm`, () => {
     });
   });
 
+  it(`does not change the id`, () => {
+    expect(output.id).toEqual(`Test Form Id`);
+  });
+
   it(`applies field state`, () => {
     expect(output.fields).toEqual({
       "Test Retained Field": {
@@ -109,6 +121,7 @@ describe(`applyForm`, () => {
           required: true,
           value: 44.5,
         },
+        id: `Test Retained Field Id`,
         parsed: 11.2,
         raw: `Test Retained Raw`,
       },
@@ -122,6 +135,7 @@ describe(`applyForm`, () => {
           required: true,
           value: 31.1,
         },
+        id: `Test Reset Field Id`,
         parsed: 31.1,
         raw: `31.1`,
       },

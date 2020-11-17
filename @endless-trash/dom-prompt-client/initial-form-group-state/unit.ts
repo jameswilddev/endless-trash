@@ -111,6 +111,10 @@ describe(`initialFormGroupState`, () => {
     });
   });
 
+  it(`includes an id`, () => {
+    expect(output.id).toEqual(`test-form-group-name`);
+  });
+
   it(`includes the forms`, () => {
     expect(output.forms).toEqual({
       "Test Form A Name": {
@@ -136,6 +140,7 @@ describe(`initialFormGroupState`, () => {
           ],
           submitButtonLabel: `Test Form A Submit Button Label`,
         },
+        id: `test-form-group-name--test-form-a-name`,
         fields: {
           "Test Field A A Name": {
             editableField: {
@@ -146,6 +151,7 @@ describe(`initialFormGroupState`, () => {
               minimumLength: null,
               maximumLength: null,
             },
+            id: `test-form-group-name--test-form-a-name--test-field-a-a-name`,
             parsed: `Test Field A A Value`,
             raw: `Test Field A A Value`,
           },
@@ -158,6 +164,7 @@ describe(`initialFormGroupState`, () => {
               minimumLength: null,
               maximumLength: null,
             },
+            id: `test-form-group-name--test-form-a-name--test-field-a-b-name`,
             parsed: `Test Field A B Value`,
             raw: `Test Field A B Value`,
           },
@@ -186,6 +193,7 @@ describe(`initialFormGroupState`, () => {
           ],
           submitButtonLabel: `Test Form B Submit Button Label`,
         },
+        id: `test-form-group-name--test-form-b-name`,
         fields: {
           "Test Field B A Name": {
             editableField: {
@@ -196,6 +204,7 @@ describe(`initialFormGroupState`, () => {
               minimumLength: null,
               maximumLength: null,
             },
+            id: `test-form-group-name--test-form-b-name--test-field-b-a-name`,
             parsed: `Test Field B A Value`,
             raw: `Test Field B A Value`,
           },
@@ -208,6 +217,7 @@ describe(`initialFormGroupState`, () => {
               minimumLength: null,
               maximumLength: null,
             },
+            id: `test-form-group-name--test-form-b-name--test-field-b-b-name`,
             parsed: `Test Field B B Value`,
             raw: `Test Field B B Value`,
           },

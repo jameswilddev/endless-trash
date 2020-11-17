@@ -17,6 +17,7 @@ describe(`applyPrompt`, () => {
             name: `Test Removed Form Group`,
             forms: [],
           },
+          id: `Test Removed Form Group Id`,
           forms: {
             "Test Removed Form": {
               form: {
@@ -24,6 +25,7 @@ describe(`applyPrompt`, () => {
                 fields: [],
                 submitButtonLabel: `Test Removed Form`,
               },
+              id: `Test Removed Form Id`,
               fields: {
                 "Test Removed Field": {
                   editableField: {
@@ -35,6 +37,7 @@ describe(`applyPrompt`, () => {
                     required: true,
                     value: 87.4,
                   },
+                  id: `Test Removed Field Id`,
                   parsed: 13.3,
                   raw: `Test Removed Raw`,
                 },
@@ -47,6 +50,7 @@ describe(`applyPrompt`, () => {
             name: `Test Retained Form Group`,
             forms: [],
           },
+          id: `Test Retained Form Group Id`,
           forms: {
             "Test Retained Form": {
               form: {
@@ -54,6 +58,7 @@ describe(`applyPrompt`, () => {
                 fields: [],
                 submitButtonLabel: `Test Previous Retained Form`,
               },
+              id: `Test Retained Form Id`,
               fields: {
                 "Test Retained Field": {
                   editableField: {
@@ -65,6 +70,7 @@ describe(`applyPrompt`, () => {
                     required: true,
                     value: 44.5,
                   },
+                  id: `Test Retained Field Id`,
                   parsed: 11.2,
                   raw: `Test Retained Raw`,
                 },
@@ -78,6 +84,7 @@ describe(`applyPrompt`, () => {
                     required: true,
                     value: 74.21,
                   },
+                  id: `Test Reset Field Id`,
                   parsed: 82.4,
                   raw: `Test Reset Raw`,
                 },
@@ -229,6 +236,7 @@ describe(`applyPrompt`, () => {
             },
           ],
         },
+        id: `test-added-form-group`,
         forms: {
           "Test Added Form": {
             form: {
@@ -246,6 +254,7 @@ describe(`applyPrompt`, () => {
               ],
               submitButtonLabel: `Test Submit Button Label`,
             },
+            id: `test-added-form-group--test-added-form`,
             fields: {
               "Test Added Field": {
                 editableField: {
@@ -257,6 +266,7 @@ describe(`applyPrompt`, () => {
                   required: true,
                   value: 64.5,
                 },
+                id: `test-added-form-group--test-added-form--test-added-field`,
                 parsed: 64.5,
                 raw: `64.5`,
               },
@@ -294,6 +304,7 @@ describe(`applyPrompt`, () => {
             },
           ],
         },
+        id: `Test Retained Form Group Id`,
         forms: {
           "Test Retained Form": {
             form: {
@@ -320,6 +331,7 @@ describe(`applyPrompt`, () => {
               ],
               submitButtonLabel: `Test Submit Button Label`,
             },
+            id: `Test Retained Form Id`,
             fields: {
               "Test Retained Field": {
                 editableField: {
@@ -331,6 +343,7 @@ describe(`applyPrompt`, () => {
                   required: true,
                   value: 44.5,
                 },
+                id: `Test Retained Field Id`,
                 parsed: 11.2,
                 raw: `Test Retained Raw`,
               },
@@ -344,6 +357,7 @@ describe(`applyPrompt`, () => {
                   required: true,
                   value: 31.1,
                 },
+                id: `Test Reset Field Id`,
                 parsed: 31.1,
                 raw: `31.1`,
               },

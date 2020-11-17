@@ -1,4 +1,4 @@
-import { Form } from "@endless-trash/prompt";
+import { Form, FormGroup } from "@endless-trash/prompt";
 import { initialFormState } from ".";
 import { FormState } from "../form-state";
 
@@ -6,6 +6,11 @@ describe(`initialFormState`, () => {
   let output: FormState;
 
   beforeAll(() => {
+    const formGroup: FormGroup = {
+      name: `Test Form Group Name`,
+      forms: [],
+    };
+
     const form: Form = {
       name: `Test Form Name`,
       fields: [
@@ -29,7 +34,7 @@ describe(`initialFormState`, () => {
       submitButtonLabel: `Test Form Submit Button Label`,
     };
 
-    output = initialFormState(form);
+    output = initialFormState(formGroup, form);
   });
 
   it(`includes the form`, () => {
@@ -57,6 +62,10 @@ describe(`initialFormState`, () => {
     });
   });
 
+  it(`includes the id`, () => {
+    expect(output.id).toEqual(`test-form-group-name--test-form-name`);
+  });
+
   it(`includes the fields`, () => {
     expect(output.fields).toEqual({
       "Test Field A Name": {
@@ -68,6 +77,7 @@ describe(`initialFormState`, () => {
           minimumLength: null,
           maximumLength: null,
         },
+        id: `test-form-group-name--test-form-name--test-field-a-name`,
         parsed: `Test Field A Value`,
         raw: `Test Field A Value`,
       },
@@ -80,6 +90,7 @@ describe(`initialFormState`, () => {
           minimumLength: null,
           maximumLength: null,
         },
+        id: `test-form-group-name--test-form-name--test-field-b-name`,
         parsed: `Test Field B Value`,
         raw: `Test Field B Value`,
       },

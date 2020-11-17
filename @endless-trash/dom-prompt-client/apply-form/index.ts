@@ -1,10 +1,15 @@
-import { Form } from "@endless-trash/prompt";
+import { Form, FormGroup } from "@endless-trash/prompt";
 import { applyFields } from "../apply-fields";
 import { FormState } from "../form-state";
 
-export function applyForm(formState: FormState, form: Form): FormState {
+export function applyForm(
+  formGroup: FormGroup,
+  formState: FormState,
+  form: Form
+): FormState {
   return {
+    ...formState,
     form,
-    fields: applyFields(formState.fields, form.fields),
+    fields: applyFields(formGroup, form, formState.fields),
   };
 }
