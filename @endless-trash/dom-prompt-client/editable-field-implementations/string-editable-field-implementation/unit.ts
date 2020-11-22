@@ -1,6 +1,9 @@
 import { RequestStringField, StringField } from "@endless-trash/prompt";
+import { h, text, VDOM } from "hyperapp-cjs";
 import { stringEditableFieldImplementation } from ".";
+import { PromptState } from "../../prompt-state";
 import { RawFieldValue } from "../../raw-field-value";
+import { State } from "../../state";
 
 describe(`stringEditableFieldImplementation`, () => {
   describe(`parseValue`, () => {
@@ -150,5 +153,217 @@ describe(`stringEditableFieldImplementation`, () => {
     it(`returns the given value`, () => {
       expect(raw).toEqual(`Test Value`);
     });
+  });
+
+  describe(`view`, () => {
+    function scenario(
+      description: string,
+      editableField: StringField,
+      rendered: ReadonlyArray<VDOM<State>>
+    ): void {
+      describe(description, () => {
+        let channelSend: jasmine.Spy;
+        let output: ReadonlyArray<VDOM<State>>;
+
+        beforeAll(() => {
+          channelSend = jasmine.createSpy(`channelSend`);
+
+          const promptState: PromptState = {
+            type: `prompt`,
+            prompt: {
+              formGroups: [],
+            },
+            formGroups: {
+              "Test Other Form Group Name": {
+                formGroup: { name: `Test Other Form Group Name`, forms: [] },
+                id: `test-other-form-group-id`,
+                forms: {},
+              },
+              "Test Form Group Name": {
+                formGroup: { name: `Test Form Group Name`, forms: [] },
+                id: `test-form-group-id`,
+                forms: {
+                  "Test Other Form Name": {
+                    form: {
+                      name: `Test Other Form Name`,
+                      fields: [],
+                      submitButtonLabel: `Test Submit Button Label`,
+                    },
+                    id: `test-other-form-id`,
+                    fields: {},
+                  },
+                  "Test Form Name": {
+                    form: {
+                      name: `Test Form Name`,
+                      fields: [],
+                      submitButtonLabel: `Test Submit Button Label`,
+                    },
+                    id: `test-form-id`,
+                    fields: {
+                      "Test Other Field Name": {
+                        editableField: {
+                          name: `Test Other Field Name`,
+                          type: `string`,
+                          label: `Test Other Label`,
+                          value: `Test Other Value`,
+                          minimumLength: 54,
+                          maximumLength: 125,
+                        },
+                        id: `test-other-field-id`,
+                        raw: `Test Other Raw`,
+                        parsed: `Test Other Parsed`,
+                      },
+                      "Test Field Name": {
+                        editableField,
+                        id: `test-field-id`,
+                        raw: `Test Raw`,
+                        parsed: `Test Parsed`,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            sendState: null,
+            channelSend,
+          };
+
+          output = stringEditableFieldImplementation.view(
+            promptState,
+            `Test Form Group Name`,
+            `Test Form Name`,
+            `Test Field Name`
+          );
+        });
+
+        it(`generates the expected DOM`, () => {
+          expect(output).toEqual(rendered);
+        });
+
+        it(`does not send a message through the channel`, () => {
+          expect(channelSend).not.toHaveBeenCalled();
+        });
+      });
+    }
+
+    scenario(
+      `minimal`,
+      {
+        name: `Test Field Name`,
+        type: `string`,
+        label: `Test Label`,
+        value: `Test Value`,
+        minimumLength: null,
+        maximumLength: null,
+      },
+      [
+        h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+        h(`input`, {
+          type: `text`,
+          id: `test-field-id--input`,
+          name: `test-field-id`,
+          required: false,
+          minlength: undefined,
+          maxlength: undefined,
+          value: `Test Raw`,
+        }),
+      ]
+    );
+
+    scenario(
+      `minimum length zero`,
+      {
+        name: `Test Field Name`,
+        type: `string`,
+        label: `Test Label`,
+        value: `Test Value`,
+        minimumLength: 0,
+        maximumLength: null,
+      },
+      [
+        h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+        h(`input`, {
+          type: `text`,
+          id: `test-field-id--input`,
+          name: `test-field-id`,
+          required: false,
+          minlength: undefined,
+          maxlength: undefined,
+          value: `Test Raw`,
+        }),
+      ]
+    );
+
+    scenario(
+      `minimum length one`,
+      {
+        name: `Test Field Name`,
+        type: `string`,
+        label: `Test Label`,
+        value: `Test Value`,
+        minimumLength: 1,
+        maximumLength: null,
+      },
+      [
+        h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+        h(`input`, {
+          type: `text`,
+          id: `test-field-id--input`,
+          name: `test-field-id`,
+          required: true,
+          minlength: 1,
+          maxlength: undefined,
+          value: `Test Raw`,
+        }),
+      ]
+    );
+
+    scenario(
+      `minimum length two`,
+      {
+        name: `Test Field Name`,
+        type: `string`,
+        label: `Test Label`,
+        value: `Test Value`,
+        minimumLength: 2,
+        maximumLength: null,
+      },
+      [
+        h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+        h(`input`, {
+          type: `text`,
+          id: `test-field-id--input`,
+          name: `test-field-id`,
+          required: true,
+          minlength: 2,
+          maxlength: undefined,
+          value: `Test Raw`,
+        }),
+      ]
+    );
+
+    scenario(
+      `maximum length`,
+      {
+        name: `Test Field Name`,
+        type: `string`,
+        label: `Test Label`,
+        value: `Test Value`,
+        minimumLength: null,
+        maximumLength: 5,
+      },
+      [
+        h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+        h(`input`, {
+          type: `text`,
+          id: `test-field-id--input`,
+          name: `test-field-id`,
+          required: false,
+          minlength: undefined,
+          maxlength: 5,
+          value: `Test Raw`,
+        }),
+      ]
+    );
   });
 });

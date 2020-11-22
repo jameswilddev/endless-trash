@@ -8,7 +8,7 @@ describe(`updateFieldRaw`, () => {
   let output: PromptState;
 
   beforeAll(() => {
-    const channelSend = jasmine.createSpy(`channelSend`);
+    channelSend = jasmine.createSpy(`channelSend`);
 
     const promptState: PromptState = {
       type: `prompt`,

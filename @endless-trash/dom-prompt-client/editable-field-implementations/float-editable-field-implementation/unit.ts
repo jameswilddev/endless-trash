@@ -1,6 +1,9 @@
 import { FloatField, RequestFloatField } from "@endless-trash/prompt";
+import { h, text, VDOM } from "hyperapp-cjs";
 import { floatEditableFieldImplementation } from ".";
+import { PromptState } from "../../prompt-state";
 import { RawFieldValue } from "../../raw-field-value";
+import { State } from "../../state";
 
 describe(`floatEditableFieldImplementation`, () => {
   describe(`parseValue`, () => {
@@ -996,5 +999,201 @@ describe(`floatEditableFieldImplementation`, () => {
         expect(raw).toEqual(`-273.712`);
       });
     });
+  });
+
+  describe(`view`, () => {
+    function scenario(
+      description: string,
+      editableField: FloatField,
+      rendered: ReadonlyArray<VDOM<State>>
+    ): void {
+      describe(description, () => {
+        let channelSend: jasmine.Spy;
+        let output: ReadonlyArray<VDOM<State>>;
+
+        beforeAll(() => {
+          channelSend = jasmine.createSpy(`channelSend`);
+
+          const promptState: PromptState = {
+            type: `prompt`,
+            prompt: {
+              formGroups: [],
+            },
+            formGroups: {
+              "Test Other Form Group Name": {
+                formGroup: { name: `Test Other Form Group Name`, forms: [] },
+                id: `test-other-form-group-id`,
+                forms: {},
+              },
+              "Test Form Group Name": {
+                formGroup: { name: `Test Form Group Name`, forms: [] },
+                id: `test-form-group-id`,
+                forms: {
+                  "Test Other Form Name": {
+                    form: {
+                      name: `Test Other Form Name`,
+                      fields: [],
+                      submitButtonLabel: `Test Submit Button Label`,
+                    },
+                    id: `test-other-form-id`,
+                    fields: {},
+                  },
+                  "Test Form Name": {
+                    form: {
+                      name: `Test Form Name`,
+                      fields: [],
+                      submitButtonLabel: `Test Submit Button Label`,
+                    },
+                    id: `test-form-id`,
+                    fields: {
+                      "Test Other Field Name": {
+                        editableField: {
+                          name: `Test Other Field Name`,
+                          type: `string`,
+                          label: `Test Other Label`,
+                          value: `Test Other Value`,
+                          minimumLength: 54,
+                          maximumLength: 125,
+                        },
+                        id: `test-other-field-id`,
+                        raw: `Test Other Raw`,
+                        parsed: `Test Other Parsed`,
+                      },
+                      "Test Field Name": {
+                        editableField,
+                        id: `test-field-id`,
+                        raw: `Test Raw`,
+                        parsed: `Test Parsed`,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            sendState: null,
+            channelSend,
+          };
+
+          output = floatEditableFieldImplementation.view(
+            promptState,
+            `Test Form Group Name`,
+            `Test Form Name`,
+            `Test Field Name`
+          );
+        });
+
+        it(`generates the expected DOM`, () => {
+          expect(output).toEqual(rendered);
+        });
+
+        it(`does not send a message through the channel`, () => {
+          expect(channelSend).not.toHaveBeenCalled();
+        });
+      });
+    }
+
+    scenario(
+      `minimal`,
+      {
+        name: `Test Field Name`,
+        type: `float`,
+        label: `Test Label`,
+        value: 32,
+        minimum: null,
+        maximum: null,
+        required: false,
+      },
+      [
+        h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+        h(`input`, {
+          type: `number`,
+          step: `any`,
+          id: `test-field-id--input`,
+          name: `test-field-id`,
+          required: false,
+          min: undefined,
+          max: undefined,
+          value: `Test Raw`,
+        }),
+      ]
+    );
+
+    scenario(
+      `required`,
+      {
+        name: `Test Field Name`,
+        type: `float`,
+        label: `Test Label`,
+        value: 32,
+        minimum: null,
+        maximum: null,
+        required: true,
+      },
+      [
+        h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+        h(`input`, {
+          type: `number`,
+          step: `any`,
+          id: `test-field-id--input`,
+          name: `test-field-id`,
+          required: true,
+          min: undefined,
+          max: undefined,
+          value: `Test Raw`,
+        }),
+      ]
+    );
+
+    scenario(
+      `minimum`,
+      {
+        name: `Test Field Name`,
+        type: `float`,
+        label: `Test Label`,
+        value: 32,
+        minimum: [7, `inclusive`],
+        maximum: null,
+        required: false,
+      },
+      [
+        h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+        h(`input`, {
+          type: `number`,
+          step: `any`,
+          id: `test-field-id--input`,
+          name: `test-field-id`,
+          required: false,
+          min: 7,
+          max: undefined,
+          value: `Test Raw`,
+        }),
+      ]
+    );
+
+    scenario(
+      `maximum`,
+      {
+        name: `Test Field Name`,
+        type: `float`,
+        label: `Test Label`,
+        value: 32,
+        minimum: null,
+        maximum: [7, `inclusive`],
+        required: false,
+      },
+      [
+        h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+        h(`input`, {
+          type: `number`,
+          step: `any`,
+          id: `test-field-id--input`,
+          name: `test-field-id`,
+          required: false,
+          min: undefined,
+          max: 7,
+          value: `Test Raw`,
+        }),
+      ]
+    );
   });
 });
