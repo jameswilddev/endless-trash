@@ -15,7 +15,7 @@ export const jsonWebsocketChannel: (address: string) => Channel<Json, Json> = (
     const webSocket = new WebSocket(address);
 
     const send: ChannelSend<TRequest> = async (request: TRequest) => {
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         webSocket.send(JSON.stringify(request), (err) => {
           if (err) {
             reject(err);
@@ -28,7 +28,7 @@ export const jsonWebsocketChannel: (address: string) => Channel<Json, Json> = (
 
     let starting = true;
 
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       webSocket.onerror = (error) => {
         if (starting) {
           reject(error.error);

@@ -20,9 +20,6 @@
     "url": "https://github.com/jameswilddev/endless-trash"
   },
   "license": "MIT",
-  "dependencies": {
-    "typescript": "4.0.5"
-  },
   "scripts": {
     "postinstall": "echo This is a stub package.  You probably want a @endless-trash/* package instead."
   }
