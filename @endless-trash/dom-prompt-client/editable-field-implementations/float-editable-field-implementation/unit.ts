@@ -1161,7 +1161,7 @@ describe(`floatEditableFieldImplementation`, () => {
         maximum: null,
         required: false,
       },
-      true,
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
