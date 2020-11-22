@@ -1,11 +1,15 @@
-import { Prompt } from "@endless-trash/prompt";
+import { ChannelSend } from "@endless-trash/channel";
+import { Prompt, Request } from "@endless-trash/prompt";
 import { initialPromptState } from ".";
 import { PromptState } from "../prompt-state";
 
 describe(`initialFormGroupsState`, () => {
+  let channelSend: ChannelSend<Request>;
   let output: PromptState;
 
   beforeAll(() => {
+    channelSend = jasmine.createSpy(`channelSend`);
+
     const prompt: Prompt = {
       formGroups: [
         {
@@ -109,7 +113,7 @@ describe(`initialFormGroupsState`, () => {
       ],
     };
 
-    output = initialPromptState(prompt);
+    output = initialPromptState(prompt, channelSend);
   });
 
   it(`includes the prompt`, () => {
@@ -547,6 +551,14 @@ describe(`initialFormGroupsState`, () => {
   });
 
   it(`defaults to interactive mode`, () => {
-    expect(output.send).toBeNull();
+    expect(output.sendState).toBeNull();
+  });
+
+  it(`includes the channel send callback`, () => {
+    expect(output.channelSend).toBe(channelSend);
+  });
+
+  it(`does not send a message through the channel`, () => {
+    expect(channelSend).not.toHaveBeenCalled();
   });
 });

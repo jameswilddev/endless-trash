@@ -3,9 +3,12 @@ import { applyPrompt } from ".";
 import { PromptState } from "../prompt-state";
 
 describe(`applyPrompt`, () => {
+  let channelSend: jasmine.Spy;
   let output: PromptState;
 
   beforeAll(() => {
+    channelSend = jasmine.createSpy(`channelSend`);
+
     const promptState: PromptState = {
       type: `prompt`,
       prompt: {
@@ -93,7 +96,8 @@ describe(`applyPrompt`, () => {
           },
         },
       },
-      send: `awaitingResponse`,
+      sendState: `awaitingResponse`,
+      channelSend,
     };
 
     const prompt: Prompt = {
@@ -368,7 +372,15 @@ describe(`applyPrompt`, () => {
     });
   });
 
-  it(`resets send to null`, () => {
-    expect(output.send).toBeNull();
+  it(`resets the send state to null`, () => {
+    expect(output.sendState).toBeNull();
+  });
+
+  it(`includes the channel's send callback`, () => {
+    expect(output.channelSend).toBe(channelSend);
+  });
+
+  it(`does not send a message through the channel`, () => {
+    expect(channelSend).not.toHaveBeenCalled();
   });
 });

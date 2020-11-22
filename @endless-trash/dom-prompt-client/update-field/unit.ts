@@ -2,9 +2,12 @@ import { updateField } from ".";
 import { PromptState } from "../prompt-state";
 
 describe(`updateField`, () => {
+  let channelSend: jasmine.Spy;
   let output: PromptState;
 
   beforeAll(() => {
+    channelSend = jasmine.createSpy(`channelSend`);
+
     const promptState: PromptState = {
       type: `prompt`,
       prompt: {
@@ -182,7 +185,8 @@ describe(`updateField`, () => {
           },
         },
       },
-      send: null,
+      sendState: null,
+      channelSend,
     };
 
     output = updateField(
@@ -373,7 +377,12 @@ describe(`updateField`, () => {
           },
         },
       },
-      send: null,
+      sendState: null,
+      channelSend,
     });
+  });
+
+  it(`does not send a message through the channel`, () => {
+    expect(channelSend).not.toHaveBeenCalled();
   });
 });

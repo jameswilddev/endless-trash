@@ -1,10 +1,15 @@
+import { ChannelSend } from "@endless-trash/channel";
+import { Request } from "@endless-trash/prompt";
 import { updateFieldRaw } from ".";
 import { PromptState } from "../prompt-state";
 
 describe(`updateFieldRaw`, () => {
+  let channelSend: ChannelSend<Request>;
   let output: PromptState;
 
   beforeAll(() => {
+    const channelSend = jasmine.createSpy(`channelSend`);
+
     const promptState: PromptState = {
       type: `prompt`,
       prompt: {
@@ -182,7 +187,8 @@ describe(`updateFieldRaw`, () => {
           },
         },
       },
-      send: null,
+      sendState: null,
+      channelSend,
     };
 
     output = updateFieldRaw(
@@ -372,7 +378,12 @@ describe(`updateFieldRaw`, () => {
           },
         },
       },
-      send: null,
+      sendState: null,
+      channelSend,
     });
+  });
+
+  it(`does not send a message through the channel`, () => {
+    expect(channelSend).not.toHaveBeenCalled();
   });
 });
