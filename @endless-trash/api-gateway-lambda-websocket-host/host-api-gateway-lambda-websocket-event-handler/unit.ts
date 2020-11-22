@@ -33,7 +33,7 @@ describe(`hostApiGatewayLambdaWebsocketEventHandler`, () => {
       request = jasmine.createSpy(`request`);
       expressInstance.use(request);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         server = expressInstance.listen(61006, resolve);
       });
 
@@ -147,7 +147,7 @@ describe(`hostApiGatewayLambdaWebsocketEventHandler`, () => {
       incorrectRequest = jasmine.createSpy(`incorrectRequest`);
       expressInstance.use(incorrectRequest);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         server = expressInstance.listen(61007, resolve);
       });
 
