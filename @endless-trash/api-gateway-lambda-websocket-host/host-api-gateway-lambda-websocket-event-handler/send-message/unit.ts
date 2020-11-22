@@ -27,7 +27,7 @@ describe(`sendMessage`, () => {
       incorrectRequest = jasmine.createSpy(`incorrectRequest`);
       expressInstance.use(incorrectRequest);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         server = expressInstance.listen(61003, resolve);
       });
 
@@ -117,7 +117,7 @@ describe(`sendMessage`, () => {
       incorrectRequest = jasmine.createSpy(`incorrectRequest`);
       expressInstance.use(incorrectRequest);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         server = expressInstance.listen(61004, resolve);
       });
 
@@ -208,7 +208,7 @@ describe(`sendMessage`, () => {
       incorrectRequest = jasmine.createSpy(`incorrectRequest`);
       expressInstance.use(incorrectRequest);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         server = expressInstance.listen(61005, resolve);
       });
 

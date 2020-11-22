@@ -30,7 +30,7 @@ export async function execute<T>(
 
         return await execute(database);
       } finally {
-        await new Promise((resolve, reject) => {
+        await new Promise<void>((resolve, reject) => {
           if (database) {
             database.close((err) => {
               /* istanbul ignore else */

@@ -66,7 +66,7 @@ describe(`jsonWebsocketChannel`, () => {
       onClose = jasmine.createSpy(`onClose`);
       onServerError = jasmine.createSpy(`onServerError`);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         webSocketServer = new WebSocket.Server({ port: 61010 }, resolve);
       });
 
@@ -80,13 +80,13 @@ describe(`jsonWebsocketChannel`, () => {
 
       await channel<TestRequest, TestResponse>(onResponse, onError);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         setTimeout(resolve, 2000);
       });
     });
 
     afterAll(async () => {
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         webSocketServer.close((err) => {
           if (err) {
             reject(err);
@@ -142,7 +142,7 @@ describe(`jsonWebsocketChannel`, () => {
         onClose = jasmine.createSpy(`onClose`);
         onServerError = jasmine.createSpy(`onServerError`);
 
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           webSocketServer = new WebSocket.Server({ port: 61011 }, resolve);
         });
 
@@ -163,13 +163,13 @@ describe(`jsonWebsocketChannel`, () => {
 
         await send({ testRequestKey: `Test Request Value` });
 
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           setTimeout(resolve, 2000);
         });
       });
 
       afterAll(async () => {
-        await new Promise((resolve, reject) => {
+        await new Promise<void>((resolve, reject) => {
           webSocketServer.close((err) => {
             if (err) {
               reject(err);
@@ -230,7 +230,7 @@ describe(`jsonWebsocketChannel`, () => {
         onClose = jasmine.createSpy(`onClose`);
         onServerError = jasmine.createSpy(`onServerError`);
 
-        const webSocketServer: WebSocket.Server = await new Promise(
+        const webSocketServer: WebSocket.Server = await new Promise<WebSocket.Server>(
           (resolve) => {
             const local = new WebSocket.Server({ port: 61011 }, () => {
               resolve(local);
@@ -253,7 +253,7 @@ describe(`jsonWebsocketChannel`, () => {
           onError
         );
 
-        await new Promise((resolve, reject) => {
+        await new Promise<void>((resolve, reject) => {
           webSocketServer.close((err) => {
             if (err) {
               reject(err);
@@ -263,7 +263,7 @@ describe(`jsonWebsocketChannel`, () => {
           });
         });
 
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           setTimeout(resolve, 2000);
         });
 
@@ -273,7 +273,7 @@ describe(`jsonWebsocketChannel`, () => {
           error = e;
         }
 
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           setTimeout(resolve, 2000);
         });
       });
@@ -329,7 +329,7 @@ describe(`jsonWebsocketChannel`, () => {
       onClose = jasmine.createSpy(`onClose`);
       onServerError = jasmine.createSpy(`onServerError`);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         webSocketServer = new WebSocket.Server({ port: 61012 }, resolve);
       });
 
@@ -345,13 +345,13 @@ describe(`jsonWebsocketChannel`, () => {
 
       await channel<TestRequest, TestResponse>(onResponse, onError);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         setTimeout(resolve, 2000);
       });
     });
 
     afterAll(async () => {
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         webSocketServer.close((err) => {
           if (err) {
             reject(err);
@@ -412,7 +412,7 @@ describe(`jsonWebsocketChannel`, () => {
       onClose = jasmine.createSpy(`onClose`);
       onServerError = jasmine.createSpy(`onServerError`);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         webSocketServer = new WebSocket.Server({ port: 61013 }, resolve);
       });
 
@@ -428,13 +428,13 @@ describe(`jsonWebsocketChannel`, () => {
 
       await channel<TestRequest, TestResponse>(onResponse, onError);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         setTimeout(resolve, 2000);
       });
     });
 
     afterAll(async () => {
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         webSocketServer.close((err) => {
           if (err) {
             reject(err);
@@ -497,7 +497,7 @@ describe(`jsonWebsocketChannel`, () => {
         onClose = jasmine.createSpy(`onClose`);
         onServerError = jasmine.createSpy(`onServerError`);
 
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           webSocketServer = new WebSocket.Server({ port: 61014 }, resolve);
         });
 
@@ -515,13 +515,13 @@ describe(`jsonWebsocketChannel`, () => {
 
         send = await channel<TestRequest, TestResponse>(onResponse, onError);
 
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           setTimeout(resolve, 2000);
         });
       });
 
       afterAll(async () => {
-        await new Promise((resolve, reject) => {
+        await new Promise<void>((resolve, reject) => {
           webSocketServer.close((err) => {
             if (err) {
               reject(err);
@@ -588,7 +588,7 @@ describe(`jsonWebsocketChannel`, () => {
         onClose = jasmine.createSpy(`onClose`);
         onServerError = jasmine.createSpy(`onServerError`);
 
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           webSocketServer = new WebSocket.Server({ port: 61015 }, resolve);
         });
 
@@ -606,13 +606,13 @@ describe(`jsonWebsocketChannel`, () => {
 
         send = await channel<TestRequest, TestResponse>(onResponse, onError);
 
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           setTimeout(resolve, 2000);
         });
       });
 
       afterAll(async () => {
-        await new Promise((resolve, reject) => {
+        await new Promise<void>((resolve, reject) => {
           webSocketServer.close((err) => {
             if (err) {
               reject(err);
@@ -681,7 +681,7 @@ describe(`jsonWebsocketChannel`, () => {
       onClose = jasmine.createSpy(`onClose`);
       onServerError = jasmine.createSpy(`onServerError`);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         webSocketServer = new WebSocket.Server({ port: 61016 }, resolve);
       });
 
@@ -699,13 +699,13 @@ describe(`jsonWebsocketChannel`, () => {
 
       await channel<TestRequest, TestResponse>(onResponse, onError);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         setTimeout(resolve, 2000);
       });
     });
 
     afterAll(async () => {
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         webSocketServer.close((err) => {
           if (err) {
             reject(err);
@@ -766,7 +766,7 @@ describe(`jsonWebsocketChannel`, () => {
       onClose = jasmine.createSpy(`onClose`);
       onServerError = jasmine.createSpy(`onServerError`);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         webSocketServer = new WebSocket.Server({ port: 61016 }, resolve);
       });
 
@@ -801,13 +801,13 @@ describe(`jsonWebsocketChannel`, () => {
 
       await channel<TestRequest, TestResponse>(onResponse, onError);
 
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         setTimeout(resolve, 2000);
       });
     });
 
     afterAll(async () => {
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         webSocketServer.close((err) => {
           if (err) {
             reject(err);
