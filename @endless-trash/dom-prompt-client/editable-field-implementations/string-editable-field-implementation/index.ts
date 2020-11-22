@@ -36,7 +36,8 @@ export const stringEditableFieldImplementation: EditableFieldImplementation<
     promptState: PromptState,
     formGroupName: string,
     formName: string,
-    fieldName: string
+    fieldName: string,
+    disabled: boolean
   ): ReadonlyArray<VDOM<State>> {
     const formGroupState = promptState.formGroups[formGroupName];
     const formState = formGroupState.forms[formName];
@@ -60,6 +61,7 @@ export const stringEditableFieldImplementation: EditableFieldImplementation<
             ? undefined
             : stringField.maximumLength,
         value: fieldState.raw,
+        readonly: disabled,
       }),
     ];
   },

@@ -14,6 +14,7 @@ export type EditableFieldImplementation<
     promptState: PromptState,
     formGroupName: string,
     formName: string,
-    fieldName: string
+    fieldName: string,
+    disabled: boolean
   ): ReadonlyArray<VDOM<State>>;
 };

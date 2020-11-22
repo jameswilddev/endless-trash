@@ -69,7 +69,8 @@ export const integerEditableFieldImplementation: EditableFieldImplementation<
     promptState: PromptState,
     formGroupName: string,
     formName: string,
-    fieldName: string
+    fieldName: string,
+    disabled: boolean
   ): ReadonlyArray<VDOM<State>> {
     const formGroupState = promptState.formGroups[formGroupName];
     const formState = formGroupState.forms[formName];
@@ -92,6 +93,7 @@ export const integerEditableFieldImplementation: EditableFieldImplementation<
         max:
           integerField.maximum === null ? undefined : integerField.maximum[0],
         value: fieldState.raw,
+        readonly: disabled,
       }),
     ];
   },

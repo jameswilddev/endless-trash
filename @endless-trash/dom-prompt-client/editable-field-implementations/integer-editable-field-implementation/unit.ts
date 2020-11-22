@@ -955,6 +955,7 @@ describe(`integerEditableFieldImplementation`, () => {
     function scenario(
       description: string,
       editableField: IntegerField,
+      disabled: boolean,
       rendered: ReadonlyArray<VDOM<State>>
     ): void {
       describe(description, () => {
@@ -1028,7 +1029,8 @@ describe(`integerEditableFieldImplementation`, () => {
             promptState,
             `Test Form Group Name`,
             `Test Form Name`,
-            `Test Field Name`
+            `Test Field Name`,
+            disabled
           );
         });
 
@@ -1053,6 +1055,7 @@ describe(`integerEditableFieldImplementation`, () => {
         maximum: null,
         required: false,
       },
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -1064,6 +1067,7 @@ describe(`integerEditableFieldImplementation`, () => {
           min: undefined,
           max: undefined,
           value: `Test Raw`,
+          readonly: false,
         }),
       ]
     );
@@ -1079,6 +1083,7 @@ describe(`integerEditableFieldImplementation`, () => {
         maximum: null,
         required: true,
       },
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -1090,6 +1095,7 @@ describe(`integerEditableFieldImplementation`, () => {
           min: undefined,
           max: undefined,
           value: `Test Raw`,
+          readonly: false,
         }),
       ]
     );
@@ -1105,6 +1111,7 @@ describe(`integerEditableFieldImplementation`, () => {
         maximum: null,
         required: false,
       },
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -1116,6 +1123,7 @@ describe(`integerEditableFieldImplementation`, () => {
           min: 7,
           max: undefined,
           value: `Test Raw`,
+          readonly: false,
         }),
       ]
     );
@@ -1131,6 +1139,7 @@ describe(`integerEditableFieldImplementation`, () => {
         maximum: [7, `inclusive`],
         required: false,
       },
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -1142,6 +1151,35 @@ describe(`integerEditableFieldImplementation`, () => {
           min: undefined,
           max: 7,
           value: `Test Raw`,
+          readonly: false,
+        }),
+      ]
+    );
+
+    scenario(
+      `disabled`,
+      {
+        name: `Test Field Name`,
+        type: `integer`,
+        label: `Test Label`,
+        value: 32,
+        minimum: null,
+        maximum: null,
+        required: false,
+      },
+      true,
+      [
+        h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+        h(`input`, {
+          type: `number`,
+          step: 1,
+          id: `test-field-id--input`,
+          name: `test-field-id`,
+          required: false,
+          min: undefined,
+          max: undefined,
+          value: `Test Raw`,
+          readonly: true,
         }),
       ]
     );

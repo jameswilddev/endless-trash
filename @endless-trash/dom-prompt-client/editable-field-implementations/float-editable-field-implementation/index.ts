@@ -60,7 +60,8 @@ export const floatEditableFieldImplementation: EditableFieldImplementation<
     promptState: PromptState,
     formGroupName: string,
     formName: string,
-    fieldName: string
+    fieldName: string,
+    disabled: boolean
   ): ReadonlyArray<VDOM<State>> {
     const formGroupState = promptState.formGroups[formGroupName];
     const formState = formGroupState.forms[formName];
@@ -81,6 +82,7 @@ export const floatEditableFieldImplementation: EditableFieldImplementation<
         min: floatField.minimum === null ? undefined : floatField.minimum[0],
         max: floatField.maximum === null ? undefined : floatField.maximum[0],
         value: fieldState.raw,
+        readonly: disabled,
       }),
     ];
   },

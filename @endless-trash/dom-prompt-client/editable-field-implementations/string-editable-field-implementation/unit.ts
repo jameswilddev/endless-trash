@@ -159,6 +159,7 @@ describe(`stringEditableFieldImplementation`, () => {
     function scenario(
       description: string,
       editableField: StringField,
+      disabled: boolean,
       rendered: ReadonlyArray<VDOM<State>>
     ): void {
       describe(description, () => {
@@ -232,7 +233,8 @@ describe(`stringEditableFieldImplementation`, () => {
             promptState,
             `Test Form Group Name`,
             `Test Form Name`,
-            `Test Field Name`
+            `Test Field Name`,
+            disabled
           );
         });
 
@@ -256,6 +258,7 @@ describe(`stringEditableFieldImplementation`, () => {
         minimumLength: null,
         maximumLength: null,
       },
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -266,6 +269,7 @@ describe(`stringEditableFieldImplementation`, () => {
           minlength: undefined,
           maxlength: undefined,
           value: `Test Raw`,
+          readonly: false,
         }),
       ]
     );
@@ -280,6 +284,7 @@ describe(`stringEditableFieldImplementation`, () => {
         minimumLength: 0,
         maximumLength: null,
       },
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -290,6 +295,7 @@ describe(`stringEditableFieldImplementation`, () => {
           minlength: undefined,
           maxlength: undefined,
           value: `Test Raw`,
+          readonly: false,
         }),
       ]
     );
@@ -304,6 +310,7 @@ describe(`stringEditableFieldImplementation`, () => {
         minimumLength: 1,
         maximumLength: null,
       },
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -314,6 +321,7 @@ describe(`stringEditableFieldImplementation`, () => {
           minlength: 1,
           maxlength: undefined,
           value: `Test Raw`,
+          readonly: false,
         }),
       ]
     );
@@ -328,6 +336,7 @@ describe(`stringEditableFieldImplementation`, () => {
         minimumLength: 2,
         maximumLength: null,
       },
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -338,6 +347,7 @@ describe(`stringEditableFieldImplementation`, () => {
           minlength: 2,
           maxlength: undefined,
           value: `Test Raw`,
+          readonly: false,
         }),
       ]
     );
@@ -352,6 +362,7 @@ describe(`stringEditableFieldImplementation`, () => {
         minimumLength: null,
         maximumLength: 5,
       },
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -362,6 +373,33 @@ describe(`stringEditableFieldImplementation`, () => {
           minlength: undefined,
           maxlength: 5,
           value: `Test Raw`,
+          readonly: false,
+        }),
+      ]
+    );
+
+    scenario(
+      `disabled`,
+      {
+        name: `Test Field Name`,
+        type: `string`,
+        label: `Test Label`,
+        value: `Test Value`,
+        minimumLength: null,
+        maximumLength: 5,
+      },
+      true,
+      [
+        h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+        h(`input`, {
+          type: `text`,
+          id: `test-field-id--input`,
+          name: `test-field-id`,
+          required: false,
+          minlength: undefined,
+          maxlength: 5,
+          value: `Test Raw`,
+          readonly: true,
         }),
       ]
     );

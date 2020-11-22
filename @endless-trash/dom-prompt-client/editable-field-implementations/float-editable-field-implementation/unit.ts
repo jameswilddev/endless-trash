@@ -1005,6 +1005,7 @@ describe(`floatEditableFieldImplementation`, () => {
     function scenario(
       description: string,
       editableField: FloatField,
+      disabled: boolean,
       rendered: ReadonlyArray<VDOM<State>>
     ): void {
       describe(description, () => {
@@ -1078,7 +1079,8 @@ describe(`floatEditableFieldImplementation`, () => {
             promptState,
             `Test Form Group Name`,
             `Test Form Name`,
-            `Test Field Name`
+            `Test Field Name`,
+            disabled
           );
         });
 
@@ -1103,6 +1105,7 @@ describe(`floatEditableFieldImplementation`, () => {
         maximum: null,
         required: false,
       },
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -1114,6 +1117,7 @@ describe(`floatEditableFieldImplementation`, () => {
           min: undefined,
           max: undefined,
           value: `Test Raw`,
+          readonly: false,
         }),
       ]
     );
@@ -1129,6 +1133,7 @@ describe(`floatEditableFieldImplementation`, () => {
         maximum: null,
         required: true,
       },
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -1140,6 +1145,7 @@ describe(`floatEditableFieldImplementation`, () => {
           min: undefined,
           max: undefined,
           value: `Test Raw`,
+          readonly: false,
         }),
       ]
     );
@@ -1155,6 +1161,7 @@ describe(`floatEditableFieldImplementation`, () => {
         maximum: null,
         required: false,
       },
+      true,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -1166,6 +1173,7 @@ describe(`floatEditableFieldImplementation`, () => {
           min: 7,
           max: undefined,
           value: `Test Raw`,
+          readonly: false,
         }),
       ]
     );
@@ -1181,6 +1189,7 @@ describe(`floatEditableFieldImplementation`, () => {
         maximum: [7, `inclusive`],
         required: false,
       },
+      false,
       [
         h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
         h(`input`, {
@@ -1192,6 +1201,35 @@ describe(`floatEditableFieldImplementation`, () => {
           min: undefined,
           max: 7,
           value: `Test Raw`,
+          readonly: false,
+        }),
+      ]
+    );
+
+    scenario(
+      `disabled`,
+      {
+        name: `Test Field Name`,
+        type: `float`,
+        label: `Test Label`,
+        value: 32,
+        minimum: null,
+        maximum: null,
+        required: false,
+      },
+      true,
+      [
+        h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+        h(`input`, {
+          type: `number`,
+          step: `any`,
+          id: `test-field-id--input`,
+          name: `test-field-id`,
+          required: false,
+          min: undefined,
+          max: undefined,
+          value: `Test Raw`,
+          readonly: true,
         }),
       ]
     );
