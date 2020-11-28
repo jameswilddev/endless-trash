@@ -1,9 +1,4 @@
-import { RequestField, EditableField } from "@endless-trash/prompt";
-import { RawFieldValue } from "../raw-field-value";
+import { StaticFieldState } from "./static-field-state";
+import { TextFieldState } from "./text-field-state";
 
-export type FieldState = {
-  readonly editableField: EditableField;
-  readonly id: string;
-  readonly parsed: undefined | RequestField;
-  readonly raw: RawFieldValue;
-};
+export type FieldState = StaticFieldState | TextFieldState;

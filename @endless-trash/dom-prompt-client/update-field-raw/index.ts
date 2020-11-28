@@ -1,3 +1,4 @@
+import { TextFieldState } from "../field-state/text-field-state";
 import { PromptState } from "../prompt-state";
 import { RawFieldValue } from "../raw-field-value";
 
@@ -21,9 +22,8 @@ export function updateFieldRaw(
             fields: {
               ...promptState.formGroups[formGroupName].forms[formName].fields,
               [fieldName]: {
-                ...promptState.formGroups[formGroupName].forms[formName].fields[
-                  fieldName
-                ],
+                ...(promptState.formGroups[formGroupName].forms[formName]
+                  .fields[fieldName] as TextFieldState),
                 raw,
               },
             },

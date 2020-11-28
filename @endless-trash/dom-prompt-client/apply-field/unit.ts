@@ -1,4 +1,3 @@
-import { EditableField } from "@endless-trash/prompt";
 import { applyField } from ".";
 import { FieldState } from "../field-state";
 
@@ -7,8 +6,32 @@ describe(`applyField`, () => {
     let result: FieldState;
 
     beforeAll(() => {
-      const fieldState: FieldState = {
-        editableField: {
+      result = applyField(
+        {
+          name: `Test Form Group Name`,
+          forms: [],
+        },
+        {
+          name: `Test Form Name`,
+          fields: [],
+          submitButtonLabel: `Test Submit Button Label`,
+        },
+        {
+          type: `text`,
+          id: `test-form-group-name--test-form-name--test-name`,
+          field: {
+            type: `integer`,
+            name: `Test Name`,
+            label: `Test Label`,
+            minimum: null,
+            maximum: null,
+            required: true,
+            value: 24.7,
+          },
+          parsed: 12.1,
+          raw: `Test Raw`,
+        },
+        {
           type: `integer`,
           name: `Test Name`,
           label: `Test Label`,
@@ -16,28 +39,15 @@ describe(`applyField`, () => {
           maximum: null,
           required: true,
           value: 24.7,
-        },
-        id: `Test Id`,
-        parsed: 12.1,
-        raw: `Test Raw`,
-      };
-
-      const editableField: EditableField = {
-        type: `integer`,
-        name: `Test Name`,
-        label: `Test Label`,
-        minimum: null,
-        maximum: null,
-        required: true,
-        value: 24.7,
-      };
-
-      result = applyField(fieldState, editableField);
+        }
+      );
     });
 
     it(`returns the current state`, () => {
       expect(result).toEqual({
-        editableField: {
+        type: `text`,
+        id: `test-form-group-name--test-form-name--test-name`,
+        field: {
           type: `integer`,
           name: `Test Name`,
           label: `Test Label`,
@@ -46,7 +56,6 @@ describe(`applyField`, () => {
           required: true,
           value: 24.7,
         },
-        id: `Test Id`,
         parsed: 12.1,
         raw: `Test Raw`,
       });
@@ -54,12 +63,23 @@ describe(`applyField`, () => {
   });
 
   describe(`when the field has changed`, () => {
-    describe(`when the field's initial value is valid`, () => {
-      let result: FieldState;
+    let result: FieldState;
 
-      beforeAll(() => {
-        const fieldState: FieldState = {
-          editableField: {
+    beforeAll(() => {
+      result = applyField(
+        {
+          name: `Test Form Group Name`,
+          forms: [],
+        },
+        {
+          name: `Test Form Name`,
+          fields: [],
+          submitButtonLabel: `Test Submit Button Label`,
+        },
+        {
+          type: `text`,
+          id: `test-form-group-name--test-form-name--test-name`,
+          field: {
             type: `integer`,
             name: `Test Name`,
             label: `Test Label`,
@@ -68,89 +88,36 @@ describe(`applyField`, () => {
             required: true,
             value: 24.7,
           },
-          id: `Test Id`,
           parsed: 12.1,
           raw: `Test Raw`,
-        };
-
-        const editableField: EditableField = {
+        },
+        {
           type: `integer`,
-          value: 14,
-          minimum: [10, `inclusive`],
-          maximum: [20, `inclusive`],
-          required: true,
           name: `Test Name`,
           label: `Test Label`,
-        };
-
-        result = applyField(fieldState, editableField);
-      });
-
-      it(`returns the field's default state`, () => {
-        expect(result).toEqual({
-          editableField: {
-            type: `integer`,
-            value: 14,
-            minimum: [10, `inclusive`],
-            maximum: [20, `inclusive`],
-            required: true,
-            name: `Test Name`,
-            label: `Test Label`,
-          },
-          id: `Test Id`,
-          parsed: 14,
-          raw: `14`,
-        });
-      });
+          minimum: null,
+          maximum: null,
+          required: true,
+          value: 24.1,
+        }
+      );
     });
 
-    describe(`when the field's initial value is invalid`, () => {
-      let result: FieldState;
-
-      beforeAll(() => {
-        const fieldState: FieldState = {
-          editableField: {
-            type: `integer`,
-            name: `Test Name`,
-            label: `Test Label`,
-            minimum: null,
-            maximum: null,
-            required: true,
-            value: 24.7,
-          },
-          id: `Test Id`,
-          parsed: 12.1,
-          raw: `Test Raw`,
-        };
-
-        const editableField: EditableField = {
+    it(`returns the current state`, () => {
+      expect(result).toEqual({
+        type: `text`,
+        id: `test-form-group-name--test-form-name--test-name`,
+        field: {
           type: `integer`,
-          value: 24,
-          minimum: [10, `inclusive`],
-          maximum: [20, `inclusive`],
-          required: true,
           name: `Test Name`,
           label: `Test Label`,
-        };
-
-        result = applyField(fieldState, editableField);
-      });
-
-      it(`returns the field's default state`, () => {
-        expect(result).toEqual({
-          editableField: {
-            type: `integer`,
-            value: 24,
-            minimum: [10, `inclusive`],
-            maximum: [20, `inclusive`],
-            required: true,
-            name: `Test Name`,
-            label: `Test Label`,
-          },
-          id: `Test Id`,
-          parsed: undefined,
-          raw: `24`,
-        });
+          minimum: null,
+          maximum: null,
+          required: true,
+          value: 24.1,
+        },
+        parsed: 24.1,
+        raw: `24.1`,
       });
     });
   });

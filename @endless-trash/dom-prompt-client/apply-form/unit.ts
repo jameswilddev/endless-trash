@@ -13,14 +13,16 @@ describe(`applyForm`, () => {
 
     const formState: FormState = {
       form: {
-        name: `Test Previous Form Name`,
+        name: `Test Form Name`,
         fields: [],
-        submitButtonLabel: `Test Previous Submit Button Label`,
+        submitButtonLabel: `Test Submit Button Label`,
       },
-      id: `Test Form Id`,
+      id: `test-form-group-name--test-form-name`,
       fields: {
         "Test Retained Field": {
-          editableField: {
+          type: `text`,
+          id: `test-form-group-name--test-form-name--test-retained-field`,
+          field: {
             type: `integer`,
             name: `Test Retained Field`,
             label: `Test Label`,
@@ -29,12 +31,13 @@ describe(`applyForm`, () => {
             required: true,
             value: 44.5,
           },
-          id: `Test Retained Field Id`,
           parsed: 11.2,
           raw: `Test Retained Raw`,
         },
         "Test Reset Field": {
-          editableField: {
+          type: `text`,
+          id: `test-form-group-name--test-form-name--test-reset-field`,
+          field: {
             type: `integer`,
             name: `Test Reset Field`,
             label: `Test Label`,
@@ -43,7 +46,6 @@ describe(`applyForm`, () => {
             required: true,
             value: 74.21,
           },
-          id: `Test Reset Field Id`,
           parsed: 82.4,
           raw: `Test Reset Raw`,
         },
@@ -51,7 +53,7 @@ describe(`applyForm`, () => {
     };
 
     const form: Form = {
-      name: `Test Name`,
+      name: `Test Form Name`,
       fields: [
         {
           type: `integer`,
@@ -80,7 +82,7 @@ describe(`applyForm`, () => {
 
   it(`includes the form`, () => {
     expect(output.form).toEqual({
-      name: `Test Name`,
+      name: `Test Form Name`,
       fields: [
         {
           type: `integer`,
@@ -106,13 +108,15 @@ describe(`applyForm`, () => {
   });
 
   it(`does not change the id`, () => {
-    expect(output.id).toEqual(`Test Form Id`);
+    expect(output.id).toEqual(`test-form-group-name--test-form-name`);
   });
 
   it(`applies field state`, () => {
     expect(output.fields).toEqual({
       "Test Retained Field": {
-        editableField: {
+        type: `text`,
+        id: `test-form-group-name--test-form-name--test-retained-field`,
+        field: {
           type: `integer`,
           name: `Test Retained Field`,
           label: `Test Label`,
@@ -121,12 +125,13 @@ describe(`applyForm`, () => {
           required: true,
           value: 44.5,
         },
-        id: `Test Retained Field Id`,
         parsed: 11.2,
         raw: `Test Retained Raw`,
       },
       "Test Reset Field": {
-        editableField: {
+        type: `text`,
+        id: `test-form-group-name--test-form-name--test-reset-field`,
+        field: {
           type: `integer`,
           name: `Test Reset Field`,
           label: `Test Label`,
@@ -135,7 +140,6 @@ describe(`applyForm`, () => {
           required: true,
           value: 31.1,
         },
-        id: `Test Reset Field Id`,
         parsed: 31.1,
         raw: `31.1`,
       },

@@ -1,10 +1,8 @@
-import { ChannelSend } from "@endless-trash/channel";
-import { Request } from "@endless-trash/prompt";
 import { updateFieldRaw } from ".";
 import { PromptState } from "../prompt-state";
 
 describe(`updateFieldRaw`, () => {
-  let channelSend: ChannelSend<Request>;
+  let channelSend: jasmine.Spy;
   let output: PromptState;
 
   beforeAll(() => {
@@ -21,7 +19,7 @@ describe(`updateFieldRaw`, () => {
             name: `Test Other Form Group Name`,
             forms: [],
           },
-          id: `Test Other Id`,
+          id: `test-other-form-group-name`,
           forms: {
             "Test Form Name": {
               form: {
@@ -29,10 +27,12 @@ describe(`updateFieldRaw`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
-              id: `Test Other Id`,
+              id: `test-other-form-group-name--test-form-name`,
               fields: {
                 "Test Other Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-other-form-group-name--test-form-name--test-other-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Other Field Name`,
                     label: `Test Label`,
@@ -41,12 +41,13 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
                 "Test Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-other-form-group-name--test-form-name--test-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Field Name`,
                     label: `Test Label`,
@@ -55,7 +56,6 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 93.1,
                   raw: `Test Other Raw`,
                 },
@@ -67,10 +67,12 @@ describe(`updateFieldRaw`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
-              id: `Test Other Id`,
+              id: `test-other-form-group-name--test-other-form-name`,
               fields: {
                 "Test Other Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-other-form-group-name--test-other-form-name--test-other-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Other Field Name`,
                     label: `Test Label`,
@@ -79,12 +81,13 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
                 "Test Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-other-form-group-name--test-other-form-name--test-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Field Name`,
                     label: `Test Label`,
@@ -93,7 +96,6 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 93.1,
                   raw: `Test Other Raw`,
                 },
@@ -106,7 +108,7 @@ describe(`updateFieldRaw`, () => {
             name: `Test Form Group Name`,
             forms: [],
           },
-          id: `Test Form Group Id`,
+          id: `test-form-group-name`,
           forms: {
             "Test Form Name": {
               form: {
@@ -114,10 +116,12 @@ describe(`updateFieldRaw`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
-              id: `Test Form Id`,
+              id: `test-form-group-name--test-form-name`,
               fields: {
                 "Test Other Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-form-group-name--test-form-name--test-other-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Other Field Name`,
                     label: `Test Label`,
@@ -126,12 +130,13 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
                 "Test Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-form-group-name--test-form-name--test-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Field Name`,
                     label: `Test Label`,
@@ -140,8 +145,7 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Field Id`,
-                  parsed: 93.1,
+                  parsed: 494.2,
                   raw: `Test Raw`,
                 },
               },
@@ -152,10 +156,12 @@ describe(`updateFieldRaw`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
-              id: `Test Other Id`,
+              id: `test-form-group-name--test-other-form-name`,
               fields: {
                 "Test Other Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-form-group-name--test-other-form-name--test-other-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Other Field Name`,
                     label: `Test Label`,
@@ -164,12 +170,13 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
                 "Test Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-form-group-name--test-other-form-name--test-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Field Name`,
                     label: `Test Label`,
@@ -178,7 +185,6 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 93.1,
                   raw: `Test Other Raw`,
                 },
@@ -200,7 +206,7 @@ describe(`updateFieldRaw`, () => {
     );
   });
 
-  it(`replaces the field's raw value`, () => {
+  it(`replaces the field's parsed and raw values`, () => {
     expect(output).toEqual({
       type: `prompt`,
       prompt: {
@@ -212,7 +218,7 @@ describe(`updateFieldRaw`, () => {
             name: `Test Other Form Group Name`,
             forms: [],
           },
-          id: `Test Other Id`,
+          id: `test-other-form-group-name`,
           forms: {
             "Test Form Name": {
               form: {
@@ -220,10 +226,12 @@ describe(`updateFieldRaw`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
-              id: `Test Other Id`,
+              id: `test-other-form-group-name--test-form-name`,
               fields: {
                 "Test Other Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-other-form-group-name--test-form-name--test-other-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Other Field Name`,
                     label: `Test Label`,
@@ -232,12 +240,13 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
                 "Test Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-other-form-group-name--test-form-name--test-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Field Name`,
                     label: `Test Label`,
@@ -246,7 +255,6 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 93.1,
                   raw: `Test Other Raw`,
                 },
@@ -258,10 +266,12 @@ describe(`updateFieldRaw`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
-              id: `Test Other Id`,
+              id: `test-other-form-group-name--test-other-form-name`,
               fields: {
                 "Test Other Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-other-form-group-name--test-other-form-name--test-other-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Other Field Name`,
                     label: `Test Label`,
@@ -270,12 +280,13 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
                 "Test Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-other-form-group-name--test-other-form-name--test-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Field Name`,
                     label: `Test Label`,
@@ -284,7 +295,6 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 93.1,
                   raw: `Test Other Raw`,
                 },
@@ -297,7 +307,7 @@ describe(`updateFieldRaw`, () => {
             name: `Test Form Group Name`,
             forms: [],
           },
-          id: `Test Form Group Id`,
+          id: `test-form-group-name`,
           forms: {
             "Test Form Name": {
               form: {
@@ -305,10 +315,12 @@ describe(`updateFieldRaw`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
-              id: `Test Form Id`,
+              id: `test-form-group-name--test-form-name`,
               fields: {
                 "Test Other Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-form-group-name--test-form-name--test-other-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Other Field Name`,
                     label: `Test Label`,
@@ -317,12 +329,13 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
                 "Test Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-form-group-name--test-form-name--test-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Field Name`,
                     label: `Test Label`,
@@ -331,8 +344,7 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Field Id`,
-                  parsed: 93.1,
+                  parsed: 494.2,
                   raw: `Test Updated Raw`,
                 },
               },
@@ -343,10 +355,12 @@ describe(`updateFieldRaw`, () => {
                 fields: [],
                 submitButtonLabel: `Test Submit Button Label`,
               },
-              id: `Test Other Id`,
+              id: `test-form-group-name--test-other-form-name`,
               fields: {
                 "Test Other Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-form-group-name--test-other-form-name--test-other-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Other Field Name`,
                     label: `Test Label`,
@@ -355,12 +369,13 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 85.1,
                   raw: `Test Other Raw`,
                 },
                 "Test Field Name": {
-                  editableField: {
+                  type: `text`,
+                  id: `test-form-group-name--test-other-form-name--test-field-name`,
+                  field: {
                     type: `integer`,
                     name: `Test Field Name`,
                     label: `Test Label`,
@@ -369,7 +384,6 @@ describe(`updateFieldRaw`, () => {
                     required: true,
                     value: 44.5,
                   },
-                  id: `Test Other Id`,
                   parsed: 93.1,
                   raw: `Test Other Raw`,
                 },

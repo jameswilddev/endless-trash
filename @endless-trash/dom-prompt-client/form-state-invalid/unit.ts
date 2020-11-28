@@ -14,7 +14,9 @@ describe(`formStateInvalid`, () => {
         id: `test-form-name`,
         fields: {
           testFieldA: {
-            editableField: {
+            type: `text`,
+            id: `test-form-name--test-field-a`,
+            field: {
               type: `string`,
               name: `testFieldA`,
               label: `Test Field A Label`,
@@ -22,12 +24,13 @@ describe(`formStateInvalid`, () => {
               maximumLength: null,
               value: `Test Field A Value`,
             },
-            id: `test-form-name--test-field-a`,
             parsed: `Test Field A Parsed`,
             raw: `Test Field A Raw`,
           },
           testFieldB: {
-            editableField: {
+            type: `text`,
+            id: `test-form-name--test-field-b`,
+            field: {
               type: `string`,
               name: `testFieldB`,
               label: `Test Field B Label`,
@@ -35,22 +38,31 @@ describe(`formStateInvalid`, () => {
               maximumLength: null,
               value: `Test Field B Value`,
             },
-            id: `test-form-name--test-field-b`,
             parsed: null,
             raw: `Test Field B Raw`,
           },
           testFieldC: {
-            editableField: {
-              type: `string`,
+            type: `static`,
+            field: {
+              type: `subtitle`,
               name: `testFieldC`,
-              label: `Test Field C Label`,
-              minimumLength: 2,
-              maximumLength: null,
-              value: `Test Field C Value`,
+              content: `Test Field C Content`,
             },
             id: `test-form-name--test-field-c`,
-            parsed: `Test Field C Parsed`,
-            raw: `Test Field C Raw`,
+          },
+          testFieldD: {
+            type: `text`,
+            id: `test-form-name--test-field-d`,
+            field: {
+              type: `string`,
+              name: `testFieldD`,
+              label: `Test Field D Label`,
+              minimumLength: 2,
+              maximumLength: null,
+              value: `Test Field D Value`,
+            },
+            parsed: `Test Field D Parsed`,
+            raw: `Test Field D Raw`,
           },
         },
       });
@@ -74,7 +86,9 @@ describe(`formStateInvalid`, () => {
         id: `test-form-name`,
         fields: {
           testFieldA: {
-            editableField: {
+            type: `text`,
+            id: `test-form-name--test-field-a`,
+            field: {
               type: `string`,
               name: `testFieldA`,
               label: `Test Field A Label`,
@@ -82,12 +96,13 @@ describe(`formStateInvalid`, () => {
               maximumLength: null,
               value: `Test Field A Value`,
             },
-            id: `test-form-name--test-field-a`,
             parsed: `Test Field A Parsed`,
             raw: `Test Field A Raw`,
           },
           testFieldB: {
-            editableField: {
+            type: `text`,
+            id: `test-form-name--test-field-b`,
+            field: {
               type: `string`,
               name: `testFieldB`,
               label: `Test Field B Label`,
@@ -95,22 +110,31 @@ describe(`formStateInvalid`, () => {
               maximumLength: null,
               value: `Test Field B Value`,
             },
-            id: `test-form-name--test-field-a`,
             parsed: undefined,
             raw: `Test Field B Raw`,
           },
           testFieldC: {
-            editableField: {
-              type: `string`,
+            type: `static`,
+            field: {
+              type: `subtitle`,
               name: `testFieldC`,
-              label: `Test Field C Label`,
+              content: `Test Field C Content`,
+            },
+            id: `test-form-name--test-field-c`,
+          },
+          testFieldD: {
+            type: `text`,
+            id: `test-form-name--test-field-d`,
+            field: {
+              type: `string`,
+              name: `testFieldD`,
+              label: `Test Field D Label`,
               minimumLength: 2,
               maximumLength: null,
-              value: `Test Field C Value`,
+              value: `Test Field D Value`,
             },
-            id: `test-form-name--test-field-a`,
-            parsed: `Test Field C Parsed`,
-            raw: `Test Field C Raw`,
+            parsed: `Test Field D Parsed`,
+            raw: `Test Field D Raw`,
           },
         },
       });

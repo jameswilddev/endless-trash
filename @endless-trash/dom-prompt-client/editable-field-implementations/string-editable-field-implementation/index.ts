@@ -1,5 +1,6 @@
 import { StringField, RequestStringField } from "@endless-trash/prompt";
 import { h, text, VDOM } from "hyperapp-cjs";
+import { TextFieldState } from "../../field-state/text-field-state";
 import { PromptState } from "../../prompt-state";
 import { State } from "../../state";
 import { EditableFieldImplementation } from "../editable-field-implementation";
@@ -41,18 +42,17 @@ export const stringEditableFieldImplementation: EditableFieldImplementation<
   ): ReadonlyArray<VDOM<State>> {
     const formGroupState = promptState.formGroups[formGroupName];
     const formState = formGroupState.forms[formName];
-    const fieldState = formState.fields[fieldName];
+    const textFieldState = formState.fields[fieldName] as TextFieldState;
+    const stringField = textFieldState.field as StringField;
 
-    const id = `${fieldState.id}--input`;
-
-    const stringField = fieldState.editableField as StringField;
+    const id = `${textFieldState.id}--input`;
 
     return [
-      h(`label`, { for: id }, text(fieldState.editableField.label)),
+      h(`label`, { for: id }, text(stringField.label)),
       h(`input`, {
         type: `text`,
         id,
-        name: fieldState.id,
+        name: textFieldState.id,
         required:
           stringField.minimumLength !== null && stringField.minimumLength > 0,
         minlength: stringField.minimumLength || undefined,
@@ -60,7 +60,7 @@ export const stringEditableFieldImplementation: EditableFieldImplementation<
           stringField.maximumLength === null
             ? undefined
             : stringField.maximumLength,
-        value: fieldState.raw,
+        value: textFieldState.raw,
         readonly: disabled,
       }),
     ];

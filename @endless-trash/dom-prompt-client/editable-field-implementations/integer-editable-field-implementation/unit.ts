@@ -954,7 +954,7 @@ describe(`integerEditableFieldImplementation`, () => {
   describe(`view`, () => {
     function scenario(
       description: string,
-      editableField: IntegerField,
+      field: IntegerField,
       disabled: boolean,
       rendered: ReadonlyArray<VDOM<State>>
     ): void {
@@ -998,7 +998,9 @@ describe(`integerEditableFieldImplementation`, () => {
                     id: `test-form-id`,
                     fields: {
                       "Test Other Field Name": {
-                        editableField: {
+                        type: `text`,
+                        id: `test-other-field-id`,
+                        field: {
                           name: `Test Other Field Name`,
                           type: `string`,
                           label: `Test Other Label`,
@@ -1006,13 +1008,13 @@ describe(`integerEditableFieldImplementation`, () => {
                           minimumLength: 54,
                           maximumLength: 125,
                         },
-                        id: `test-other-field-id`,
                         raw: `Test Other Raw`,
                         parsed: `Test Other Parsed`,
                       },
                       "Test Field Name": {
-                        editableField,
+                        type: `text`,
                         id: `test-field-id`,
+                        field,
                         raw: `Test Raw`,
                         parsed: `Test Parsed`,
                       },

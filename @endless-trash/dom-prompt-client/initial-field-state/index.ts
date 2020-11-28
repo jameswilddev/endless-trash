@@ -1,34 +1,51 @@
 import {
   EditableField,
+  Field,
   Form,
   FormGroup,
   RequestField,
 } from "@endless-trash/prompt";
 import { convertToAttributeValue } from "../convert-to-attribute-value";
+import { FieldState } from "../field-state";
 import { editableFieldImplementations } from "../editable-field-implementations";
 import { EditableFieldImplementation } from "../editable-field-implementations/editable-field-implementation";
-import { FieldState } from "../field-state";
 
 export function initialFieldState(
   formGroup: FormGroup,
   form: Form,
-  editableField: EditableField
+  field: Field
 ): FieldState {
-  const editableFieldImplementation = editableFieldImplementations[
-    editableField.type
-  ] as EditableFieldImplementation<EditableField, RequestField>;
+  const id = `${convertToAttributeValue(
+    formGroup.name
+  )}--${convertToAttributeValue(form.name)}--${convertToAttributeValue(
+    field.name
+  )}`;
 
-  return {
-    editableField,
-    id: `${convertToAttributeValue(formGroup.name)}--${convertToAttributeValue(
-      form.name
-    )}--${convertToAttributeValue(editableField.name)}`,
-    parsed: editableFieldImplementation.validateValue(
-      editableField,
-      editableField.value
-    )
-      ? editableField.value
-      : undefined,
-    raw: editableFieldImplementation.convertValueToRaw(editableField.value),
-  };
+  switch (field.type) {
+    case `float`:
+    case `integer`:
+    case `string`:
+      const editableFieldImplementation = editableFieldImplementations[
+        field.type
+      ] as EditableFieldImplementation<EditableField, RequestField>;
+
+      return {
+        type: `text`,
+        id,
+        field,
+        parsed: editableFieldImplementation.validateValue(field, field.value)
+          ? field.value
+          : undefined,
+        raw: editableFieldImplementation.convertValueToRaw(field.value),
+      };
+
+    case `paragraph`:
+    case `subtitle`:
+    case `title`:
+      return {
+        type: `static`,
+        id,
+        field,
+      };
+  }
 }

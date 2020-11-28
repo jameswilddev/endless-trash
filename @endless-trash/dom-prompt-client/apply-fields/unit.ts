@@ -57,7 +57,9 @@ describe(`applyFields`, () => {
 
     const fieldsState: FieldsState = {
       "Test Removed Field": {
-        editableField: {
+        type: `text`,
+        id: `test-form-group-name--test-form-name--test-removed-field`,
+        field: {
           type: `integer`,
           name: `Test Removed Field`,
           label: `Test Label`,
@@ -66,12 +68,13 @@ describe(`applyFields`, () => {
           required: true,
           value: 24.7,
         },
-        id: `Test Removed Id`,
         parsed: 12.1,
         raw: `Test Removed Raw`,
       },
       "Test Converted To Non-Editable Field": {
-        editableField: {
+        type: `text`,
+        id: `test-form-group-name--test-form-name--test-converted-to-non-editable-field`,
+        field: {
           type: `integer`,
           name: `Test Converted To Non-Editable Field`,
           label: `Test Label`,
@@ -80,12 +83,13 @@ describe(`applyFields`, () => {
           required: true,
           value: 6.54,
         },
-        id: `Test Converted To Non-Editable Id`,
         parsed: 7.6,
         raw: `Test Converted To Non-Editable Raw`,
       },
       "Test Retained Field": {
-        editableField: {
+        type: `text`,
+        id: `test-form-group-name--test-form-name--test-retained-field`,
+        field: {
           type: `integer`,
           name: `Test Retained Field`,
           label: `Test Label`,
@@ -94,12 +98,13 @@ describe(`applyFields`, () => {
           required: true,
           value: 44.5,
         },
-        id: `Test Retained Id`,
         parsed: 11.2,
         raw: `Test Retained Raw`,
       },
       "Test Reset Field": {
-        editableField: {
+        type: `text`,
+        id: `test-form-group-name--test-form-name--test-reset-field`,
+        field: {
           type: `integer`,
           name: `Test Reset Field`,
           label: `Test Label`,
@@ -108,7 +113,6 @@ describe(`applyFields`, () => {
           required: true,
           value: 74.21,
         },
-        id: `Test Reset Id`,
         parsed: 82.4,
         raw: `Test Reset Raw`,
       },
@@ -119,7 +123,9 @@ describe(`applyFields`, () => {
 
   it(`adds state for added fields`, () => {
     expect(output[`Test Added Field`]).toEqual({
-      editableField: {
+      type: `text`,
+      id: `test-form-group-name--test-form-name--test-added-field`,
+      field: {
         type: `integer`,
         name: `Test Added Field`,
         label: `Test Label`,
@@ -128,7 +134,6 @@ describe(`applyFields`, () => {
         required: true,
         value: 44.5,
       },
-      id: `test-form-group-name--test-form-name--test-added-field`,
       parsed: 44.5,
       raw: `44.5`,
     });
@@ -136,7 +141,9 @@ describe(`applyFields`, () => {
 
   it(`retains state for fields which have not changed`, () => {
     expect(output[`Test Retained Field`]).toEqual({
-      editableField: {
+      type: `text`,
+      id: `test-form-group-name--test-form-name--test-retained-field`,
+      field: {
         type: `integer`,
         name: `Test Retained Field`,
         label: `Test Label`,
@@ -145,7 +152,6 @@ describe(`applyFields`, () => {
         required: true,
         value: 44.5,
       },
-      id: `Test Retained Id`,
       parsed: 11.2,
       raw: `Test Retained Raw`,
     });
@@ -153,7 +159,9 @@ describe(`applyFields`, () => {
 
   it(`resets state for fields which have changed`, () => {
     expect(output[`Test Reset Field`]).toEqual({
-      editableField: {
+      type: `text`,
+      id: `test-form-group-name--test-form-name--test-reset-field`,
+      field: {
         type: `integer`,
         name: `Test Reset Field`,
         label: `Test Label`,
@@ -162,13 +170,36 @@ describe(`applyFields`, () => {
         required: true,
         value: 31.1,
       },
-      id: `Test Reset Id`,
       parsed: 31.1,
       raw: `31.1`,
     });
   });
 
+  it(`resets state for fields which have become static`, () => {
+    expect(output[`Test Converted To Non-Editable Field`]).toEqual({
+      type: `static`,
+      id: `test-form-group-name--test-form-name--test-converted-to-non-editable-field`,
+      field: {
+        type: `subtitle`,
+        name: `Test Converted To Non-Editable Field`,
+        content: `Test Content`,
+      },
+    });
+  });
+
+  it(`adds state for static fields`, () => {
+    expect(output[`Test Added Non-Editable Field`]).toEqual({
+      type: `static`,
+      id: `test-form-group-name--test-form-name--test-added-non-editable-field`,
+      field: {
+        type: `subtitle`,
+        name: `Test Added Non-Editable Field`,
+        content: `Test Content`,
+      },
+    });
+  });
+
   it(`does not include any other fields`, () => {
-    expect(Object.keys(output).length).toEqual(3);
+    expect(Object.keys(output).length).toEqual(5);
   });
 });

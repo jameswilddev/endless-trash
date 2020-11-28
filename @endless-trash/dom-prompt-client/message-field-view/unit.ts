@@ -14,7 +14,7 @@ describe(`messageFieldView`, () => {
         fields: [],
         submitButtonLabel: `Test Submit Button Label`,
       },
-      id: `Test Form Id`,
+      id: `test-form-group-name--test-form-name`,
       fields: {},
     };
 
@@ -33,7 +33,7 @@ describe(`messageFieldView`, () => {
         `Test Type`,
         {
           class: [`subtitle`, `field`],
-          id: `Test Form Id--test-message-field-name`,
+          id: `test-form-group-name--test-form-name--test-message-field-name`,
         },
         text(`Test Content`)
       ) as VDOM<State>

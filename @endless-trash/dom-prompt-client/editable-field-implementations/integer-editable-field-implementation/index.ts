@@ -1,5 +1,6 @@
 import { IntegerField, RequestIntegerField } from "@endless-trash/prompt";
 import { h, text, VDOM } from "hyperapp-cjs";
+import { TextFieldState } from "../../field-state/text-field-state";
 import { PromptState } from "../../prompt-state";
 import { removeWhiteSpace } from "../../remove-white-space";
 import { State } from "../../state";
@@ -74,25 +75,24 @@ export const integerEditableFieldImplementation: EditableFieldImplementation<
   ): ReadonlyArray<VDOM<State>> {
     const formGroupState = promptState.formGroups[formGroupName];
     const formState = formGroupState.forms[formName];
-    const fieldState = formState.fields[fieldName];
+    const textFieldState = formState.fields[fieldName] as TextFieldState;
+    const integerField = textFieldState.field as IntegerField;
 
-    const id = `${fieldState.id}--input`;
-
-    const integerField = fieldState.editableField as IntegerField;
+    const id = `${textFieldState.id}--input`;
 
     return [
-      h(`label`, { for: id }, text(fieldState.editableField.label)),
+      h(`label`, { for: id }, text(textFieldState.field.label)),
       h(`input`, {
         type: `number`,
         id,
-        name: fieldState.id,
+        name: textFieldState.id,
         required: integerField.required,
         step: 1,
         min:
           integerField.minimum === null ? undefined : integerField.minimum[0],
         max:
           integerField.maximum === null ? undefined : integerField.maximum[0],
-        value: fieldState.raw,
+        value: textFieldState.raw,
         readonly: disabled,
       }),
     ];

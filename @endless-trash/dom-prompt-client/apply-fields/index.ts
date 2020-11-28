@@ -1,4 +1,4 @@
-import { filterEditableField, Form, FormGroup } from "@endless-trash/prompt";
+import { Form, FormGroup } from "@endless-trash/prompt";
 import { applyField } from "../apply-field";
 import { FieldState } from "../field-state";
 import { FieldsState } from "../fields-state";
@@ -14,16 +14,12 @@ export function applyFields(
   } = {};
 
   for (const field of form.fields) {
-    const editableField = filterEditableField(field);
-
-    if (editableField !== null) {
-      output[field.name] = Object.prototype.hasOwnProperty.call(
-        fieldsState,
-        field.name
-      )
-        ? applyField(fieldsState[field.name], editableField)
-        : initialFieldState(formGroup, form, editableField);
-    }
+    output[field.name] = Object.prototype.hasOwnProperty.call(
+      fieldsState,
+      field.name
+    )
+      ? applyField(formGroup, form, fieldsState[field.name], field)
+      : initialFieldState(formGroup, form, field);
   }
 
   return output;

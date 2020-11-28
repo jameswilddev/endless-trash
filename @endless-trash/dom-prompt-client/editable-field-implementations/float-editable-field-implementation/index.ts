@@ -1,5 +1,6 @@
 import { FloatField, RequestFloatField } from "@endless-trash/prompt";
 import { h, text, VDOM } from "hyperapp-cjs";
+import { TextFieldState } from "../../field-state/text-field-state";
 import { PromptState } from "../../prompt-state";
 import { removeWhiteSpace } from "../../remove-white-space";
 import { State } from "../../state";
@@ -65,23 +66,22 @@ export const floatEditableFieldImplementation: EditableFieldImplementation<
   ): ReadonlyArray<VDOM<State>> {
     const formGroupState = promptState.formGroups[formGroupName];
     const formState = formGroupState.forms[formName];
-    const fieldState = formState.fields[fieldName];
+    const textFieldState = formState.fields[fieldName] as TextFieldState;
+    const floatField = textFieldState.field as FloatField;
 
-    const id = `${fieldState.id}--input`;
-
-    const floatField = fieldState.editableField as FloatField;
+    const id = `${textFieldState.id}--input`;
 
     return [
-      h(`label`, { for: id }, text(fieldState.editableField.label)),
+      h(`label`, { for: id }, text(textFieldState.field.label)),
       h(`input`, {
         type: `number`,
         id,
-        name: fieldState.id,
+        name: textFieldState.id,
         required: floatField.required,
         step: `any`,
         min: floatField.minimum === null ? undefined : floatField.minimum[0],
         max: floatField.maximum === null ? undefined : floatField.maximum[0],
-        value: fieldState.raw,
+        value: textFieldState.raw,
         readonly: disabled,
       }),
     ];

@@ -2,6 +2,7 @@ import { EditableField, RequestField } from "@endless-trash/prompt";
 import { h, VDOM } from "hyperapp-cjs";
 import { editableFieldImplementations } from "../editable-field-implementations";
 import { EditableFieldImplementation } from "../editable-field-implementations/editable-field-implementation";
+import { TextFieldState } from "../field-state/text-field-state";
 import { PromptState } from "../prompt-state";
 import { State } from "../state";
 
@@ -13,29 +14,25 @@ export function editableFieldView(
 ): VDOM<State> {
   const formGroupState = promptState.formGroups[formGroupName];
   const formState = formGroupState.forms[formName];
-  const fieldState = formState.fields[fieldName];
+  const textFieldState = formState.fields[fieldName] as TextFieldState;
 
   const editableFieldImplementation = editableFieldImplementations[
-    fieldState.editableField.type
+    textFieldState.field.type
   ] as EditableFieldImplementation<EditableField, RequestField>;
 
-  const raw = fieldState.raw;
+  const raw = textFieldState.raw;
   const parsed = editableFieldImplementation.parseValue(raw);
   const valid =
     parsed !== undefined &&
-    editableFieldImplementation.validateValue(fieldState.editableField, parsed);
+    editableFieldImplementation.validateValue(textFieldState.field, parsed);
 
   const disabled = promptState.sendState !== null;
 
   return h(
     `div`,
     {
-      class: [
-        valid ? `valid` : `invalid`,
-        fieldState.editableField.type,
-        `field`,
-      ],
-      id: fieldState.id,
+      class: [valid ? `valid` : `invalid`, textFieldState.field.type, `field`],
+      id: textFieldState.id,
     },
     editableFieldImplementation.view(
       promptState,

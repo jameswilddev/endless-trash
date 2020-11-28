@@ -69,7 +69,9 @@ describe(`initialFormState`, () => {
   it(`includes the fields`, () => {
     expect(output.fields).toEqual({
       "Test Field A Name": {
-        editableField: {
+        type: `text`,
+        id: `test-form-group-name--test-form-name--test-field-a-name`,
+        field: {
           type: `string`,
           name: `Test Field A Name`,
           label: `Test Field A Label`,
@@ -77,12 +79,13 @@ describe(`initialFormState`, () => {
           minimumLength: null,
           maximumLength: null,
         },
-        id: `test-form-group-name--test-form-name--test-field-a-name`,
         parsed: `Test Field A Value`,
         raw: `Test Field A Value`,
       },
       "Test Field B Name": {
-        editableField: {
+        type: `text`,
+        id: `test-form-group-name--test-form-name--test-field-b-name`,
+        field: {
           type: `string`,
           name: `Test Field B Name`,
           label: `Test Field B Label`,
@@ -90,7 +93,6 @@ describe(`initialFormState`, () => {
           minimumLength: null,
           maximumLength: null,
         },
-        id: `test-form-group-name--test-form-name--test-field-b-name`,
         parsed: `Test Field B Value`,
         raw: `Test Field B Value`,
       },

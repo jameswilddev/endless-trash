@@ -45,7 +45,9 @@ describe(`editableFieldView`, () => {
                   id: `test-form-id`,
                   fields: {
                     "Test Other Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-other-field-id`,
+                      field: {
                         name: `Test Other Field Name`,
                         type: `string`,
                         label: `Test Other Label`,
@@ -53,12 +55,13 @@ describe(`editableFieldView`, () => {
                         minimumLength: null,
                         maximumLength: null,
                       },
-                      id: `test-other-field-id`,
                       raw: `Test Other Raw`,
                       parsed: `Test Other Parsed`,
                     },
                     "Test Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-field-id`,
+                      field: {
                         name: `Test Field Name`,
                         type: `integer`,
                         label: `Test Label`,
@@ -67,7 +70,6 @@ describe(`editableFieldView`, () => {
                         maximum: [27, `exclusive`],
                         required: true,
                       },
-                      id: `test-field-id`,
                       raw: `Test Non-Parseable`,
                       parsed: 22.2,
                     },
@@ -156,7 +158,9 @@ describe(`editableFieldView`, () => {
                   id: `test-form-id`,
                   fields: {
                     "Test Other Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-other-field-id`,
+                      field: {
                         name: `Test Other Field Name`,
                         type: `string`,
                         label: `Test Other Label`,
@@ -164,12 +168,13 @@ describe(`editableFieldView`, () => {
                         minimumLength: null,
                         maximumLength: null,
                       },
-                      id: `test-other-field-id`,
                       raw: `Test Other Raw`,
                       parsed: `Test Other Parsed`,
                     },
                     "Test Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-field-id`,
+                      field: {
                         name: `Test Field Name`,
                         type: `integer`,
                         label: `Test Label`,
@@ -178,7 +183,6 @@ describe(`editableFieldView`, () => {
                         maximum: [27, `exclusive`],
                         required: true,
                       },
-                      id: `test-field-id`,
                       raw: `11`,
                       parsed: 22.2,
                     },
@@ -267,7 +271,9 @@ describe(`editableFieldView`, () => {
                   id: `test-form-id`,
                   fields: {
                     "Test Other Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-other-field-id`,
+                      field: {
                         name: `Test Other Field Name`,
                         type: `string`,
                         label: `Test Other Label`,
@@ -275,12 +281,13 @@ describe(`editableFieldView`, () => {
                         minimumLength: null,
                         maximumLength: null,
                       },
-                      id: `test-other-field-id`,
                       raw: `Test Other Raw`,
                       parsed: `Test Other Parsed`,
                     },
                     "Test Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-field-id`,
+                      field: {
                         name: `Test Field Name`,
                         type: `integer`,
                         label: `Test Label`,
@@ -289,7 +296,6 @@ describe(`editableFieldView`, () => {
                         maximum: [27, `exclusive`],
                         required: true,
                       },
-                      id: `test-field-id`,
                       raw: `24`,
                       parsed: 22.2,
                     },
@@ -380,7 +386,9 @@ describe(`editableFieldView`, () => {
                   id: `test-form-id`,
                   fields: {
                     "Test Other Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-other-field-id`,
+                      field: {
                         name: `Test Other Field Name`,
                         type: `string`,
                         label: `Test Other Label`,
@@ -388,12 +396,13 @@ describe(`editableFieldView`, () => {
                         minimumLength: null,
                         maximumLength: null,
                       },
-                      id: `test-other-field-id`,
                       raw: `Test Other Raw`,
                       parsed: `Test Other Parsed`,
                     },
                     "Test Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-field-id`,
+                      field: {
                         name: `Test Field Name`,
                         type: `integer`,
                         label: `Test Label`,
@@ -402,7 +411,6 @@ describe(`editableFieldView`, () => {
                         maximum: [27, `exclusive`],
                         required: true,
                       },
-                      id: `test-field-id`,
                       raw: `Test Non-Parseable`,
                       parsed: 22.2,
                     },
@@ -491,7 +499,9 @@ describe(`editableFieldView`, () => {
                   id: `test-form-id`,
                   fields: {
                     "Test Other Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-other-field-id`,
+                      field: {
                         name: `Test Other Field Name`,
                         type: `string`,
                         label: `Test Other Label`,
@@ -499,12 +509,13 @@ describe(`editableFieldView`, () => {
                         minimumLength: null,
                         maximumLength: null,
                       },
-                      id: `test-other-field-id`,
                       raw: `Test Other Raw`,
                       parsed: `Test Other Parsed`,
                     },
                     "Test Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-field-id`,
+                      field: {
                         name: `Test Field Name`,
                         type: `integer`,
                         label: `Test Label`,
@@ -513,7 +524,6 @@ describe(`editableFieldView`, () => {
                         maximum: [27, `exclusive`],
                         required: true,
                       },
-                      id: `test-field-id`,
                       raw: `11`,
                       parsed: 22.2,
                     },
@@ -602,7 +612,9 @@ describe(`editableFieldView`, () => {
                   id: `test-form-id`,
                   fields: {
                     "Test Other Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-other-field-id`,
+                      field: {
                         name: `Test Other Field Name`,
                         type: `string`,
                         label: `Test Other Label`,
@@ -610,12 +622,13 @@ describe(`editableFieldView`, () => {
                         minimumLength: null,
                         maximumLength: null,
                       },
-                      id: `test-other-field-id`,
                       raw: `Test Other Raw`,
                       parsed: `Test Other Parsed`,
                     },
                     "Test Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-field-id`,
+                      field: {
                         name: `Test Field Name`,
                         type: `integer`,
                         label: `Test Label`,
@@ -624,7 +637,6 @@ describe(`editableFieldView`, () => {
                         maximum: [27, `exclusive`],
                         required: true,
                       },
-                      id: `test-field-id`,
                       raw: `24`,
                       parsed: 22.2,
                     },
@@ -715,7 +727,9 @@ describe(`editableFieldView`, () => {
                   id: `test-form-id`,
                   fields: {
                     "Test Other Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-other-field-id`,
+                      field: {
                         name: `Test Other Field Name`,
                         type: `string`,
                         label: `Test Other Label`,
@@ -723,12 +737,13 @@ describe(`editableFieldView`, () => {
                         minimumLength: null,
                         maximumLength: null,
                       },
-                      id: `test-other-field-id`,
                       raw: `Test Other Raw`,
                       parsed: `Test Other Parsed`,
                     },
                     "Test Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-field-id`,
+                      field: {
                         name: `Test Field Name`,
                         type: `integer`,
                         label: `Test Label`,
@@ -737,7 +752,6 @@ describe(`editableFieldView`, () => {
                         maximum: [27, `exclusive`],
                         required: true,
                       },
-                      id: `test-field-id`,
                       raw: `Test Non-Parseable`,
                       parsed: 22.2,
                     },
@@ -826,7 +840,9 @@ describe(`editableFieldView`, () => {
                   id: `test-form-id`,
                   fields: {
                     "Test Other Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-other-field-id`,
+                      field: {
                         name: `Test Other Field Name`,
                         type: `string`,
                         label: `Test Other Label`,
@@ -834,12 +850,13 @@ describe(`editableFieldView`, () => {
                         minimumLength: null,
                         maximumLength: null,
                       },
-                      id: `test-other-field-id`,
                       raw: `Test Other Raw`,
                       parsed: `Test Other Parsed`,
                     },
                     "Test Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-field-id`,
+                      field: {
                         name: `Test Field Name`,
                         type: `integer`,
                         label: `Test Label`,
@@ -848,7 +865,6 @@ describe(`editableFieldView`, () => {
                         maximum: [27, `exclusive`],
                         required: true,
                       },
-                      id: `test-field-id`,
                       raw: `11`,
                       parsed: 22.2,
                     },
@@ -937,7 +953,9 @@ describe(`editableFieldView`, () => {
                   id: `test-form-id`,
                   fields: {
                     "Test Other Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-other-field-id`,
+                      field: {
                         name: `Test Other Field Name`,
                         type: `string`,
                         label: `Test Other Label`,
@@ -945,12 +963,13 @@ describe(`editableFieldView`, () => {
                         minimumLength: null,
                         maximumLength: null,
                       },
-                      id: `test-other-field-id`,
                       raw: `Test Other Raw`,
                       parsed: `Test Other Parsed`,
                     },
                     "Test Field Name": {
-                      editableField: {
+                      type: `text`,
+                      id: `test-field-id`,
+                      field: {
                         name: `Test Field Name`,
                         type: `integer`,
                         label: `Test Label`,
@@ -959,7 +978,6 @@ describe(`editableFieldView`, () => {
                         maximum: [27, `exclusive`],
                         required: true,
                       },
-                      id: `test-field-id`,
                       raw: `24`,
                       parsed: 22.2,
                     },

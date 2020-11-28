@@ -1004,7 +1004,7 @@ describe(`floatEditableFieldImplementation`, () => {
   describe(`view`, () => {
     function scenario(
       description: string,
-      editableField: FloatField,
+      field: FloatField,
       disabled: boolean,
       rendered: ReadonlyArray<VDOM<State>>
     ): void {
@@ -1048,7 +1048,9 @@ describe(`floatEditableFieldImplementation`, () => {
                     id: `test-form-id`,
                     fields: {
                       "Test Other Field Name": {
-                        editableField: {
+                        type: `text`,
+                        id: `test-other-field-id`,
+                        field: {
                           name: `Test Other Field Name`,
                           type: `string`,
                           label: `Test Other Label`,
@@ -1056,13 +1058,13 @@ describe(`floatEditableFieldImplementation`, () => {
                           minimumLength: 54,
                           maximumLength: 125,
                         },
-                        id: `test-other-field-id`,
                         raw: `Test Other Raw`,
                         parsed: `Test Other Parsed`,
                       },
                       "Test Field Name": {
-                        editableField,
+                        type: `text`,
                         id: `test-field-id`,
+                        field,
                         raw: `Test Raw`,
                         parsed: `Test Parsed`,
                       },

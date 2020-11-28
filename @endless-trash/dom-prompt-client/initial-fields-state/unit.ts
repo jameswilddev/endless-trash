@@ -41,7 +41,9 @@ describe(`initialFieldsState`, () => {
   it(`generates state for the editable fields`, () => {
     expect(output).toEqual({
       "Test Field A": {
-        editableField: {
+        type: `text`,
+        id: `test-form-group-name--test-form-name--test-field-a`,
+        field: {
           type: `integer`,
           name: `Test Field A`,
           label: `Test Label`,
@@ -50,12 +52,14 @@ describe(`initialFieldsState`, () => {
           required: true,
           value: 44.5,
         },
-        id: `test-form-group-name--test-form-name--test-field-a`,
+
         parsed: 44.5,
         raw: `44.5`,
       },
       "Test Field B": {
-        editableField: {
+        type: `text`,
+        id: `test-form-group-name--test-form-name--test-field-b`,
+        field: {
           type: `string`,
           name: `Test Field B`,
           label: `Test Label`,
@@ -63,7 +67,6 @@ describe(`initialFieldsState`, () => {
           maximumLength: 5,
           value: `Test Value B`,
         },
-        id: `test-form-group-name--test-form-name--test-field-b`,
         parsed: undefined,
         raw: `Test Value B`,
       },

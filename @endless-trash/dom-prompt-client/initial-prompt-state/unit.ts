@@ -305,7 +305,9 @@ describe(`initialFormGroupsState`, () => {
             id: `test-form-group-a-name--test-form-a-a-name`,
             fields: {
               "Test Field A A A Name": {
-                editableField: {
+                type: `text`,
+                id: `test-form-group-a-name--test-form-a-a-name--test-field-a-a-a-name`,
+                field: {
                   type: `string`,
                   name: `Test Field A A A Name`,
                   label: `Test Field A A A Label`,
@@ -313,12 +315,13 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                id: `test-form-group-a-name--test-form-a-a-name--test-field-a-a-a-name`,
                 parsed: `Test Field A A A Value`,
                 raw: `Test Field A A A Value`,
               },
               "Test Field A A B Name": {
-                editableField: {
+                type: `text`,
+                id: `test-form-group-a-name--test-form-a-a-name--test-field-a-a-b-name`,
+                field: {
                   type: `string`,
                   name: `Test Field A A B Name`,
                   label: `Test Field A A B Label`,
@@ -326,7 +329,6 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                id: `test-form-group-a-name--test-form-a-a-name--test-field-a-a-b-name`,
                 parsed: `Test Field A A B Value`,
                 raw: `Test Field A A B Value`,
               },
@@ -358,7 +360,9 @@ describe(`initialFormGroupsState`, () => {
             id: `test-form-group-a-name--test-form-a-b-name`,
             fields: {
               "Test Field A B A Name": {
-                editableField: {
+                type: `text`,
+                id: `test-form-group-a-name--test-form-a-b-name--test-field-a-b-a-name`,
+                field: {
                   type: `string`,
                   name: `Test Field A B A Name`,
                   label: `Test Field A B A Label`,
@@ -366,12 +370,13 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                id: `test-form-group-a-name--test-form-a-b-name--test-field-a-b-a-name`,
                 parsed: `Test Field A B A Value`,
                 raw: `Test Field A B A Value`,
               },
               "Test Field A B B Name": {
-                editableField: {
+                type: `text`,
+                id: `test-form-group-a-name--test-form-a-b-name--test-field-a-b-b-name`,
+                field: {
                   type: `string`,
                   name: `Test Field A B B Name`,
                   label: `Test Field A B B Label`,
@@ -379,7 +384,6 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                id: `test-form-group-a-name--test-form-a-b-name--test-field-a-b-b-name`,
                 parsed: `Test Field A B B Value`,
                 raw: `Test Field A B B Value`,
               },
@@ -465,7 +469,9 @@ describe(`initialFormGroupsState`, () => {
             id: `test-form-group-b-name--test-form-b-a-name`,
             fields: {
               "Test Field B A A Name": {
-                editableField: {
+                type: `text`,
+                id: `test-form-group-b-name--test-form-b-a-name--test-field-b-a-a-name`,
+                field: {
                   type: `string`,
                   name: `Test Field B A A Name`,
                   label: `Test Field B A A Label`,
@@ -473,12 +479,13 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                id: `test-form-group-b-name--test-form-b-a-name--test-field-b-a-a-name`,
                 parsed: `Test Field B A A Value`,
                 raw: `Test Field B A A Value`,
               },
               "Test Field B A B Name": {
-                editableField: {
+                type: `text`,
+                id: `test-form-group-b-name--test-form-b-a-name--test-field-b-a-b-name`,
+                field: {
                   type: `string`,
                   name: `Test Field B A B Name`,
                   label: `Test Field B A B Label`,
@@ -486,7 +493,6 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                id: `test-form-group-b-name--test-form-b-a-name--test-field-b-a-b-name`,
                 parsed: `Test Field B A B Value`,
                 raw: `Test Field B A B Value`,
               },
@@ -518,7 +524,9 @@ describe(`initialFormGroupsState`, () => {
             id: `test-form-group-b-name--test-form-b-b-name`,
             fields: {
               "Test Field B B A Name": {
-                editableField: {
+                type: `text`,
+                id: `test-form-group-b-name--test-form-b-b-name--test-field-b-b-a-name`,
+                field: {
                   type: `string`,
                   name: `Test Field B B A Name`,
                   label: `Test Field B B A Label`,
@@ -526,12 +534,13 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                id: `test-form-group-b-name--test-form-b-b-name--test-field-b-b-a-name`,
                 parsed: `Test Field B B A Value`,
                 raw: `Test Field B B A Value`,
               },
               "Test Field B B B Name": {
-                editableField: {
+                type: `text`,
+                id: `test-form-group-b-name--test-form-b-b-name--test-field-b-b-b-name`,
+                field: {
                   type: `string`,
                   name: `Test Field B B B Name`,
                   label: `Test Field B B B Label`,
@@ -539,7 +548,6 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                id: `test-form-group-b-name--test-form-b-b-name--test-field-b-b-b-name`,
                 parsed: `Test Field B B B Value`,
                 raw: `Test Field B B B Value`,
               },
