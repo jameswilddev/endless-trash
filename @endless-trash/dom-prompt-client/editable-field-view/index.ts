@@ -30,7 +30,11 @@ export function editableFieldView(
   return h(
     `div`,
     {
-      class: [valid ? `valid` : `invalid`, `field`],
+      class: [
+        valid ? `valid` : `invalid`,
+        fieldState.editableField.type,
+        `field`,
+      ],
       id: fieldState.id,
     },
     editableFieldImplementation.view(

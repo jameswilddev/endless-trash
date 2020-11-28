@@ -90,20 +90,24 @@ describe(`editableFieldView`, () => {
 
       it(`renders as expected`, () => {
         expect(output).toEqual(
-          h(`div`, { class: [`invalid`, `field`], id: `test-field-id` }, [
-            h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
-            h(`input`, {
-              type: `number`,
-              id: `test-field-id--input`,
-              name: `test-field-id`,
-              required: true,
-              step: 1,
-              min: 14,
-              max: 27,
-              value: `Test Non-Parseable`,
-              readonly: false,
-            }),
-          ]) as VDOM<State>
+          h(
+            `div`,
+            { class: [`invalid`, `integer`, `field`], id: `test-field-id` },
+            [
+              h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+              h(`input`, {
+                type: `number`,
+                id: `test-field-id--input`,
+                name: `test-field-id`,
+                required: true,
+                step: 1,
+                min: 14,
+                max: 27,
+                value: `Test Non-Parseable`,
+                readonly: false,
+              }),
+            ]
+          ) as VDOM<State>
         );
       });
 
@@ -197,20 +201,24 @@ describe(`editableFieldView`, () => {
 
       it(`renders as expected`, () => {
         expect(output).toEqual(
-          h(`div`, { class: [`invalid`, `field`], id: `test-field-id` }, [
-            h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
-            h(`input`, {
-              type: `number`,
-              id: `test-field-id--input`,
-              name: `test-field-id`,
-              required: true,
-              step: 1,
-              min: 14,
-              max: 27,
-              value: `11`,
-              readonly: false,
-            }),
-          ]) as VDOM<State>
+          h(
+            `div`,
+            { class: [`invalid`, `integer`, `field`], id: `test-field-id` },
+            [
+              h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+              h(`input`, {
+                type: `number`,
+                id: `test-field-id--input`,
+                name: `test-field-id`,
+                required: true,
+                step: 1,
+                min: 14,
+                max: 27,
+                value: `11`,
+                readonly: false,
+              }),
+            ]
+          ) as VDOM<State>
         );
       });
 
@@ -304,20 +312,24 @@ describe(`editableFieldView`, () => {
 
       it(`renders as expected`, () => {
         expect(output).toEqual(
-          h(`div`, { class: [`valid`, `field`], id: `test-field-id` }, [
-            h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
-            h(`input`, {
-              type: `number`,
-              id: `test-field-id--input`,
-              name: `test-field-id`,
-              required: true,
-              step: 1,
-              min: 14,
-              max: 27,
-              value: `24`,
-              readonly: false,
-            }),
-          ]) as VDOM<State>
+          h(
+            `div`,
+            { class: [`valid`, `integer`, `field`], id: `test-field-id` },
+            [
+              h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+              h(`input`, {
+                type: `number`,
+                id: `test-field-id--input`,
+                name: `test-field-id`,
+                required: true,
+                step: 1,
+                min: 14,
+                max: 27,
+                value: `24`,
+                readonly: false,
+              }),
+            ]
+          ) as VDOM<State>
         );
       });
 
@@ -413,20 +425,24 @@ describe(`editableFieldView`, () => {
 
       it(`renders as expected`, () => {
         expect(output).toEqual(
-          h(`div`, { class: [`invalid`, `field`], id: `test-field-id` }, [
-            h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
-            h(`input`, {
-              type: `number`,
-              id: `test-field-id--input`,
-              name: `test-field-id`,
-              required: true,
-              step: 1,
-              min: 14,
-              max: 27,
-              value: `Test Non-Parseable`,
-              readonly: true,
-            }),
-          ]) as VDOM<State>
+          h(
+            `div`,
+            { class: [`invalid`, `integer`, `field`], id: `test-field-id` },
+            [
+              h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+              h(`input`, {
+                type: `number`,
+                id: `test-field-id--input`,
+                name: `test-field-id`,
+                required: true,
+                step: 1,
+                min: 14,
+                max: 27,
+                value: `Test Non-Parseable`,
+                readonly: true,
+              }),
+            ]
+          ) as VDOM<State>
         );
       });
 
@@ -520,20 +536,24 @@ describe(`editableFieldView`, () => {
 
       it(`renders as expected`, () => {
         expect(output).toEqual(
-          h(`div`, { class: [`invalid`, `field`], id: `test-field-id` }, [
-            h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
-            h(`input`, {
-              type: `number`,
-              id: `test-field-id--input`,
-              name: `test-field-id`,
-              required: true,
-              step: 1,
-              min: 14,
-              max: 27,
-              value: `11`,
-              readonly: true,
-            }),
-          ]) as VDOM<State>
+          h(
+            `div`,
+            { class: [`invalid`, `integer`, `field`], id: `test-field-id` },
+            [
+              h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+              h(`input`, {
+                type: `number`,
+                id: `test-field-id--input`,
+                name: `test-field-id`,
+                required: true,
+                step: 1,
+                min: 14,
+                max: 27,
+                value: `11`,
+                readonly: true,
+              }),
+            ]
+          ) as VDOM<State>
         );
       });
 
@@ -627,20 +647,24 @@ describe(`editableFieldView`, () => {
 
       it(`renders as expected`, () => {
         expect(output).toEqual(
-          h(`div`, { class: [`valid`, `field`], id: `test-field-id` }, [
-            h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
-            h(`input`, {
-              type: `number`,
-              id: `test-field-id--input`,
-              name: `test-field-id`,
-              required: true,
-              step: 1,
-              min: 14,
-              max: 27,
-              value: `24`,
-              readonly: true,
-            }),
-          ]) as VDOM<State>
+          h(
+            `div`,
+            { class: [`valid`, `integer`, `field`], id: `test-field-id` },
+            [
+              h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+              h(`input`, {
+                type: `number`,
+                id: `test-field-id--input`,
+                name: `test-field-id`,
+                required: true,
+                step: 1,
+                min: 14,
+                max: 27,
+                value: `24`,
+                readonly: true,
+              }),
+            ]
+          ) as VDOM<State>
         );
       });
 
@@ -736,20 +760,24 @@ describe(`editableFieldView`, () => {
 
       it(`renders as expected`, () => {
         expect(output).toEqual(
-          h(`div`, { class: [`invalid`, `field`], id: `test-field-id` }, [
-            h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
-            h(`input`, {
-              type: `number`,
-              id: `test-field-id--input`,
-              name: `test-field-id`,
-              required: true,
-              step: 1,
-              min: 14,
-              max: 27,
-              value: `Test Non-Parseable`,
-              readonly: true,
-            }),
-          ]) as VDOM<State>
+          h(
+            `div`,
+            { class: [`invalid`, `integer`, `field`], id: `test-field-id` },
+            [
+              h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+              h(`input`, {
+                type: `number`,
+                id: `test-field-id--input`,
+                name: `test-field-id`,
+                required: true,
+                step: 1,
+                min: 14,
+                max: 27,
+                value: `Test Non-Parseable`,
+                readonly: true,
+              }),
+            ]
+          ) as VDOM<State>
         );
       });
 
@@ -843,20 +871,24 @@ describe(`editableFieldView`, () => {
 
       it(`renders as expected`, () => {
         expect(output).toEqual(
-          h(`div`, { class: [`invalid`, `field`], id: `test-field-id` }, [
-            h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
-            h(`input`, {
-              type: `number`,
-              id: `test-field-id--input`,
-              name: `test-field-id`,
-              required: true,
-              step: 1,
-              min: 14,
-              max: 27,
-              value: `11`,
-              readonly: true,
-            }),
-          ]) as VDOM<State>
+          h(
+            `div`,
+            { class: [`invalid`, `integer`, `field`], id: `test-field-id` },
+            [
+              h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+              h(`input`, {
+                type: `number`,
+                id: `test-field-id--input`,
+                name: `test-field-id`,
+                required: true,
+                step: 1,
+                min: 14,
+                max: 27,
+                value: `11`,
+                readonly: true,
+              }),
+            ]
+          ) as VDOM<State>
         );
       });
 
@@ -950,20 +982,24 @@ describe(`editableFieldView`, () => {
 
       it(`renders as expected`, () => {
         expect(output).toEqual(
-          h(`div`, { class: [`valid`, `field`], id: `test-field-id` }, [
-            h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
-            h(`input`, {
-              type: `number`,
-              id: `test-field-id--input`,
-              name: `test-field-id`,
-              required: true,
-              step: 1,
-              min: 14,
-              max: 27,
-              value: `24`,
-              readonly: true,
-            }),
-          ]) as VDOM<State>
+          h(
+            `div`,
+            { class: [`valid`, `integer`, `field`], id: `test-field-id` },
+            [
+              h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
+              h(`input`, {
+                type: `number`,
+                id: `test-field-id--input`,
+                name: `test-field-id`,
+                required: true,
+                step: 1,
+                min: 14,
+                max: 27,
+                value: `24`,
+                readonly: true,
+              }),
+            ]
+          ) as VDOM<State>
         );
       });
 
