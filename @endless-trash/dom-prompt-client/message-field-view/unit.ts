@@ -1,39 +1,29 @@
-import { MessageField } from "@endless-trash/prompt";
 import { h, text, VDOM } from "hyperapp-cjs";
 import { messageFieldView } from ".";
-import { FormState } from "../form-state";
 import { State } from "../state";
 
 describe(`messageFieldView`, () => {
   let output: VDOM<State>;
 
   beforeAll(() => {
-    const formState: FormState = {
-      form: {
-        name: `Test Form Name`,
-        fields: [],
-        submitButtonLabel: `Test Submit Button Label`,
+    output = messageFieldView({
+      type: `static`,
+      id: `Test Id`,
+      field: {
+        type: `subtitle`,
+        content: `Test Content`,
+        name: `Test Name`,
       },
-      id: `test-form-group-name--test-form-name`,
-      fields: {},
-    };
-
-    const messageField: MessageField = {
-      type: `subtitle`,
-      name: `Test Message Field Name`,
-      content: `Test Content`,
-    };
-
-    output = messageFieldView(formState, messageField, `Test Type`);
+    });
   });
 
   it(`generates the expected HTML`, () => {
     expect(output).toEqual(
       h(
-        `Test Type`,
+        `h2`,
         {
           class: [`subtitle`, `field`],
-          id: `test-form-group-name--test-form-name--test-message-field-name`,
+          id: `Test Id`,
         },
         text(`Test Content`)
       ) as VDOM<State>

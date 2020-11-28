@@ -1,20 +1,17 @@
 import { h, text, VDOM } from "hyperapp-cjs";
-import { MessageField } from "@endless-trash/prompt";
 import { State } from "../state";
-import { FormState } from "../form-state";
-import { convertToAttributeValue } from "../convert-to-attribute-value";
+import { StaticFieldState } from "../field-state/static-field-state";
+import { elementMappings } from "./element-mappings";
 
 export function messageFieldView(
-  formState: FormState,
-  messageField: MessageField,
-  type: string
+  staticFieldState: StaticFieldState
 ): VDOM<State> {
   return h(
-    type,
+    elementMappings[staticFieldState.field.type],
     {
-      class: [messageField.type, `field`],
-      id: `${formState.id}--${convertToAttributeValue(messageField.name)}`,
+      class: [staticFieldState.field.type, `field`],
+      id: staticFieldState.id,
     },
-    text(messageField.content)
+    text(staticFieldState.field.content)
   );
 }
