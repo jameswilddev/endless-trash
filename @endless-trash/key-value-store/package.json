@@ -23,5 +23,6 @@
   "devDependencies": {
     "@endless-trash/immutable-json-type": "0.0.1"
   },
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "sideEffects": false
 }

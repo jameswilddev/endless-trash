@@ -24,5 +24,6 @@
     "got": "11.8.0",
     "data-uri-to-buffer": "3.0.1"
   },
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "sideEffects": false
 }

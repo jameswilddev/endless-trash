@@ -27,5 +27,6 @@
     "@endless-trash/memory-key-value-store": "0.0.2",
     "@endless-trash/memory-key-value-cache": "0.0.0"
   },
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "sideEffects": false
 }

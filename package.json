@@ -36,5 +36,6 @@
     "buildJasmine": "jasmine --config=jasmine.json",
     "buildToolsPublish": "node publish",
     "test": "npm-run-all buildClean buildLintFix buildToolsTypeScript buildToolsRun buildTypeScript buildNyc"
-  }
+  },
+  "sideEffects": false
 }

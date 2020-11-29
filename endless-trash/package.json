@@ -22,5 +22,6 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "echo This is a stub package.  You probably want a @endless-trash/* package instead."
-  }
+  },
+  "sideEffects": false
 }

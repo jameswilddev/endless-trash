@@ -29,5 +29,6 @@
     "local-dynamo": "0.6.0",
     "@endless-trash/immutable-json-type": "0.0.1"
   },
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "sideEffects": false
 }

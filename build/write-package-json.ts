@@ -61,6 +61,7 @@ export async function writePackageJson(
     bin: originalPackageJson.bin,
     scripts: originalPackageJson.scripts,
     types: hasTypes ? `index.d.ts` : undefined,
+    sideEffects: false,
   };
 
   const newPackageJsonText = `${JSON.stringify(newPackageJson, null, 2)}\n`;

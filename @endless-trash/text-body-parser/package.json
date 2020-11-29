@@ -24,5 +24,6 @@
     "@endless-trash/body-parser": "0.0.1",
     "@endless-trash/event-handler": "0.0.3"
   },
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "sideEffects": false
 }

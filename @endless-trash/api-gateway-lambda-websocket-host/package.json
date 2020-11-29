@@ -32,5 +32,6 @@
     "@types/http-terminator": "2.0.1",
     "http-terminator": "2.0.3"
   },
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "sideEffects": false
 }

@@ -31,5 +31,6 @@
     "@types/lodash": "4.14.165",
     "jsdom": "16.4.0"
   },
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "sideEffects": false
 }

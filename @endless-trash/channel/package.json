@@ -20,5 +20,6 @@
     "url": "https://github.com/jameswilddev/endless-trash"
   },
   "license": "MIT",
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "sideEffects": false
 }
