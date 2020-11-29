@@ -27,6 +27,8 @@
   "devDependencies": {
     "@endless-trash/channel": "0.0.1",
     "@endless-trash/prompt": "0.0.6",
-    "@types/lodash": "4.14.165"
+    "@types/jsdom": "^16.2.5",
+    "@types/lodash": "4.14.165",
+    "jsdom": "^16.4.0"
   }
 }

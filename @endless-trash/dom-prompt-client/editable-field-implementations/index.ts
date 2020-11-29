@@ -23,3 +23,4 @@ export const editableFieldImplementations: {
   integer: integerEditableFieldImplementation,
   float: floatEditableFieldImplementation,
 };
+// todo: this is a text field, not an editable field
