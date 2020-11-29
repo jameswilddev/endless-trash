@@ -25,7 +25,7 @@ describe(`applyResponse`, () => {
             content: `Test Previous Content`,
           },
           {
-            prompt: {
+            response: {
               formGroups: [],
             },
             channelSend,
@@ -69,7 +69,7 @@ describe(`applyResponse`, () => {
             content: `Test Previous Content`,
           },
           {
-            prompt: ({
+            response: ({
               something: {
                 which: {
                   is: {
@@ -118,7 +118,7 @@ describe(`applyResponse`, () => {
             content: `Test Previous Content`,
           },
           {
-            prompt: {
+            response: {
               formGroups: [],
             },
             channelSend,
@@ -162,7 +162,7 @@ describe(`applyResponse`, () => {
             content: `Test Previous Content`,
           },
           {
-            prompt: ({
+            response: ({
               something: {
                 which: {
                   is: {
