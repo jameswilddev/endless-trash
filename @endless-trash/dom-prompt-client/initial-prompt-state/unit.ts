@@ -559,7 +559,7 @@ describe(`initialFormGroupsState`, () => {
   });
 
   it(`defaults to interactive mode`, () => {
-    expect(output.sendState).toBeNull();
+    expect(output.mode).toEqual(`interactive`);
   });
 
   it(`includes the channel send callback`, () => {

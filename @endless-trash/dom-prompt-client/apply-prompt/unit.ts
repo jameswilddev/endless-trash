@@ -99,7 +99,7 @@ describe(`applyPrompt`, () => {
           },
         },
       },
-      sendState: `awaitingResponse`,
+      mode: `awaitingResponse`,
       channelSend,
     };
 
@@ -378,8 +378,8 @@ describe(`applyPrompt`, () => {
     });
   });
 
-  it(`resets the send state to null`, () => {
-    expect(output.sendState).toBeNull();
+  it(`resets the mode to interactive`, () => {
+    expect(output.mode).toEqual(`interactive`);
   });
 
   it(`includes the channel's send callback`, () => {

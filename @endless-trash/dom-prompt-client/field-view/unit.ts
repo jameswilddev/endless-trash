@@ -77,7 +77,7 @@ describe(`fieldView`, () => {
             },
           },
         },
-        sendState: null,
+        mode: `interactive`,
         channelSend,
       };
 
@@ -184,7 +184,7 @@ describe(`fieldView`, () => {
             },
           },
         },
-        sendState: null,
+        mode: `interactive`,
         channelSend,
       };
 

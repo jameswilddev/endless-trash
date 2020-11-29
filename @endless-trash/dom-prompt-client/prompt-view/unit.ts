@@ -148,7 +148,7 @@ describe(`promptView`, () => {
             },
           },
         },
-        sendState: null,
+        mode: `interactive`,
         channelSend,
       };
 
@@ -398,7 +398,7 @@ describe(`promptView`, () => {
             },
           },
         },
-        sendState: `sending`,
+        mode: `beingSent`,
         channelSend,
       };
 
@@ -648,7 +648,7 @@ describe(`promptView`, () => {
             },
           },
         },
-        sendState: `awaitingResponse`,
+        mode: `awaitingResponse`,
         channelSend,
       };
 

@@ -27,7 +27,8 @@ export function editableFieldView(
     editableFieldImplementation.validateValue(textFieldState.field, parsed);
 
   const disabled =
-    promptState.sendState !== null || formState.form.submitButtonLabel === null;
+    promptState.mode !== `interactive` ||
+    formState.form.submitButtonLabel === null;
 
   return h(
     `div`,

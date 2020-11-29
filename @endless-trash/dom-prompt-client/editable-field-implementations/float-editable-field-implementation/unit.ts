@@ -1073,7 +1073,7 @@ describe(`floatEditableFieldImplementation`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 

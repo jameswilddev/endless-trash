@@ -227,7 +227,7 @@ describe(`stringEditableFieldImplementation`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 

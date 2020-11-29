@@ -10,7 +10,7 @@ export function applyPrompt(
     type: `prompt`,
     prompt,
     formGroups: applyFormGroups(promptState.formGroups, prompt.formGroups),
-    sendState: null,
+    mode: `interactive`,
     channelSend: promptState.channelSend,
   };
 }

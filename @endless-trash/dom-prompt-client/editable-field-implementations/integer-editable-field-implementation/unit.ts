@@ -1023,7 +1023,7 @@ describe(`integerEditableFieldImplementation`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 

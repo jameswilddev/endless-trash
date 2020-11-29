@@ -115,7 +115,7 @@ describe(`formGroupView`, () => {
           },
         },
       },
-      sendState: `awaitingResponse`,
+      mode: `awaitingResponse`,
       channelSend,
     };
 

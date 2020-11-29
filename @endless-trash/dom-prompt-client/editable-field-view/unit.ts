@@ -79,7 +79,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 
@@ -192,7 +192,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 
@@ -305,7 +305,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 
@@ -420,7 +420,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 
@@ -533,7 +533,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 
@@ -646,7 +646,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 
@@ -763,7 +763,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: `sending`,
+            mode: `beingSent`,
             channelSend,
           };
 
@@ -876,7 +876,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: `sending`,
+            mode: `beingSent`,
             channelSend,
           };
 
@@ -989,7 +989,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: `sending`,
+            mode: `beingSent`,
             channelSend,
           };
 
@@ -1104,7 +1104,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: `sending`,
+            mode: `beingSent`,
             channelSend,
           };
 
@@ -1217,7 +1217,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: `sending`,
+            mode: `beingSent`,
             channelSend,
           };
 
@@ -1330,7 +1330,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: `sending`,
+            mode: `beingSent`,
             channelSend,
           };
 
@@ -1447,7 +1447,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: `awaitingResponse`,
+            mode: `awaitingResponse`,
             channelSend,
           };
 
@@ -1560,7 +1560,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: `awaitingResponse`,
+            mode: `awaitingResponse`,
             channelSend,
           };
 
@@ -1673,7 +1673,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: `awaitingResponse`,
+            mode: `awaitingResponse`,
             channelSend,
           };
 
@@ -1788,7 +1788,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: `awaitingResponse`,
+            mode: `awaitingResponse`,
             channelSend,
           };
 
@@ -1901,7 +1901,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: `awaitingResponse`,
+            mode: `awaitingResponse`,
             channelSend,
           };
 
@@ -2014,7 +2014,7 @@ describe(`editableFieldView`, () => {
                 },
               },
             },
-            sendState: `awaitingResponse`,
+            mode: `awaitingResponse`,
             channelSend,
           };
 

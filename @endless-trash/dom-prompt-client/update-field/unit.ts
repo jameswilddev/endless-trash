@@ -193,7 +193,7 @@ describe(`updateField`, () => {
           },
         },
       },
-      sendState: null,
+      mode: `interactive`,
       channelSend,
     };
 
@@ -393,7 +393,7 @@ describe(`updateField`, () => {
           },
         },
       },
-      sendState: null,
+      mode: `interactive`,
       channelSend,
     });
   });

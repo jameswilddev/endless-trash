@@ -1,7 +1,7 @@
 import { Prompt, Request } from "@endless-trash/prompt";
 import { ChannelSend } from "@endless-trash/channel";
 import { FormGroupState } from "../form-group-state";
-import { SendState } from "../send-state";
+import { PromptMode } from "./prompt-mode";
 
 export type PromptState = {
   readonly type: `prompt`;
@@ -9,6 +9,6 @@ export type PromptState = {
   readonly formGroups: {
     readonly [name: string]: FormGroupState;
   };
-  readonly sendState: SendState;
+  readonly mode: PromptMode;
   readonly channelSend: ChannelSend<Request>;
 };

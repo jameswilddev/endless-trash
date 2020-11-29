@@ -6,12 +6,12 @@ import { State } from "../state";
 export function promptView(promptState: PromptState): VDOM<State> {
   let classNames: string[];
 
-  switch (promptState.sendState) {
-    case null:
+  switch (promptState.mode) {
+    case `interactive`:
       classNames = [`interactive`, `prompt`];
       break;
 
-    case `sending`:
+    case `beingSent`:
       classNames = [`prompt`, `being-sent`];
       break;
 

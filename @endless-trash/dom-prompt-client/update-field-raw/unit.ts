@@ -193,7 +193,7 @@ describe(`updateFieldRaw`, () => {
           },
         },
       },
-      sendState: null,
+      mode: `interactive`,
       channelSend,
     };
 
@@ -392,7 +392,7 @@ describe(`updateFieldRaw`, () => {
           },
         },
       },
-      sendState: null,
+      mode: `interactive`,
       channelSend,
     });
   });

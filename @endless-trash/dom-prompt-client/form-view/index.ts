@@ -33,7 +33,7 @@ export function formView(
         {
           type: `submit`,
           class: `submit-button`,
-          disabled: invalid || promptState.sendState !== null,
+          disabled: invalid || promptState.mode !== `interactive`,
         },
         text(formState.form.submitButtonLabel)
       )

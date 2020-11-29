@@ -89,7 +89,7 @@ describe(`formView`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 
@@ -246,7 +246,7 @@ describe(`formView`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 
@@ -405,7 +405,7 @@ describe(`formView`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 
@@ -553,7 +553,7 @@ describe(`formView`, () => {
                 },
               },
             },
-            sendState: null,
+            mode: `interactive`,
             channelSend,
           };
 
@@ -705,7 +705,7 @@ describe(`formView`, () => {
                 },
               },
             },
-            sendState: `sending`,
+            mode: `beingSent`,
             channelSend,
           };
 
@@ -862,7 +862,7 @@ describe(`formView`, () => {
                 },
               },
             },
-            sendState: `sending`,
+            mode: `beingSent`,
             channelSend,
           };
 
@@ -1021,7 +1021,7 @@ describe(`formView`, () => {
                 },
               },
             },
-            sendState: `sending`,
+            mode: `beingSent`,
             channelSend,
           };
 
@@ -1169,7 +1169,7 @@ describe(`formView`, () => {
                 },
               },
             },
-            sendState: `sending`,
+            mode: `beingSent`,
             channelSend,
           };
 
@@ -1321,7 +1321,7 @@ describe(`formView`, () => {
                 },
               },
             },
-            sendState: `awaitingResponse`,
+            mode: `awaitingResponse`,
             channelSend,
           };
 
@@ -1478,7 +1478,7 @@ describe(`formView`, () => {
                 },
               },
             },
-            sendState: `awaitingResponse`,
+            mode: `awaitingResponse`,
             channelSend,
           };
 
@@ -1637,7 +1637,7 @@ describe(`formView`, () => {
                 },
               },
             },
-            sendState: `awaitingResponse`,
+            mode: `awaitingResponse`,
             channelSend,
           };
 
@@ -1785,7 +1785,7 @@ describe(`formView`, () => {
                 },
               },
             },
-            sendState: `awaitingResponse`,
+            mode: `awaitingResponse`,
             channelSend,
           };
 

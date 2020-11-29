@@ -11,7 +11,7 @@ export function initialPromptState(
     type: `prompt`,
     prompt,
     formGroups: initialFormGroupsState(prompt.formGroups),
-    sendState: null,
+    mode: `interactive`,
     channelSend,
   };
 }
