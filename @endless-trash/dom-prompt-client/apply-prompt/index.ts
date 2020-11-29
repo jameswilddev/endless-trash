@@ -1,16 +1,35 @@
-import { Prompt } from "@endless-trash/prompt";
+import { ActionTransform } from "hyperapp-cjs";
 import { applyFormGroups } from "../apply-form-groups";
-import { PromptState } from "../prompt-state";
+import { ApplyPromptProps } from "../apply-prompt-props";
+import { initialFormGroupsState } from "../initial-form-groups-state";
+import { State } from "../state";
 
-export function applyPrompt(
-  promptState: PromptState,
-  prompt: Prompt
-): PromptState {
-  return {
-    type: `prompt`,
-    prompt,
-    formGroups: applyFormGroups(promptState.formGroups, prompt.formGroups),
-    mode: `interactive`,
-    channelSend: promptState.channelSend,
-  };
-}
+export const applyPrompt: ActionTransform<State, ApplyPromptProps> = (
+  state,
+  props
+) => {
+  const providedProps = props as ApplyPromptProps;
+
+  switch (state.type) {
+    case `message`:
+      return {
+        type: `prompt`,
+        prompt: providedProps.prompt,
+        formGroups: initialFormGroupsState(providedProps.prompt.formGroups),
+        mode: `interactive`,
+        channelSend: providedProps.channelSend,
+      };
+
+    case `prompt`:
+      return {
+        type: `prompt`,
+        prompt: providedProps.prompt,
+        formGroups: applyFormGroups(
+          state.formGroups,
+          providedProps.prompt.formGroups
+        ),
+        mode: `interactive`,
+        channelSend: providedProps.channelSend,
+      };
+  }
+};
