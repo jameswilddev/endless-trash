@@ -1,5 +1,5 @@
 import { Field, Form, FormGroup } from "@endless-trash/prompt";
-import { isEqual } from "lodash";
+import isEqual = require("lodash/isEqual");
 import { FieldState } from "../field-state";
 import { initialFieldState } from "../initial-field-state";
 
