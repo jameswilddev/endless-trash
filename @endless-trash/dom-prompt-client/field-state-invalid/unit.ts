@@ -2,7 +2,7 @@ import { fieldStateInvalid } from ".";
 
 describe(`fieldStateValid`, () => {
   describe(`text`, () => {
-    describe(`when truthy`, () => {
+    describe(`when not parseable`, () => {
       let output: boolean;
 
       beforeAll(() => {
@@ -10,70 +10,70 @@ describe(`fieldStateValid`, () => {
           type: `text`,
           id: `Test Id`,
           field: {
-            type: `string`,
+            type: `integer`,
             name: `Test Name`,
             label: `Test Label`,
-            minimumLength: null,
-            maximumLength: null,
-            value: `Test Value`,
+            minimum: [10, `inclusive`],
+            maximum: [20, `inclusive`],
+            required: true,
+            value: null,
           },
-          raw: `Test Raw`,
-          parsed: `Test Parsed`,
-        });
-      });
-
-      it(`returns false`, () => {
-        expect(output).toBeFalse();
-      });
-    });
-
-    describe(`when falsy`, () => {
-      let output: boolean;
-
-      beforeAll(() => {
-        output = fieldStateInvalid({
-          type: `text`,
-          id: `Test Id`,
-          field: {
-            type: `string`,
-            name: `Test Name`,
-            label: `Test Label`,
-            minimumLength: null,
-            maximumLength: null,
-            value: `Test Value`,
-          },
-          raw: `Test Raw`,
-          parsed: null,
-        });
-      });
-
-      it(`returns false`, () => {
-        expect(output).toBeFalse();
-      });
-    });
-
-    describe(`when undefined`, () => {
-      let output: boolean;
-
-      beforeAll(() => {
-        output = fieldStateInvalid({
-          type: `text`,
-          id: `Test Id`,
-          field: {
-            type: `string`,
-            name: `Test Name`,
-            label: `Test Label`,
-            minimumLength: null,
-            maximumLength: null,
-            value: `Test Value`,
-          },
-          raw: `Test Raw`,
-          parsed: undefined,
+          raw: `14q`,
         });
       });
 
       it(`returns true`, () => {
         expect(output).toBeTrue();
+      });
+    });
+
+    describe(`when parseable but not valid`, () => {
+      let output: boolean;
+
+      beforeAll(() => {
+        output = fieldStateInvalid({
+          type: `text`,
+          id: `Test Id`,
+          field: {
+            type: `integer`,
+            name: `Test Name`,
+            label: `Test Label`,
+            minimum: [10, `inclusive`],
+            maximum: [20, `inclusive`],
+            required: true,
+            value: null,
+          },
+          raw: `23`,
+        });
+      });
+
+      it(`returns true`, () => {
+        expect(output).toBeTrue();
+      });
+    });
+
+    describe(`when parseable and valid`, () => {
+      let output: boolean;
+
+      beforeAll(() => {
+        output = fieldStateInvalid({
+          type: `text`,
+          id: `Test Id`,
+          field: {
+            type: `integer`,
+            name: `Test Name`,
+            label: `Test Label`,
+            minimum: [10, `inclusive`],
+            maximum: [20, `inclusive`],
+            required: true,
+            value: null,
+          },
+          raw: `14`,
+        });
+      });
+
+      it(`returns false`, () => {
+        expect(output).toBeFalse();
       });
     });
   });

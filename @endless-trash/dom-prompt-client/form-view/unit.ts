@@ -82,7 +82,6 @@ describe(`formView`, () => {
                           required: true,
                         },
                         raw: `24`,
-                        parsed: 22.2,
                       },
                     },
                   },
@@ -238,8 +237,7 @@ describe(`formView`, () => {
                           maximum: [27, `exclusive`],
                           required: true,
                         },
-                        raw: `24`,
-                        parsed: undefined,
+                        raw: `2d4`,
                       },
                     },
                   },
@@ -278,7 +276,7 @@ describe(`formView`, () => {
                   h(
                     `div`,
                     {
-                      class: [`valid`, `integer`, `field`],
+                      class: [`invalid`, `integer`, `field`],
                       id: `test-field-id`,
                     },
                     [
@@ -295,7 +293,7 @@ describe(`formView`, () => {
                         step: 1,
                         min: 14,
                         max: 27,
-                        value: `24`,
+                        value: `2d4`,
                         readonly: false,
                       }),
                     ]
@@ -398,7 +396,6 @@ describe(`formView`, () => {
                           required: true,
                         },
                         raw: `24`,
-                        parsed: 22.2,
                       },
                     },
                   },
@@ -545,8 +542,7 @@ describe(`formView`, () => {
                           maximum: [27, `exclusive`],
                           required: true,
                         },
-                        raw: `24`,
-                        parsed: undefined,
+                        raw: `2d4`,
                       },
                     },
                   },
@@ -585,7 +581,7 @@ describe(`formView`, () => {
                   h(
                     `div`,
                     {
-                      class: [`valid`, `integer`, `field`],
+                      class: [`invalid`, `integer`, `field`],
                       id: `test-field-id`,
                     },
                     [
@@ -602,7 +598,7 @@ describe(`formView`, () => {
                         step: 1,
                         min: 14,
                         max: 27,
-                        value: `24`,
+                        value: `2d4`,
                         readonly: true,
                       }),
                     ]
@@ -698,7 +694,6 @@ describe(`formView`, () => {
                           required: true,
                         },
                         raw: `24`,
-                        parsed: 22.2,
                       },
                     },
                   },
@@ -854,8 +849,7 @@ describe(`formView`, () => {
                           maximum: [27, `exclusive`],
                           required: true,
                         },
-                        raw: `24`,
-                        parsed: undefined,
+                        raw: `2d4`,
                       },
                     },
                   },
@@ -894,7 +888,7 @@ describe(`formView`, () => {
                   h(
                     `div`,
                     {
-                      class: [`valid`, `integer`, `field`],
+                      class: [`invalid`, `integer`, `field`],
                       id: `test-field-id`,
                     },
                     [
@@ -911,7 +905,7 @@ describe(`formView`, () => {
                         step: 1,
                         min: 14,
                         max: 27,
-                        value: `24`,
+                        value: `2d4`,
                         readonly: true,
                       }),
                     ]
@@ -1014,7 +1008,6 @@ describe(`formView`, () => {
                           required: true,
                         },
                         raw: `24`,
-                        parsed: 22.2,
                       },
                     },
                   },
@@ -1161,8 +1154,7 @@ describe(`formView`, () => {
                           maximum: [27, `exclusive`],
                           required: true,
                         },
-                        raw: `24`,
-                        parsed: undefined,
+                        raw: `2d4`,
                       },
                     },
                   },
@@ -1201,7 +1193,7 @@ describe(`formView`, () => {
                   h(
                     `div`,
                     {
-                      class: [`valid`, `integer`, `field`],
+                      class: [`invalid`, `integer`, `field`],
                       id: `test-field-id`,
                     },
                     [
@@ -1218,7 +1210,7 @@ describe(`formView`, () => {
                         step: 1,
                         min: 14,
                         max: 27,
-                        value: `24`,
+                        value: `2d4`,
                         readonly: true,
                       }),
                     ]
@@ -1314,7 +1306,6 @@ describe(`formView`, () => {
                           required: true,
                         },
                         raw: `24`,
-                        parsed: 22.2,
                       },
                     },
                   },
@@ -1470,8 +1461,7 @@ describe(`formView`, () => {
                           maximum: [27, `exclusive`],
                           required: true,
                         },
-                        raw: `24`,
-                        parsed: undefined,
+                        raw: `2d4`,
                       },
                     },
                   },
@@ -1510,7 +1500,7 @@ describe(`formView`, () => {
                   h(
                     `div`,
                     {
-                      class: [`valid`, `integer`, `field`],
+                      class: [`invalid`, `integer`, `field`],
                       id: `test-field-id`,
                     },
                     [
@@ -1527,7 +1517,7 @@ describe(`formView`, () => {
                         step: 1,
                         min: 14,
                         max: 27,
-                        value: `24`,
+                        value: `2d4`,
                         readonly: true,
                       }),
                     ]
@@ -1630,7 +1620,6 @@ describe(`formView`, () => {
                           required: true,
                         },
                         raw: `24`,
-                        parsed: 22.2,
                       },
                     },
                   },
@@ -1777,8 +1766,7 @@ describe(`formView`, () => {
                           maximum: [27, `exclusive`],
                           required: true,
                         },
-                        raw: `24`,
-                        parsed: undefined,
+                        raw: `2d4`,
                       },
                     },
                   },
@@ -1817,7 +1805,7 @@ describe(`formView`, () => {
                   h(
                     `div`,
                     {
-                      class: [`valid`, `integer`, `field`],
+                      class: [`invalid`, `integer`, `field`],
                       id: `test-field-id`,
                     },
                     [
@@ -1834,7 +1822,7 @@ describe(`formView`, () => {
                         step: 1,
                         min: 14,
                         max: 27,
-                        value: `24`,
+                        value: `2d4`,
                         readonly: true,
                       }),
                     ]

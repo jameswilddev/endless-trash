@@ -200,7 +200,6 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                parsed: `Test Field A A A Value`,
                 raw: `Test Field A A A Value`,
               },
               "Test Field A A B Name": {
@@ -214,7 +213,6 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                parsed: `Test Field A A B Value`,
                 raw: `Test Field A A B Value`,
               },
             },
@@ -255,7 +253,6 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                parsed: `Test Field A B A Value`,
                 raw: `Test Field A B A Value`,
               },
               "Test Field A B B Name": {
@@ -269,7 +266,6 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                parsed: `Test Field A B B Value`,
                 raw: `Test Field A B B Value`,
               },
             },
@@ -364,7 +360,6 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                parsed: `Test Field B A A Value`,
                 raw: `Test Field B A A Value`,
               },
               "Test Field B A B Name": {
@@ -378,7 +373,6 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                parsed: `Test Field B A B Value`,
                 raw: `Test Field B A B Value`,
               },
             },
@@ -419,7 +413,6 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                parsed: `Test Field B B A Value`,
                 raw: `Test Field B B A Value`,
               },
               "Test Field B B B Name": {
@@ -433,7 +426,6 @@ describe(`initialFormGroupsState`, () => {
                   minimumLength: null,
                   maximumLength: null,
                 },
-                parsed: `Test Field B B B Value`,
                 raw: `Test Field B B B Value`,
               },
             },

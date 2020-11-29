@@ -55,7 +55,6 @@ describe(`fieldView`, () => {
                       maximumLength: null,
                     },
                     raw: `Test Other Raw`,
-                    parsed: `Test Other Parsed`,
                   },
                   "Test Field Name": {
                     type: `text`,
@@ -70,7 +69,6 @@ describe(`fieldView`, () => {
                       required: true,
                     },
                     raw: `24`,
-                    parsed: 22.2,
                   },
                 },
               },
@@ -168,7 +166,6 @@ describe(`fieldView`, () => {
                       maximumLength: null,
                     },
                     raw: `Test Other Raw`,
-                    parsed: `Test Other Parsed`,
                   },
                   "Test Field Name": {
                     type: `static`,

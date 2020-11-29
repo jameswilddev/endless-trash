@@ -52,8 +52,6 @@ describe(`initialFieldsState`, () => {
           required: true,
           value: 44.5,
         },
-
-        parsed: 44.5,
         raw: `44.5`,
       },
       "Test Field B": {
@@ -67,7 +65,6 @@ describe(`initialFieldsState`, () => {
           maximumLength: 5,
           value: `Test Value B`,
         },
-        parsed: undefined,
         raw: `Test Value B`,
       },
     });

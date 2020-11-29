@@ -33,9 +33,6 @@ export function initialFieldState(
         type: `text`,
         id,
         field,
-        parsed: editableFieldImplementation.validateValue(field, field.value)
-          ? field.value
-          : undefined,
         raw: editableFieldImplementation.convertValueToRaw(field.value),
       };
 

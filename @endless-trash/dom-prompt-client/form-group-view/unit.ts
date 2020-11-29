@@ -108,7 +108,6 @@ describe(`formGroupView`, () => {
                     required: true,
                   },
                   raw: `24`,
-                  parsed: 22.2,
                 },
               },
             },

@@ -28,7 +28,6 @@ describe(`applyField`, () => {
             required: true,
             value: 24.7,
           },
-          parsed: 12.1,
           raw: `Test Raw`,
         },
         {
@@ -56,7 +55,6 @@ describe(`applyField`, () => {
           required: true,
           value: 24.7,
         },
-        parsed: 12.1,
         raw: `Test Raw`,
       });
     });
@@ -88,7 +86,6 @@ describe(`applyField`, () => {
             required: true,
             value: 24.7,
           },
-          parsed: 12.1,
           raw: `Test Raw`,
         },
         {
@@ -116,7 +113,6 @@ describe(`applyField`, () => {
           required: true,
           value: 24.1,
         },
-        parsed: 24.1,
         raw: `24.1`,
       });
     });

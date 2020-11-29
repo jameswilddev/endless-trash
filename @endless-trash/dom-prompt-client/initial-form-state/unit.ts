@@ -79,7 +79,6 @@ describe(`initialFormState`, () => {
           minimumLength: null,
           maximumLength: null,
         },
-        parsed: `Test Field A Value`,
         raw: `Test Field A Value`,
       },
       "Test Field B Name": {
@@ -93,7 +92,6 @@ describe(`initialFormState`, () => {
           minimumLength: null,
           maximumLength: null,
         },
-        parsed: `Test Field B Value`,
         raw: `Test Field B Value`,
       },
     });

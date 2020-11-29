@@ -31,7 +31,6 @@ describe(`applyForm`, () => {
             required: true,
             value: 44.5,
           },
-          parsed: 11.2,
           raw: `Test Retained Raw`,
         },
         "Test Reset Field": {
@@ -46,7 +45,6 @@ describe(`applyForm`, () => {
             required: true,
             value: 74.21,
           },
-          parsed: 82.4,
           raw: `Test Reset Raw`,
         },
       },
@@ -125,7 +123,6 @@ describe(`applyForm`, () => {
           required: true,
           value: 44.5,
         },
-        parsed: 11.2,
         raw: `Test Retained Raw`,
       },
       "Test Reset Field": {
@@ -140,7 +137,6 @@ describe(`applyForm`, () => {
           required: true,
           value: 31.1,
         },
-        parsed: 31.1,
         raw: `31.1`,
       },
     });

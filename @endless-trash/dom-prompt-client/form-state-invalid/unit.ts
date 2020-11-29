@@ -1,7 +1,7 @@
 import { formStateInvalid } from ".";
 
 describe(`formStateInvalid`, () => {
-  describe(`when all values are defined`, () => {
+  describe(`when all fields are valid`, () => {
     let output: boolean;
 
     beforeAll(() => {
@@ -24,7 +24,6 @@ describe(`formStateInvalid`, () => {
               maximumLength: null,
               value: `Test Field A Value`,
             },
-            parsed: `Test Field A Parsed`,
             raw: `Test Field A Raw`,
           },
           testFieldB: {
@@ -38,7 +37,6 @@ describe(`formStateInvalid`, () => {
               maximumLength: null,
               value: `Test Field B Value`,
             },
-            parsed: null,
             raw: `Test Field B Raw`,
           },
           testFieldC: {
@@ -61,7 +59,6 @@ describe(`formStateInvalid`, () => {
               maximumLength: null,
               value: `Test Field D Value`,
             },
-            parsed: `Test Field D Parsed`,
             raw: `Test Field D Raw`,
           },
         },
@@ -73,7 +70,7 @@ describe(`formStateInvalid`, () => {
     });
   });
 
-  describe(`when a value is undefined`, () => {
+  describe(`when a field is invalid`, () => {
     let output: boolean;
 
     beforeAll(() => {
@@ -96,7 +93,6 @@ describe(`formStateInvalid`, () => {
               maximumLength: null,
               value: `Test Field A Value`,
             },
-            parsed: `Test Field A Parsed`,
             raw: `Test Field A Raw`,
           },
           testFieldB: {
@@ -110,8 +106,7 @@ describe(`formStateInvalid`, () => {
               maximumLength: null,
               value: `Test Field B Value`,
             },
-            parsed: undefined,
-            raw: `Test Field B Raw`,
+            raw: `T`,
           },
           testFieldC: {
             type: `static`,
@@ -133,7 +128,6 @@ describe(`formStateInvalid`, () => {
               maximumLength: null,
               value: `Test Field D Value`,
             },
-            parsed: `Test Field D Parsed`,
             raw: `Test Field D Raw`,
           },
         },

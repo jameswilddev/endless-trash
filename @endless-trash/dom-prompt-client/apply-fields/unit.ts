@@ -68,7 +68,6 @@ describe(`applyFields`, () => {
           required: true,
           value: 24.7,
         },
-        parsed: 12.1,
         raw: `Test Removed Raw`,
       },
       "Test Converted To Non-Editable Field": {
@@ -83,7 +82,6 @@ describe(`applyFields`, () => {
           required: true,
           value: 6.54,
         },
-        parsed: 7.6,
         raw: `Test Converted To Non-Editable Raw`,
       },
       "Test Retained Field": {
@@ -98,7 +96,6 @@ describe(`applyFields`, () => {
           required: true,
           value: 44.5,
         },
-        parsed: 11.2,
         raw: `Test Retained Raw`,
       },
       "Test Reset Field": {
@@ -113,7 +110,6 @@ describe(`applyFields`, () => {
           required: true,
           value: 74.21,
         },
-        parsed: 82.4,
         raw: `Test Reset Raw`,
       },
     };
@@ -134,7 +130,6 @@ describe(`applyFields`, () => {
         required: true,
         value: 44.5,
       },
-      parsed: 44.5,
       raw: `44.5`,
     });
   });
@@ -152,7 +147,6 @@ describe(`applyFields`, () => {
         required: true,
         value: 44.5,
       },
-      parsed: 11.2,
       raw: `Test Retained Raw`,
     });
   });
@@ -170,7 +164,6 @@ describe(`applyFields`, () => {
         required: true,
         value: 31.1,
       },
-      parsed: 31.1,
       raw: `31.1`,
     });
   });
