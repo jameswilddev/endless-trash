@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/dom-prompt-client",
   "description": "A client which displays prompts using the DOM.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=10.19.0"
   },
@@ -27,8 +27,9 @@
   "devDependencies": {
     "@endless-trash/channel": "0.0.1",
     "@endless-trash/prompt": "0.0.6",
-    "@types/jsdom": "^16.2.5",
+    "@types/jsdom": "16.2.5",
     "@types/lodash": "4.14.165",
-    "jsdom": "^16.4.0"
-  }
+    "jsdom": "16.4.0"
+  },
+  "types": "index.d.ts"
 }
