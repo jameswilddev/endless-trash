@@ -38,7 +38,7 @@ describe(`initialFieldsState`, () => {
     );
   });
 
-  it(`generates state for the editable fields`, () => {
+  it(`generates state for all fields`, () => {
     expect(output).toEqual({
       "Test Field A": {
         type: `text`,
@@ -53,6 +53,15 @@ describe(`initialFieldsState`, () => {
           value: 44.5,
         },
         raw: `44.5`,
+      },
+      "Test Non-Editable Field": {
+        type: `static`,
+        id: `test-form-group-name--test-form-name--test-non-editable-field`,
+        field: {
+          type: `subtitle`,
+          name: `Test Non-Editable Field`,
+          content: `Test Content`,
+        },
       },
       "Test Field B": {
         type: `text`,
