@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/dom-prompt-client",
   "description": "A client which displays prompts using the DOM.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=10.19.0"
   },
