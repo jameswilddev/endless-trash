@@ -3,6 +3,8 @@ import { formStateInvalid } from "../form-state-invalid";
 import { PromptState } from "../prompt-state";
 import { State } from "../state";
 import { fieldView } from "../field-view";
+import { sendEffect } from "../send-effect";
+import { convertFormStateToRequest } from "../convert-form-state-to-request";
 
 export function formView(
   promptState: PromptState,
@@ -51,6 +53,22 @@ export function formView(
           ? `without-submit-button`
           : `with-submit-button`,
       ],
+      onsubmit:
+        invalid ||
+        promptState.mode !== "interactive" ||
+        formState.form.submitButtonLabel === null
+          ? undefined
+          : (state, event) => {
+              state;
+              event = event as Event;
+
+              event.preventDefault();
+
+              return [
+                { ...promptState, mode: `beingSent` },
+                [sendEffect, convertFormStateToRequest(formState)],
+              ];
+            },
     },
     children
   );

@@ -132,6 +132,7 @@ describe(`formGroupView`, () => {
             {
               class: [`valid`, `form`, `with-submit-button`],
               id: `test-other-form-id`,
+              onsubmit: undefined,
             },
             [
               h(`div`, { class: `fields` }, []),
@@ -151,6 +152,7 @@ describe(`formGroupView`, () => {
             {
               class: [`valid`, `form`, `with-submit-button`],
               id: `test-form-id`,
+              onsubmit: undefined,
             },
             [
               h(`div`, { class: `fields` }, [

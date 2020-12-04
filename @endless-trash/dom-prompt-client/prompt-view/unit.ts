@@ -174,6 +174,9 @@ describe(`promptView`, () => {
                   {
                     class: [`valid`, `form`, `with-submit-button`],
                     id: `test-other-form-id`,
+                    onsubmit: (jasmine.any(
+                      Function
+                    ) as unknown) as ActionDescriptor<State, Event>,
                   },
                   [
                     h(`div`, { class: `fields` }, []),
@@ -193,6 +196,9 @@ describe(`promptView`, () => {
                   {
                     class: [`valid`, `form`, `with-submit-button`],
                     id: `test-form-id`,
+                    onsubmit: (jasmine.any(
+                      Function
+                    ) as unknown) as ActionDescriptor<State, Event>,
                   },
                   [
                     h(`div`, { class: `fields` }, [
@@ -432,6 +438,7 @@ describe(`promptView`, () => {
                   {
                     class: [`valid`, `form`, `with-submit-button`],
                     id: `test-other-form-id`,
+                    onsubmit: undefined,
                   },
                   [
                     h(`div`, { class: `fields` }, []),
@@ -451,6 +458,7 @@ describe(`promptView`, () => {
                   {
                     class: [`valid`, `form`, `with-submit-button`],
                     id: `test-form-id`,
+                    onsubmit: undefined,
                   },
                   [
                     h(`div`, { class: `fields` }, [
@@ -690,6 +698,7 @@ describe(`promptView`, () => {
                   {
                     class: [`valid`, `form`, `with-submit-button`],
                     id: `test-other-form-id`,
+                    onsubmit: undefined,
                   },
                   [
                     h(`div`, { class: `fields` }, []),
@@ -709,6 +718,7 @@ describe(`promptView`, () => {
                   {
                     class: [`valid`, `form`, `with-submit-button`],
                     id: `test-form-id`,
+                    onsubmit: undefined,
                   },
                   [
                     h(`div`, { class: `fields` }, [
