@@ -1,4 +1,4 @@
-import { h, text, VDOM } from "hyperapp-cjs";
+import { ActionDescriptor, h, text, VDOM } from "hyperapp-cjs";
 import { PromptState } from "../prompt-state";
 import { State } from "../state";
 import { fieldView } from ".";
@@ -104,6 +104,14 @@ describe(`fieldView`, () => {
               max: 27,
               value: `24`,
               readonly: false,
+              oninput: (jasmine.any(Function) as unknown) as ActionDescriptor<
+                State,
+                Event
+              >,
+              onblur: (jasmine.any(Function) as unknown) as ActionDescriptor<
+                State,
+                FocusEvent
+              >,
             }),
           ]
         ) as VDOM<State>

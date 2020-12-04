@@ -1,4 +1,4 @@
-import { h, text, VDOM } from "hyperapp-cjs";
+import { ActionDescriptor, h, text, VDOM } from "hyperapp-cjs";
 import { editableFieldView } from ".";
 import { PromptState } from "../prompt-state";
 import { State } from "../state";
@@ -106,6 +106,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `Test Non-Parseable`,
                   readonly: false,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -217,6 +223,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `11`,
                   readonly: false,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -328,6 +340,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `24`,
                   readonly: false,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -441,6 +459,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `Test Non-Parseable`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -552,6 +576,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `11`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -663,6 +693,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `24`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -778,6 +814,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `Test Non-Parseable`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -889,6 +931,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `11`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -1000,6 +1048,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `24`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -1113,6 +1167,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `Test Non-Parseable`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -1224,6 +1284,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `11`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -1335,6 +1401,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `24`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -1450,6 +1522,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `Test Non-Parseable`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -1561,6 +1639,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `11`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -1672,6 +1756,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `24`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -1785,6 +1875,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `Test Non-Parseable`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -1896,6 +1992,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `11`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>
@@ -2007,6 +2109,12 @@ describe(`editableFieldView`, () => {
                   max: 27,
                   value: `24`,
                   readonly: true,
+                  oninput: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, Event>,
+                  onblur: (jasmine.any(
+                    Function
+                  ) as unknown) as ActionDescriptor<State, FocusEvent>,
                 }),
               ]
             ) as VDOM<State>

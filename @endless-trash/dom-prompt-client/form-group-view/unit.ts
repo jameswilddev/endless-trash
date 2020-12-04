@@ -1,4 +1,4 @@
-import { h, text, VDOM } from "hyperapp-cjs";
+import { ActionDescriptor, h, text, VDOM } from "hyperapp-cjs";
 import { formGroupView } from ".";
 import { PromptState } from "../prompt-state";
 import { State } from "../state";
@@ -184,6 +184,12 @@ describe(`formGroupView`, () => {
                       max: 27,
                       value: `24`,
                       readonly: true,
+                      oninput: (jasmine.any(
+                        Function
+                      ) as unknown) as ActionDescriptor<State, Event>,
+                      onblur: (jasmine.any(
+                        Function
+                      ) as unknown) as ActionDescriptor<State, FocusEvent>,
                     }),
                   ]
                 ),

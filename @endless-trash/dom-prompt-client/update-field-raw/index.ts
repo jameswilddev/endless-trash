@@ -1,35 +1,40 @@
 import { TextFieldState } from "../field-state/text-field-state";
-import { PromptState } from "../prompt-state";
-import { RawFieldValue } from "../raw-field-value";
+import { State } from "../state";
+import { UpdateFieldRawProps } from "../update-field-raw-props";
 
 export function updateFieldRaw(
-  promptState: PromptState,
-  formGroupName: string,
-  formName: string,
-  fieldName: string,
-  raw: RawFieldValue
-): PromptState {
-  return {
-    ...promptState,
-    formGroups: {
-      ...promptState.formGroups,
-      [formGroupName]: {
-        ...promptState.formGroups[formGroupName],
-        forms: {
-          ...promptState.formGroups[formGroupName].forms,
-          [formName]: {
-            ...promptState.formGroups[formGroupName].forms[formName],
-            fields: {
-              ...promptState.formGroups[formGroupName].forms[formName].fields,
-              [fieldName]: {
-                ...(promptState.formGroups[formGroupName].forms[formName]
-                  .fields[fieldName] as TextFieldState),
-                raw,
+  state: State,
+  props: UpdateFieldRawProps
+): State {
+  switch (state.type) {
+    case `message`:
+      return state;
+
+    case `prompt`:
+      return {
+        ...state,
+        formGroups: {
+          ...state.formGroups,
+          [props.formGroupName]: {
+            ...state.formGroups[props.formGroupName],
+            forms: {
+              ...state.formGroups[props.formGroupName].forms,
+              [props.formName]: {
+                ...state.formGroups[props.formGroupName].forms[props.formName],
+                fields: {
+                  ...state.formGroups[props.formGroupName].forms[props.formName]
+                    .fields,
+                  [props.fieldName]: {
+                    ...(state.formGroups[props.formGroupName].forms[
+                      props.formName
+                    ].fields[props.fieldName] as TextFieldState),
+                    raw: props.raw,
+                  },
+                },
               },
             },
           },
         },
-      },
-    },
-  };
+      };
+  }
 }

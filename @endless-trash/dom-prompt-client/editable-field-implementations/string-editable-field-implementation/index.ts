@@ -1,8 +1,9 @@
 import { StringField, RequestStringField } from "@endless-trash/prompt";
-import { h, text, VDOM } from "hyperapp-cjs";
+import { ActionTransform, h, text, VDOM } from "hyperapp-cjs";
 import { TextFieldState } from "../../field-state/text-field-state";
 import { PromptState } from "../../prompt-state";
 import { State } from "../../state";
+import { updateFieldRaw } from "../../update-field-raw";
 import { EditableFieldImplementation } from "../editable-field-implementation";
 
 export const stringEditableFieldImplementation: EditableFieldImplementation<
@@ -47,6 +48,23 @@ export const stringEditableFieldImplementation: EditableFieldImplementation<
 
     const id = `${textFieldState.id}--input`;
 
+    const eventHandler: ActionTransform<State, Event> = (state, event) => {
+      state;
+
+      event = event as Event;
+      const target = event.target as HTMLInputElement;
+
+      return [
+        updateFieldRaw,
+        {
+          formGroupName,
+          formName,
+          fieldName,
+          raw: target.value,
+        },
+      ];
+    };
+
     return [
       h(`label`, { for: id }, text(stringField.label)),
       h(`input`, {
@@ -62,6 +80,8 @@ export const stringEditableFieldImplementation: EditableFieldImplementation<
             : stringField.maximumLength,
         value: textFieldState.raw,
         readonly: disabled,
+        oninput: eventHandler,
+        onblur: eventHandler,
       }),
     ];
   },

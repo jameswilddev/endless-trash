@@ -1,9 +1,10 @@
 import { FloatField, RequestFloatField } from "@endless-trash/prompt";
-import { h, text, VDOM } from "hyperapp-cjs";
+import { ActionTransform, h, text, VDOM } from "hyperapp-cjs";
 import { TextFieldState } from "../../field-state/text-field-state";
 import { PromptState } from "../../prompt-state";
 import { removeWhiteSpace } from "../../remove-white-space";
 import { State } from "../../state";
+import { updateFieldRaw } from "../../update-field-raw";
 import { EditableFieldImplementation } from "../editable-field-implementation";
 import { validateFloatFormat } from "./validate-float-format";
 
@@ -71,6 +72,23 @@ export const floatEditableFieldImplementation: EditableFieldImplementation<
 
     const id = `${textFieldState.id}--input`;
 
+    const eventHandler: ActionTransform<State, Event> = (state, event) => {
+      state;
+
+      event = event as Event;
+      const target = event.target as HTMLInputElement;
+
+      return [
+        updateFieldRaw,
+        {
+          formGroupName,
+          formName,
+          fieldName,
+          raw: target.value,
+        },
+      ];
+    };
+
     return [
       h(`label`, { for: id }, text(textFieldState.field.label)),
       h(`input`, {
@@ -83,6 +101,8 @@ export const floatEditableFieldImplementation: EditableFieldImplementation<
         max: floatField.maximum === null ? undefined : floatField.maximum[0],
         value: textFieldState.raw,
         readonly: disabled,
+        oninput: eventHandler,
+        onblur: eventHandler,
       }),
     ];
   },

@@ -1,4 +1,4 @@
-import { h, text, VDOM } from "hyperapp-cjs";
+import { ActionDescriptor, h, text, VDOM } from "hyperapp-cjs";
 import { promptView } from ".";
 import { PromptState } from "../prompt-state";
 import { State } from "../state";
@@ -226,6 +226,15 @@ describe(`promptView`, () => {
                             max: 27,
                             value: `24`,
                             readonly: false,
+                            oninput: (jasmine.any(
+                              Function
+                            ) as unknown) as ActionDescriptor<State, Event>,
+                            onblur: (jasmine.any(
+                              Function
+                            ) as unknown) as ActionDescriptor<
+                              State,
+                              FocusEvent
+                            >,
                           }),
                         ]
                       ),
@@ -475,6 +484,15 @@ describe(`promptView`, () => {
                             max: 27,
                             value: `24`,
                             readonly: true,
+                            oninput: (jasmine.any(
+                              Function
+                            ) as unknown) as ActionDescriptor<State, Event>,
+                            onblur: (jasmine.any(
+                              Function
+                            ) as unknown) as ActionDescriptor<
+                              State,
+                              FocusEvent
+                            >,
                           }),
                         ]
                       ),
@@ -724,6 +742,15 @@ describe(`promptView`, () => {
                             max: 27,
                             value: `24`,
                             readonly: true,
+                            oninput: (jasmine.any(
+                              Function
+                            ) as unknown) as ActionDescriptor<State, Event>,
+                            onblur: (jasmine.any(
+                              Function
+                            ) as unknown) as ActionDescriptor<
+                              State,
+                              FocusEvent
+                            >,
                           }),
                         ]
                       ),

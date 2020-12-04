@@ -1,4 +1,4 @@
-import { h, text, VDOM } from "hyperapp-cjs";
+import { ActionDescriptor, h, text, VDOM } from "hyperapp-cjs";
 import { formView } from ".";
 import { PromptState } from "../prompt-state";
 import { State } from "../state";
@@ -139,6 +139,12 @@ describe(`formView`, () => {
                         max: 27,
                         value: `24`,
                         readonly: false,
+                        oninput: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, Event>,
+                        onblur: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, FocusEvent>,
                       }),
                     ]
                   ),
@@ -295,6 +301,12 @@ describe(`formView`, () => {
                         max: 27,
                         value: `2d4`,
                         readonly: false,
+                        oninput: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, Event>,
+                        onblur: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, FocusEvent>,
                       }),
                     ]
                   ),
@@ -453,6 +465,12 @@ describe(`formView`, () => {
                         max: 27,
                         value: `24`,
                         readonly: true,
+                        oninput: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, Event>,
+                        onblur: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, FocusEvent>,
                       }),
                     ]
                   ),
@@ -600,6 +618,12 @@ describe(`formView`, () => {
                         max: 27,
                         value: `2d4`,
                         readonly: true,
+                        oninput: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, Event>,
+                        onblur: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, FocusEvent>,
                       }),
                     ]
                   ),
@@ -751,6 +775,12 @@ describe(`formView`, () => {
                         max: 27,
                         value: `24`,
                         readonly: true,
+                        oninput: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, Event>,
+                        onblur: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, FocusEvent>,
                       }),
                     ]
                   ),
@@ -907,6 +937,12 @@ describe(`formView`, () => {
                         max: 27,
                         value: `2d4`,
                         readonly: true,
+                        oninput: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, Event>,
+                        onblur: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, FocusEvent>,
                       }),
                     ]
                   ),
@@ -1065,6 +1101,12 @@ describe(`formView`, () => {
                         max: 27,
                         value: `24`,
                         readonly: true,
+                        oninput: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, Event>,
+                        onblur: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, FocusEvent>,
                       }),
                     ]
                   ),
@@ -1212,6 +1254,12 @@ describe(`formView`, () => {
                         max: 27,
                         value: `2d4`,
                         readonly: true,
+                        oninput: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, Event>,
+                        onblur: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, FocusEvent>,
                       }),
                     ]
                   ),
@@ -1363,6 +1411,12 @@ describe(`formView`, () => {
                         max: 27,
                         value: `24`,
                         readonly: true,
+                        oninput: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, Event>,
+                        onblur: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, FocusEvent>,
                       }),
                     ]
                   ),
@@ -1519,6 +1573,12 @@ describe(`formView`, () => {
                         max: 27,
                         value: `2d4`,
                         readonly: true,
+                        oninput: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, Event>,
+                        onblur: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, FocusEvent>,
                       }),
                     ]
                   ),
@@ -1677,6 +1737,12 @@ describe(`formView`, () => {
                         max: 27,
                         value: `24`,
                         readonly: true,
+                        oninput: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, Event>,
+                        onblur: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, FocusEvent>,
                       }),
                     ]
                   ),
@@ -1824,6 +1890,12 @@ describe(`formView`, () => {
                         max: 27,
                         value: `2d4`,
                         readonly: true,
+                        oninput: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, Event>,
+                        onblur: (jasmine.any(
+                          Function
+                        ) as unknown) as ActionDescriptor<State, FocusEvent>,
                       }),
                     ]
                   ),

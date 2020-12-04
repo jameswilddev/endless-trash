@@ -1,9 +1,11 @@
 import { RequestStringField, StringField } from "@endless-trash/prompt";
-import { h, text, VDOM } from "hyperapp-cjs";
+import { ActionDescriptor, ActionTransform, h, text, VDOM } from "hyperapp-cjs";
 import { stringEditableFieldImplementation } from ".";
 import { PromptState } from "../../prompt-state";
 import { RawFieldValue } from "../../raw-field-value";
 import { State } from "../../state";
+import { updateFieldRaw } from "../../update-field-raw";
+import { UpdateFieldRawProps } from "../../update-field-raw-props";
 
 describe(`stringEditableFieldImplementation`, () => {
   describe(`parseValue`, () => {
@@ -163,88 +165,161 @@ describe(`stringEditableFieldImplementation`, () => {
       rendered: ReadonlyArray<VDOM<State>>
     ): void {
       describe(description, () => {
-        let channelSend: jasmine.Spy;
-        let output: ReadonlyArray<VDOM<State>>;
+        function subScenario<TValue>(
+          description: string,
+          act: (
+            prompState: PromptState,
+            output: ReadonlyArray<VDOM<State>>
+          ) => TValue,
+          assert: (value: () => TValue) => void
+        ): void {
+          describe(description, () => {
+            let channelSend: jasmine.Spy;
+            let value: TValue;
 
-        beforeAll(() => {
-          channelSend = jasmine.createSpy(`channelSend`);
+            beforeAll(() => {
+              channelSend = jasmine.createSpy(`channelSend`);
 
-          const promptState: PromptState = {
-            type: `prompt`,
-            prompt: {
-              formGroups: [],
-            },
-            formGroups: {
-              "Test Other Form Group Name": {
-                formGroup: { name: `Test Other Form Group Name`, forms: [] },
-                id: `test-other-form-group-id`,
-                forms: {},
-              },
-              "Test Form Group Name": {
-                formGroup: { name: `Test Form Group Name`, forms: [] },
-                id: `test-form-group-id`,
-                forms: {
-                  "Test Other Form Name": {
-                    form: {
-                      name: `Test Other Form Name`,
-                      fields: [],
-                      submitButtonLabel: `Test Submit Button Label`,
+              const promptState: PromptState = {
+                type: `prompt`,
+                prompt: {
+                  formGroups: [],
+                },
+                formGroups: {
+                  "Test Other Form Group Name": {
+                    formGroup: {
+                      name: `Test Other Form Group Name`,
+                      forms: [],
                     },
-                    id: `test-other-form-id`,
-                    fields: {},
+                    id: `test-other-form-group-id`,
+                    forms: {},
                   },
-                  "Test Form Name": {
-                    form: {
-                      name: `Test Form Name`,
-                      fields: [],
-                      submitButtonLabel: `Test Submit Button Label`,
-                    },
-                    id: `test-form-id`,
-                    fields: {
-                      "Test Other Field Name": {
-                        type: `text`,
-                        id: `test-other-field-id`,
-                        field: {
-                          name: `Test Other Field Name`,
-                          type: `string`,
-                          label: `Test Other Label`,
-                          value: `Test Other Value`,
-                          minimumLength: 54,
-                          maximumLength: 125,
+                  "Test Form Group Name": {
+                    formGroup: { name: `Test Form Group Name`, forms: [] },
+                    id: `test-form-group-id`,
+                    forms: {
+                      "Test Other Form Name": {
+                        form: {
+                          name: `Test Other Form Name`,
+                          fields: [],
+                          submitButtonLabel: `Test Submit Button Label`,
                         },
-                        raw: `Test Other Raw`,
+                        id: `test-other-form-id`,
+                        fields: {},
                       },
-                      "Test Field Name": {
-                        type: `text`,
-                        id: `test-field-id`,
-                        field,
-                        raw: `Test Raw`,
+                      "Test Form Name": {
+                        form: {
+                          name: `Test Form Name`,
+                          fields: [],
+                          submitButtonLabel: `Test Submit Button Label`,
+                        },
+                        id: `test-form-id`,
+                        fields: {
+                          "Test Other Field Name": {
+                            type: `text`,
+                            id: `test-other-field-id`,
+                            field: {
+                              name: `Test Other Field Name`,
+                              type: `string`,
+                              label: `Test Other Label`,
+                              value: `Test Other Value`,
+                              minimumLength: 54,
+                              maximumLength: 125,
+                            },
+                            raw: `Test Other Raw`,
+                          },
+                          "Test Field Name": {
+                            type: `text`,
+                            id: `test-field-id`,
+                            field,
+                            raw: `Test Raw`,
+                          },
+                        },
                       },
                     },
                   },
                 },
-              },
-            },
-            mode: `interactive`,
-            channelSend,
-          };
+                mode: `interactive`,
+                channelSend,
+              };
 
-          output = stringEditableFieldImplementation.view(
-            promptState,
-            `Test Form Group Name`,
-            `Test Form Name`,
-            `Test Field Name`,
-            disabled
-          );
-        });
+              value = act(
+                promptState,
+                stringEditableFieldImplementation.view(
+                  promptState,
+                  `Test Form Group Name`,
+                  `Test Form Name`,
+                  `Test Field Name`,
+                  disabled
+                )
+              );
+            });
 
-        it(`generates the expected DOM`, () => {
-          expect(output).toEqual(rendered);
-        });
+            assert(() => value);
 
-        it(`does not send a message through the channel`, () => {
-          expect(channelSend).not.toHaveBeenCalled();
-        });
+            it(`does not send a message through the channel`, () => {
+              expect(channelSend).not.toHaveBeenCalled();
+            });
+          });
+        }
+
+        subScenario(
+          `without interacting`,
+          (_, output) => output,
+          (valueFactory) => {
+            it(`generates the expected DOM`, () => {
+              expect(valueFactory()).toEqual(rendered);
+            });
+          }
+        );
+
+        subScenario(
+          `on input`,
+          (promptState, output) =>
+            (output[1].props.oninput as ActionTransform<State, Event>)(
+              promptState,
+              ({
+                target: { value: `Test Raw` },
+              } as unknown) as Event
+            ) as ActionDescriptor<State, UpdateFieldRawProps>,
+          (valueFactory) => {
+            it(`returns the expected action descriptor`, () => {
+              expect(valueFactory()).toEqual([
+                updateFieldRaw,
+                {
+                  formGroupName: `Test Form Group Name`,
+                  formName: `Test Form Name`,
+                  fieldName: `Test Field Name`,
+                  raw: `Test Raw`,
+                },
+              ]);
+            });
+          }
+        );
+
+        subScenario(
+          `on blur`,
+          (promptState, output) =>
+            (output[1].props.onblur as ActionTransform<State, Event>)(
+              promptState,
+              ({
+                target: { value: `Test Raw` },
+              } as unknown) as Event
+            ) as ActionDescriptor<State, UpdateFieldRawProps>,
+          (valueFactory) => {
+            it(`returns the expected action descriptor`, () => {
+              expect(valueFactory()).toEqual([
+                updateFieldRaw,
+                {
+                  formGroupName: `Test Form Group Name`,
+                  formName: `Test Form Name`,
+                  fieldName: `Test Field Name`,
+                  raw: `Test Raw`,
+                },
+              ]);
+            });
+          }
+        );
       });
     }
 
@@ -270,6 +345,14 @@ describe(`stringEditableFieldImplementation`, () => {
           maxlength: undefined,
           value: `Test Raw`,
           readonly: false,
+          oninput: (jasmine.any(Function) as unknown) as ActionDescriptor<
+            State,
+            Event
+          >,
+          onblur: (jasmine.any(Function) as unknown) as ActionDescriptor<
+            State,
+            FocusEvent
+          >,
         }),
       ]
     );
@@ -296,6 +379,14 @@ describe(`stringEditableFieldImplementation`, () => {
           maxlength: undefined,
           value: `Test Raw`,
           readonly: false,
+          oninput: (jasmine.any(Function) as unknown) as ActionDescriptor<
+            State,
+            Event
+          >,
+          onblur: (jasmine.any(Function) as unknown) as ActionDescriptor<
+            State,
+            FocusEvent
+          >,
         }),
       ]
     );
@@ -322,6 +413,14 @@ describe(`stringEditableFieldImplementation`, () => {
           maxlength: undefined,
           value: `Test Raw`,
           readonly: false,
+          oninput: (jasmine.any(Function) as unknown) as ActionDescriptor<
+            State,
+            Event
+          >,
+          onblur: (jasmine.any(Function) as unknown) as ActionDescriptor<
+            State,
+            FocusEvent
+          >,
         }),
       ]
     );
@@ -348,6 +447,14 @@ describe(`stringEditableFieldImplementation`, () => {
           maxlength: undefined,
           value: `Test Raw`,
           readonly: false,
+          oninput: (jasmine.any(Function) as unknown) as ActionDescriptor<
+            State,
+            Event
+          >,
+          onblur: (jasmine.any(Function) as unknown) as ActionDescriptor<
+            State,
+            FocusEvent
+          >,
         }),
       ]
     );
@@ -374,6 +481,14 @@ describe(`stringEditableFieldImplementation`, () => {
           maxlength: 5,
           value: `Test Raw`,
           readonly: false,
+          oninput: (jasmine.any(Function) as unknown) as ActionDescriptor<
+            State,
+            Event
+          >,
+          onblur: (jasmine.any(Function) as unknown) as ActionDescriptor<
+            State,
+            FocusEvent
+          >,
         }),
       ]
     );
@@ -400,6 +515,14 @@ describe(`stringEditableFieldImplementation`, () => {
           maxlength: 5,
           value: `Test Raw`,
           readonly: true,
+          oninput: (jasmine.any(Function) as unknown) as ActionDescriptor<
+            State,
+            Event
+          >,
+          onblur: (jasmine.any(Function) as unknown) as ActionDescriptor<
+            State,
+            FocusEvent
+          >,
         }),
       ]
     );
