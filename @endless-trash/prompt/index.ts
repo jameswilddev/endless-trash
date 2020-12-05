@@ -16,6 +16,7 @@ export {
   StaticField,
   Field,
 } from "./field";
+export { filterEditableField } from "./filter-editable-field";
 export { Form } from "./form";
 export { FormGroup } from "./form-group";
 export { Prompt } from "./prompt";
