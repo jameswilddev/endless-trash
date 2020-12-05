@@ -1,7 +1,7 @@
 import { Json } from "@endless-trash/immutable-json-type";
 import { EditableField } from "../../../field";
 
-export function convertFieldToJsonSchema(
+export function requestFieldIsValid(
   editableField: EditableField,
   requestField: Json
 ): boolean {

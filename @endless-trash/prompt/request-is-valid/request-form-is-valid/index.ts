@@ -1,9 +1,9 @@
 import { Json } from "@endless-trash/immutable-json-type";
 import { filterEditableField } from "../../filter-editable-field";
 import { Form } from "../../form";
-import { convertFieldToJsonSchema } from "./convert-field-to-json-schema";
+import { requestFieldIsValid } from "./request-field-is-valid";
 
-export function convertFormToJsonSchema(form: Form, request: Json): boolean {
+export function requestFormIsValid(form: Form, request: Json): boolean {
   if (form.submitButtonLabel === null) {
     return false;
   } else if (request === null) {
@@ -36,7 +36,7 @@ export function convertFormToJsonSchema(form: Form, request: Json): boolean {
         if (index === -1) {
           return false;
         } else if (
-          !convertFieldToJsonSchema(editableField, request.fields[field.name])
+          !requestFieldIsValid(editableField, request.fields[field.name])
         ) {
           return false;
         } else {

@@ -1,13 +1,13 @@
 import { Json } from "@endless-trash/immutable-json-type";
-import { convertFormToJsonSchema } from ".";
+import { requestFormIsValid } from ".";
 import { Form } from "../..";
 
-describe(`convertFormToJsonSchema`, () => {
+describe(`requestFormIsValid`, () => {
   describe(`when the form does not have a submit button`, () => {
     let output: boolean;
 
     beforeAll(() => {
-      output = convertFormToJsonSchema(
+      output = requestFormIsValid(
         {
           name: `Test Form Name`,
           fields: [
@@ -104,7 +104,7 @@ describe(`convertFormToJsonSchema`, () => {
       let output: boolean;
 
       beforeAll(() => {
-        output = convertFormToJsonSchema(form, {
+        output = requestFormIsValid(form, {
           formName: `Test Form Name`,
           fields: {
             testFieldAName: `Test Field A Value`,
@@ -124,7 +124,7 @@ describe(`convertFormToJsonSchema`, () => {
         let output: boolean;
 
         beforeAll(() => {
-          output = convertFormToJsonSchema(form, value);
+          output = requestFormIsValid(form, value);
         });
 
         it(`returns false`, () => {

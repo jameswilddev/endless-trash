@@ -1,8 +1,8 @@
 import { Json } from "@endless-trash/immutable-json-type";
-import { convertFieldToJsonSchema } from ".";
+import { requestFieldIsValid } from ".";
 import { EditableField } from "../../..";
 
-describe(`convertFieldToJsonSchema`, () => {
+describe(`requestFieldIsValid`, () => {
   function scenario(
     description: string,
     editableField: EditableField,
@@ -15,7 +15,7 @@ describe(`convertFieldToJsonSchema`, () => {
           let output: boolean;
 
           beforeAll(() => {
-            output = convertFieldToJsonSchema(editableField, subScenario[1]);
+            output = requestFieldIsValid(editableField, subScenario[1]);
           });
 
           it(`is accepted`, () => {
@@ -29,7 +29,7 @@ describe(`convertFieldToJsonSchema`, () => {
           let output: boolean;
 
           beforeAll(() => {
-            output = convertFieldToJsonSchema(editableField, subScenario[1]);
+            output = requestFieldIsValid(editableField, subScenario[1]);
           });
 
           it(`is rejected`, () => {

@@ -1,5 +1,4 @@
 export { BoundType } from "./bound-type";
-export { convertPromptToJsonSchema } from "./convert-prompt-to-json-schema";
 export {
   FloatField,
   IntegerField,
@@ -31,3 +30,4 @@ export {
   RequestField,
   Request,
 } from "./request";
+export { requestIsValid } from "./request-is-valid";

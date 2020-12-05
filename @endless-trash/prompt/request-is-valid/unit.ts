@@ -1,7 +1,7 @@
 import { Json } from "@endless-trash/immutable-json-type";
-import { convertPromptToJsonSchema, Prompt, Request } from "..";
+import { requestIsValid, Prompt, Request } from "..";
 
-describe(`convertPromptToJsonSchema`, () => {
+describe(`requestIsValid`, () => {
   let prompt: Prompt;
 
   beforeAll(() => {
@@ -131,7 +131,7 @@ describe(`convertPromptToJsonSchema`, () => {
       let output: null | Request;
 
       beforeAll(() => {
-        output = convertPromptToJsonSchema(prompt, value);
+        output = requestIsValid(prompt, value);
       });
 
       it(`is accepted`, () => {
@@ -145,7 +145,7 @@ describe(`convertPromptToJsonSchema`, () => {
       let output: null | Request;
 
       beforeAll(() => {
-        output = convertPromptToJsonSchema(prompt, value);
+        output = requestIsValid(prompt, value);
       });
 
       it(`is rejected`, () => {
