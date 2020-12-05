@@ -15,7 +15,7 @@ describe(`applyPrompt`, () => {
 
       const errorState: ErrorState = {
         type: `error`,
-        error: new Error(`Test Error`),
+        error: `Test Error`,
       };
 
       const prompt: Prompt = {
@@ -52,7 +52,7 @@ describe(`applyPrompt`, () => {
     it(`returns the current state`, () => {
       expect(output).toEqual({
         type: `error`,
-        error: new Error(`Test Error`),
+        error: `Test Error`,
       });
     });
 

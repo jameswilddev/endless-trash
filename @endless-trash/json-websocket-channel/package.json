@@ -24,7 +24,7 @@
     "isomorphic-ws": "4.0.1"
   },
   "devDependencies": {
-    "@endless-trash/channel": "0.0.1",
+    "@endless-trash/channel": "0.0.2",
     "@endless-trash/immutable-json-type": "0.0.1",
     "ws": "7.4.0",
     "utf-8-validate": "5.0.3",

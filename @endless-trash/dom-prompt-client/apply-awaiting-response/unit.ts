@@ -8,14 +8,14 @@ describe(`applyAwaitingResponse`, () => {
     beforeAll(() => {
       output = applyAwaitingResponse({
         type: `error`,
-        error: new Error(`Test Error`),
+        error: `Test Error`,
       });
     });
 
     it(`returns the unmodified state`, () => {
       expect(output).toEqual({
         type: `error`,
-        error: new Error(`Test Error`),
+        error: `Test Error`,
       });
     });
   });

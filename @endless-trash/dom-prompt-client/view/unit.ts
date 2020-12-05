@@ -9,17 +9,14 @@ describe(`view`, () => {
     beforeAll(() => {
       output = view({
         type: `error`,
-        error: new Error(`Test Error`),
+        error: `Test Error`,
       });
     });
 
     it(`defers to messageView`, () => {
       expect(output).toEqual(
         h(`div`, { class: `error` }, [
-          h(
-            `p`,
-            text(`A communication error has occurred:\n\nError: Test Error`)
-          ),
+          h(`p`, text(`A communication error has occurred:\n\nTest Error`)),
           h(
             `button`,
             {

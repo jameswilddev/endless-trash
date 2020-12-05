@@ -16,17 +16,14 @@ describe(`errorView`, () => {
 
       output = errorView({
         type: `error`,
-        error: new Error(`Test Error`),
+        error: `Test Error`,
       });
     });
 
     it(`renders as expected`, () => {
       expect(output).toEqual(
         h(`div`, { class: `error` }, [
-          h(
-            `p`,
-            text(`A communication error has occurred:\n\nError: Test Error`)
-          ),
+          h(`p`, text(`A communication error has occurred:\n\nTest Error`)),
           h(
             `button`,
             {
@@ -60,14 +57,14 @@ describe(`errorView`, () => {
 
       const dom = errorView({
         type: `error`,
-        error: new Error(`Test Error`),
+        error: `Test Error`,
       }).children[1] as VDOM<State>;
 
       const onclick = dom.props.onclick as ActionTransform<State>;
 
       output = onclick({
         type: `error`,
-        error: new Error(`Test Error`),
+        error: `Test Error`,
       }) as State;
     });
 
@@ -78,7 +75,7 @@ describe(`errorView`, () => {
     it(`returns the state`, () => {
       expect(output).toEqual({
         type: `error`,
-        error: new Error(`Test Error`),
+        error: `Test Error`,
       });
     });
   });

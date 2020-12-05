@@ -11,7 +11,7 @@ describe(`updateFieldRaw`, () => {
     beforeAll(() => {
       const messageState: ErrorState = {
         type: `error`,
-        error: new Error(`Test Error`),
+        error: `Test Error`,
       };
 
       output = updateFieldRaw(messageState, {
@@ -25,7 +25,7 @@ describe(`updateFieldRaw`, () => {
     it(`returns the state`, () => {
       expect(output).toEqual({
         type: `error`,
-        error: new Error(`Test Error`),
+        error: `Test Error`,
       });
     });
   });
