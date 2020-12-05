@@ -5,7 +5,7 @@ describe(`domPromptClient`, () => {
   let dom: jsdom.JSDOM;
   let channel: jasmine.Spy;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     dom = new jsdom.JSDOM(
       `<html><head></head><body><div id="root">existing content</div><div id="other"></div></body></html>`
     );
@@ -23,6 +23,10 @@ describe(`domPromptClient`, () => {
       { formName: `Test Form Name`, fields: {} },
       dom.window.document.getElementById(`root`) as HTMLElement
     );
+
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 2000);
+    });
   });
 
   it(`mounts to the node`, () => {
