@@ -125,13 +125,18 @@ describe(`formGroupView`, () => {
     expect(output).toEqual(
       h(
         `div`,
-        { class: `form-group`, id: `test-form-group-id` },
+        {
+          class: `form-group`,
+          id: `test-form-group-id`,
+          key: `test-form-group-id`,
+        },
         h(`div`, { class: `forms` }, [
           h(
             `form`,
             {
               class: [`valid`, `form`, `with-submit-button`],
               id: `test-other-form-id`,
+              key: `test-other-form-id`,
               onsubmit: undefined,
             },
             [
@@ -152,6 +157,7 @@ describe(`formGroupView`, () => {
             {
               class: [`valid`, `form`, `with-submit-button`],
               id: `test-form-id`,
+              key: `test-form-id`,
               onsubmit: undefined,
             },
             [
@@ -161,6 +167,7 @@ describe(`formGroupView`, () => {
                   {
                     class: [`subtitle`, `field`],
                     id: `test-other-field-id`,
+                    key: `test-other-field-id`,
                   },
                   text(`Test Other Field Content`)
                 ),
@@ -169,6 +176,7 @@ describe(`formGroupView`, () => {
                   {
                     class: [`valid`, `integer`, `field`],
                     id: `test-field-id`,
+                    key: `test-field-id`,
                   },
                   [
                     h(

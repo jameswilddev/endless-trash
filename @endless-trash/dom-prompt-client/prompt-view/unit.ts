@@ -162,18 +162,27 @@ describe(`promptView`, () => {
           h(`div`, { class: `form-groups` }, [
             h(
               `div`,
-              { class: `form-group`, id: `test-other-form-group-id` },
+              {
+                class: `form-group`,
+                id: `test-other-form-group-id`,
+                key: `test-other-form-group-id`,
+              },
               h(`div`, { class: `forms` }, [])
             ),
             h(
               `div`,
-              { class: `form-group`, id: `test-form-group-id` },
+              {
+                class: `form-group`,
+                id: `test-form-group-id`,
+                key: `test-form-group-id`,
+              },
               h(`div`, { class: `forms` }, [
                 h(
                   `form`,
                   {
                     class: [`valid`, `form`, `with-submit-button`],
                     id: `test-other-form-id`,
+                    key: `test-other-form-id`,
                     onsubmit: (jasmine.any(
                       Function
                     ) as unknown) as ActionDescriptor<State, Event>,
@@ -196,6 +205,7 @@ describe(`promptView`, () => {
                   {
                     class: [`valid`, `form`, `with-submit-button`],
                     id: `test-form-id`,
+                    key: `test-form-id`,
                     onsubmit: (jasmine.any(
                       Function
                     ) as unknown) as ActionDescriptor<State, Event>,
@@ -207,6 +217,7 @@ describe(`promptView`, () => {
                         {
                           class: [`subtitle`, `field`],
                           id: `test-other-field-id`,
+                          key: `test-other-field-id`,
                         },
                         text(`Test Other Field Content`)
                       ),
@@ -215,6 +226,7 @@ describe(`promptView`, () => {
                         {
                           class: [`valid`, `integer`, `field`],
                           id: `test-field-id`,
+                          key: `test-field-id`,
                         },
                         [
                           h(
@@ -426,18 +438,27 @@ describe(`promptView`, () => {
           h(`div`, { class: `form-groups` }, [
             h(
               `div`,
-              { class: `form-group`, id: `test-other-form-group-id` },
+              {
+                class: `form-group`,
+                id: `test-other-form-group-id`,
+                key: `test-other-form-group-id`,
+              },
               h(`div`, { class: `forms` }, [])
             ),
             h(
               `div`,
-              { class: `form-group`, id: `test-form-group-id` },
+              {
+                class: `form-group`,
+                id: `test-form-group-id`,
+                key: `test-form-group-id`,
+              },
               h(`div`, { class: `forms` }, [
                 h(
                   `form`,
                   {
                     class: [`valid`, `form`, `with-submit-button`],
                     id: `test-other-form-id`,
+                    key: `test-other-form-id`,
                     onsubmit: undefined,
                   },
                   [
@@ -458,6 +479,7 @@ describe(`promptView`, () => {
                   {
                     class: [`valid`, `form`, `with-submit-button`],
                     id: `test-form-id`,
+                    key: `test-form-id`,
                     onsubmit: undefined,
                   },
                   [
@@ -467,6 +489,7 @@ describe(`promptView`, () => {
                         {
                           class: [`subtitle`, `field`],
                           id: `test-other-field-id`,
+                          key: `test-other-field-id`,
                         },
                         text(`Test Other Field Content`)
                       ),
@@ -475,6 +498,7 @@ describe(`promptView`, () => {
                         {
                           class: [`valid`, `integer`, `field`],
                           id: `test-field-id`,
+                          key: `test-field-id`,
                         },
                         [
                           h(
@@ -686,18 +710,27 @@ describe(`promptView`, () => {
           h(`div`, { class: `form-groups` }, [
             h(
               `div`,
-              { class: `form-group`, id: `test-other-form-group-id` },
+              {
+                class: `form-group`,
+                id: `test-other-form-group-id`,
+                key: `test-other-form-group-id`,
+              },
               h(`div`, { class: `forms` }, [])
             ),
             h(
               `div`,
-              { class: `form-group`, id: `test-form-group-id` },
+              {
+                class: `form-group`,
+                id: `test-form-group-id`,
+                key: `test-form-group-id`,
+              },
               h(`div`, { class: `forms` }, [
                 h(
                   `form`,
                   {
                     class: [`valid`, `form`, `with-submit-button`],
                     id: `test-other-form-id`,
+                    key: `test-other-form-id`,
                     onsubmit: undefined,
                   },
                   [
@@ -718,6 +751,7 @@ describe(`promptView`, () => {
                   {
                     class: [`valid`, `form`, `with-submit-button`],
                     id: `test-form-id`,
+                    key: `test-form-id`,
                     onsubmit: undefined,
                   },
                   [
@@ -727,6 +761,7 @@ describe(`promptView`, () => {
                         {
                           class: [`subtitle`, `field`],
                           id: `test-other-field-id`,
+                          key: `test-other-field-id`,
                         },
                         text(`Test Other Field Content`)
                       ),
@@ -735,6 +770,7 @@ describe(`promptView`, () => {
                         {
                           class: [`valid`, `integer`, `field`],
                           id: `test-field-id`,
+                          key: `test-field-id`,
                         },
                         [
                           h(

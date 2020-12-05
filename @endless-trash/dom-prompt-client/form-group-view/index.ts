@@ -14,6 +14,7 @@ export function formGroupView(
     {
       class: `form-group`,
       id: formGroupState.id,
+      key: formGroupState.id,
     },
     h(
       `div`,

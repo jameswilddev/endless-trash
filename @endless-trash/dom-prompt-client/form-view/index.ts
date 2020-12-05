@@ -46,6 +46,7 @@ export function formView(
     `form`,
     {
       id: formState.id,
+      key: formState.id,
       class: [
         invalid ? `invalid` : `valid`,
         `form`,

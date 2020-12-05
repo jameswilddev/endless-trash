@@ -116,6 +116,7 @@ describe(`formView`, () => {
                 {
                   class: [`valid`, `form`, `with-submit-button`],
                   id: `test-form-id`,
+                  key: `test-form-id`,
                   onsubmit: (jasmine.any(
                     Function
                   ) as unknown) as ActionDescriptor<State, Event>,
@@ -127,6 +128,7 @@ describe(`formView`, () => {
                       {
                         class: [`subtitle`, `field`],
                         id: `test-other-field-id`,
+                        key: `test-other-field-id`,
                       },
                       text(`Test Other Field Content`)
                     ),
@@ -135,6 +137,7 @@ describe(`formView`, () => {
                       {
                         class: [`valid`, `integer`, `field`],
                         id: `test-field-id`,
+                        key: `test-field-id`,
                       },
                       [
                         h(
@@ -495,6 +498,7 @@ describe(`formView`, () => {
               {
                 class: [`invalid`, `form`, `with-submit-button`],
                 id: `test-form-id`,
+                key: `test-form-id`,
                 onsubmit: undefined,
               },
               [
@@ -504,6 +508,7 @@ describe(`formView`, () => {
                     {
                       class: [`subtitle`, `field`],
                       id: `test-other-field-id`,
+                      key: `test-other-field-id`,
                     },
                     text(`Test Other Field Content`)
                   ),
@@ -512,6 +517,7 @@ describe(`formView`, () => {
                     {
                       class: [`invalid`, `integer`, `field`],
                       id: `test-field-id`,
+                      key: `test-field-id`,
                     },
                     [
                       h(
@@ -660,6 +666,7 @@ describe(`formView`, () => {
               {
                 class: [`valid`, `form`, `without-submit-button`],
                 id: `test-form-id`,
+                key: `test-form-id`,
                 onsubmit: undefined,
               },
               [
@@ -669,6 +676,7 @@ describe(`formView`, () => {
                     {
                       class: [`subtitle`, `field`],
                       id: `test-other-field-id`,
+                      key: `test-other-field-id`,
                     },
                     text(`Test Other Field Content`)
                   ),
@@ -677,6 +685,7 @@ describe(`formView`, () => {
                     {
                       class: [`valid`, `integer`, `field`],
                       id: `test-field-id`,
+                      key: `test-field-id`,
                     },
                     [
                       h(
@@ -814,6 +823,7 @@ describe(`formView`, () => {
               {
                 class: [`invalid`, `form`, `without-submit-button`],
                 id: `test-form-id`,
+                key: `test-form-id`,
                 onsubmit: undefined,
               },
               [
@@ -823,6 +833,7 @@ describe(`formView`, () => {
                     {
                       class: [`subtitle`, `field`],
                       id: `test-other-field-id`,
+                      key: `test-other-field-id`,
                     },
                     text(`Test Other Field Content`)
                   ),
@@ -831,6 +842,7 @@ describe(`formView`, () => {
                     {
                       class: [`invalid`, `integer`, `field`],
                       id: `test-field-id`,
+                      key: `test-field-id`,
                     },
                     [
                       h(
@@ -972,6 +984,7 @@ describe(`formView`, () => {
               {
                 class: [`valid`, `form`, `with-submit-button`],
                 id: `test-form-id`,
+                key: `test-form-id`,
                 onsubmit: undefined,
               },
               [
@@ -981,6 +994,7 @@ describe(`formView`, () => {
                     {
                       class: [`subtitle`, `field`],
                       id: `test-other-field-id`,
+                      key: `test-other-field-id`,
                     },
                     text(`Test Other Field Content`)
                   ),
@@ -989,6 +1003,7 @@ describe(`formView`, () => {
                     {
                       class: [`valid`, `integer`, `field`],
                       id: `test-field-id`,
+                      key: `test-field-id`,
                     },
                     [
                       h(
@@ -1135,6 +1150,7 @@ describe(`formView`, () => {
               {
                 class: [`invalid`, `form`, `with-submit-button`],
                 id: `test-form-id`,
+                key: `test-form-id`,
                 onsubmit: undefined,
               },
               [
@@ -1144,6 +1160,7 @@ describe(`formView`, () => {
                     {
                       class: [`subtitle`, `field`],
                       id: `test-other-field-id`,
+                      key: `test-other-field-id`,
                     },
                     text(`Test Other Field Content`)
                   ),
@@ -1152,6 +1169,7 @@ describe(`formView`, () => {
                     {
                       class: [`invalid`, `integer`, `field`],
                       id: `test-field-id`,
+                      key: `test-field-id`,
                     },
                     [
                       h(
@@ -1300,6 +1318,7 @@ describe(`formView`, () => {
               {
                 class: [`valid`, `form`, `without-submit-button`],
                 id: `test-form-id`,
+                key: `test-form-id`,
                 onsubmit: undefined,
               },
               [
@@ -1309,6 +1328,7 @@ describe(`formView`, () => {
                     {
                       class: [`subtitle`, `field`],
                       id: `test-other-field-id`,
+                      key: `test-other-field-id`,
                     },
                     text(`Test Other Field Content`)
                   ),
@@ -1317,6 +1337,7 @@ describe(`formView`, () => {
                     {
                       class: [`valid`, `integer`, `field`],
                       id: `test-field-id`,
+                      key: `test-field-id`,
                     },
                     [
                       h(
@@ -1454,6 +1475,7 @@ describe(`formView`, () => {
               {
                 class: [`invalid`, `form`, `without-submit-button`],
                 id: `test-form-id`,
+                key: `test-form-id`,
                 onsubmit: undefined,
               },
               [
@@ -1463,6 +1485,7 @@ describe(`formView`, () => {
                     {
                       class: [`subtitle`, `field`],
                       id: `test-other-field-id`,
+                      key: `test-other-field-id`,
                     },
                     text(`Test Other Field Content`)
                   ),
@@ -1471,6 +1494,7 @@ describe(`formView`, () => {
                     {
                       class: [`invalid`, `integer`, `field`],
                       id: `test-field-id`,
+                      key: `test-field-id`,
                     },
                     [
                       h(
@@ -1612,6 +1636,7 @@ describe(`formView`, () => {
               {
                 class: [`valid`, `form`, `with-submit-button`],
                 id: `test-form-id`,
+                key: `test-form-id`,
                 onsubmit: undefined,
               },
               [
@@ -1621,6 +1646,7 @@ describe(`formView`, () => {
                     {
                       class: [`subtitle`, `field`],
                       id: `test-other-field-id`,
+                      key: `test-other-field-id`,
                     },
                     text(`Test Other Field Content`)
                   ),
@@ -1629,6 +1655,7 @@ describe(`formView`, () => {
                     {
                       class: [`valid`, `integer`, `field`],
                       id: `test-field-id`,
+                      key: `test-field-id`,
                     },
                     [
                       h(
@@ -1775,6 +1802,7 @@ describe(`formView`, () => {
               {
                 class: [`invalid`, `form`, `with-submit-button`],
                 id: `test-form-id`,
+                key: `test-form-id`,
                 onsubmit: undefined,
               },
               [
@@ -1784,6 +1812,7 @@ describe(`formView`, () => {
                     {
                       class: [`subtitle`, `field`],
                       id: `test-other-field-id`,
+                      key: `test-other-field-id`,
                     },
                     text(`Test Other Field Content`)
                   ),
@@ -1792,6 +1821,7 @@ describe(`formView`, () => {
                     {
                       class: [`invalid`, `integer`, `field`],
                       id: `test-field-id`,
+                      key: `test-field-id`,
                     },
                     [
                       h(
@@ -1940,6 +1970,7 @@ describe(`formView`, () => {
               {
                 class: [`valid`, `form`, `without-submit-button`],
                 id: `test-form-id`,
+                key: `test-form-id`,
                 onsubmit: undefined,
               },
               [
@@ -1949,6 +1980,7 @@ describe(`formView`, () => {
                     {
                       class: [`subtitle`, `field`],
                       id: `test-other-field-id`,
+                      key: `test-other-field-id`,
                     },
                     text(`Test Other Field Content`)
                   ),
@@ -1957,6 +1989,7 @@ describe(`formView`, () => {
                     {
                       class: [`valid`, `integer`, `field`],
                       id: `test-field-id`,
+                      key: `test-field-id`,
                     },
                     [
                       h(
@@ -2094,6 +2127,7 @@ describe(`formView`, () => {
               {
                 class: [`invalid`, `form`, `without-submit-button`],
                 id: `test-form-id`,
+                key: `test-form-id`,
                 onsubmit: undefined,
               },
               [
@@ -2103,6 +2137,7 @@ describe(`formView`, () => {
                     {
                       class: [`subtitle`, `field`],
                       id: `test-other-field-id`,
+                      key: `test-other-field-id`,
                     },
                     text(`Test Other Field Content`)
                   ),
@@ -2111,6 +2146,7 @@ describe(`formView`, () => {
                     {
                       class: [`invalid`, `integer`, `field`],
                       id: `test-field-id`,
+                      key: `test-field-id`,
                     },
                     [
                       h(

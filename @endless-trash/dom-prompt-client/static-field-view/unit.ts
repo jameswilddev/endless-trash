@@ -25,6 +25,7 @@ describe(`staticFieldView`, () => {
           {
             class: [`title`, `field`],
             id: `Test Id`,
+            key: `Test Id`,
           },
           text(`Test Content`)
         ) as VDOM<State>
@@ -54,6 +55,7 @@ describe(`staticFieldView`, () => {
           {
             class: [`subtitle`, `field`],
             id: `Test Id`,
+            key: `Test Id`,
           },
           text(`Test Content`)
         ) as VDOM<State>
@@ -83,6 +85,7 @@ describe(`staticFieldView`, () => {
           {
             class: [`paragraph`, `field`],
             id: `Test Id`,
+            key: `Test Id`,
           },
           text(`Test Content`)
         ) as VDOM<State>
@@ -127,6 +130,7 @@ describe(`staticFieldView`, () => {
           {
             class: [`video`, `field`],
             id: `Test Id`,
+            key: `Test Id`,
           },
           h(`video`, { controls: true, autoplay: true, loop: false }, [
             h(`source`, {
@@ -187,6 +191,7 @@ describe(`staticFieldView`, () => {
           {
             class: [`audio`, `field`],
             id: `Test Id`,
+            key: `Test Id`,
           },
           h(`audio`, { controls: true, autoplay: true, loop: false }, [
             h(`source`, {
@@ -233,6 +238,7 @@ describe(`staticFieldView`, () => {
           {
             class: [`image`, `field`],
             id: `Test Id`,
+            key: `Test Id`,
           },
           h(`img`, { src: `Test Url`, alt: `Test Description` })
         ) as VDOM<State>

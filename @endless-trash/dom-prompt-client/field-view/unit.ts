@@ -91,7 +91,11 @@ describe(`fieldView`, () => {
       expect(output).toEqual(
         h(
           `div`,
-          { class: [`valid`, `integer`, `field`], id: `test-field-id` },
+          {
+            class: [`valid`, `integer`, `field`],
+            id: `test-field-id`,
+            key: `test-field-id`,
+          },
           [
             h(`label`, { for: `test-field-id--input` }, text(`Test Label`)),
             h(`input`, {
@@ -208,6 +212,7 @@ describe(`fieldView`, () => {
           {
             class: [`subtitle`, `field`],
             id: `Test Id`,
+            key: `Test Id`,
           },
           text(`Test Content`)
         ) as VDOM<State>

@@ -35,6 +35,7 @@ export function editableFieldView(
     {
       class: [valid ? `valid` : `invalid`, textFieldState.field.type, `field`],
       id: textFieldState.id,
+      key: textFieldState.id,
     },
     editableFieldImplementation.view(
       promptState,

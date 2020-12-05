@@ -12,6 +12,7 @@ export function staticFieldView(
         {
           class: [`title`, `field`],
           id: staticFieldState.id,
+          key: staticFieldState.id,
         },
         text(staticFieldState.field.content)
       );
@@ -22,6 +23,7 @@ export function staticFieldView(
         {
           class: [`subtitle`, `field`],
           id: staticFieldState.id,
+          key: staticFieldState.id,
         },
         text(staticFieldState.field.content)
       );
@@ -32,6 +34,7 @@ export function staticFieldView(
         {
           class: [`paragraph`, `field`],
           id: staticFieldState.id,
+          key: staticFieldState.id,
         },
         text(staticFieldState.field.content)
       );
@@ -42,6 +45,7 @@ export function staticFieldView(
         {
           class: [`video`, `field`],
           id: staticFieldState.id,
+          key: staticFieldState.id,
         },
         h(
           `video`,
@@ -66,6 +70,7 @@ export function staticFieldView(
         {
           class: [`audio`, `field`],
           id: staticFieldState.id,
+          key: staticFieldState.id,
         },
         h(
           `audio`,
@@ -90,6 +95,7 @@ export function staticFieldView(
         {
           class: [`image`, `field`],
           id: staticFieldState.id,
+          key: staticFieldState.id,
         },
         h(`img`, {
           src: staticFieldState.field.url,
