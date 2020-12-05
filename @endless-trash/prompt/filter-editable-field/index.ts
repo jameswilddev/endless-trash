@@ -10,6 +10,9 @@ export function filterEditableField(field: Field): null | EditableField {
     case `paragraph`:
     case `subtitle`:
     case `title`:
+    case `audio`:
+    case `image`:
+    case `video`:
       return null;
   }
 }

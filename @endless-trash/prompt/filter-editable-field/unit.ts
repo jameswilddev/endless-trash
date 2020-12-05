@@ -75,4 +75,53 @@ describe(`filterEditableField`, () => {
     content: `Test Content`,
     name: `Test Name`,
   });
+
+  rejects(`video`, {
+    type: `video`,
+    sources: [
+      {
+        mimeType: `Test Source A Mime Type`,
+        url: `Test Source A Url`,
+      },
+      {
+        mimeType: `Test Source B Mime Type`,
+        url: `Test Source B Url`,
+      },
+      {
+        mimeType: `Test Source C Mime Type`,
+        url: `Test Source C Url`,
+      },
+    ],
+    name: `Test Name`,
+    autoplay: true,
+    loop: false,
+  });
+
+  rejects(`image`, {
+    type: `image`,
+    url: `Test Url`,
+    name: `Test Name`,
+    description: `Test Description`,
+  });
+
+  rejects(`audio`, {
+    type: `audio`,
+    sources: [
+      {
+        mimeType: `Test Source A Mime Type`,
+        url: `Test Source A Url`,
+      },
+      {
+        mimeType: `Test Source B Mime Type`,
+        url: `Test Source B Url`,
+      },
+      {
+        mimeType: `Test Source C Mime Type`,
+        url: `Test Source C Url`,
+      },
+    ],
+    name: `Test Name`,
+    autoplay: true,
+    loop: false,
+  });
 });
