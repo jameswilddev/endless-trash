@@ -1,5 +1,4 @@
 export { BoundType } from "./bound-type";
-export { convertFieldToRequestField } from "./convert-field-to-request-field";
 export { convertPromptToJsonSchema } from "./convert-prompt-to-json-schema";
 export {
   FloatField,
