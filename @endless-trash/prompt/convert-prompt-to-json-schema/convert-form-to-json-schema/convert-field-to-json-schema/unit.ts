@@ -1,77 +1,42 @@
-import { JSONSchema7 } from "json-schema";
-import Ajv = require("ajv");
 import { Json } from "@endless-trash/immutable-json-type";
-import { Field } from "../../..";
 import { convertFieldToJsonSchema } from ".";
-
-const ajv = new Ajv();
+import { EditableField } from "../../..";
 
 describe(`convertFieldToJsonSchema`, () => {
   function scenario(
     description: string,
-    field: Field,
-    accepts: ReadonlyArray<{
-      readonly description: string;
-      readonly json: Json;
-    }>,
-    rejects: ReadonlyArray<{
-      readonly description: string;
-      readonly json: Json;
-      readonly error: string;
-    }>
+    editableField: EditableField,
+    accepts: ReadonlyArray<readonly [string, Json]>,
+    rejects: ReadonlyArray<readonly [string, Json]>
   ): void {
     describe(description, () => {
-      let validateFunction: Ajv.ValidateFunction;
-
-      beforeAll(() => {
-        const properties = convertFieldToJsonSchema(field);
-
-        if (properties === null) {
-          fail(`Expected to return a property list, but returned null.`);
-        } else {
-          validateFunction = ajv.compile({
-            type: `object`,
-            properties,
-            required: Object.keys(properties),
-            additionalProperties: false,
-          });
-        }
-      });
-
       for (const subScenario of accepts) {
-        it(`accepts ${subScenario.description}`, () => {
-          const successful = validateFunction(subScenario.json);
+        describe(subScenario[0], () => {
+          let output: boolean;
 
-          expect(successful).toBeTrue();
+          beforeAll(() => {
+            output = convertFieldToJsonSchema(editableField, subScenario[1]);
+          });
 
-          if (!successful) {
-            fail(ajv.errorsText(validateFunction.errors));
-          }
+          it(`is accepted`, () => {
+            expect(output).toBeTrue();
+          });
         });
       }
 
       for (const subScenario of rejects) {
-        it(`rejects ${subScenario.description}`, () => {
-          expect(validateFunction(subScenario.json)).toBeFalse();
-          expect(ajv.errorsText(validateFunction.errors)).toEqual(
-            subScenario.error
-          );
+        describe(subScenario[0], () => {
+          let output: boolean;
+
+          beforeAll(() => {
+            output = convertFieldToJsonSchema(editableField, subScenario[1]);
+          });
+
+          it(`is rejected`, () => {
+            expect(output).toBeFalse();
+          });
         });
       }
-    });
-  }
-
-  function noOutputScenario(description: string, field: Field): void {
-    describe(description, () => {
-      let output: null | { [name: string]: JSONSchema7 };
-
-      beforeAll(() => {
-        output = convertFieldToJsonSchema(field);
-      });
-
-      it(`returns null`, () => {
-        expect(output).toBeNull();
-      });
     });
   }
 
@@ -86,63 +51,21 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: [7.21, `exclusive`],
       required: true,
     },
+    [[`number between minimum and maximum`, 3.01]],
     [
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be > 2.14`,
-      },
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-        error: `data.testName should be > 2.14`,
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-        error: `data.testName should be < 7.21`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be < 7.21`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+
+      [`number below minimum`, 2.03],
+
+      [`number at minimum`, 2.14],
+
+      [`number at maximum`, 7.21],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -158,61 +81,21 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-      },
+      [`number between minimum and maximum`, 3.01],
+      [`number at maximum`, 7.21],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be > 2.14`,
-      },
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-        error: `data.testName should be > 2.14`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be <= 7.21`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+      [`number below minimum`, 2.03],
+
+      [`number at minimum`, 2.14],
+
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -227,53 +110,21 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: null,
       required: true,
     },
+    [[`number above minimum`, 3.01]],
     [
-      {
-        description: `number above minimum`,
-        json: { testName: 3.01 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be > 2.14`,
-      },
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-        error: `data.testName should be > 2.14`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+
+      [`number below minimum`, 2.03],
+
+      [`number at minimum`, 2.14],
+
+      [`string`, `Test String`],
+
+      [`array`, []],
+      [`object`, {}],
+
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -289,61 +140,28 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-      },
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
+      [`number at minimum`, 2.14],
+
+      [`number between minimum and maximum`, 3.01],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be >= 2.14`,
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-        error: `data.testName should be < 7.21`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be < 7.21`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+
+      [`number below minimum`, 2.03],
+
+      [`number at maximum`, 7.21],
+
+      [`number above maximum`, 7.24],
+
+      [`string`, `Test String`],
+
+      [`array`, []],
+
+      [`object`, {}],
+
+      [`false`, false],
+
+      [`true`, true],
     ]
   );
 
@@ -359,60 +177,28 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-      },
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-      },
+      [`number at minimum`, 2.14],
+
+      [`number between minimum and maximum`, 3.01],
+
+      [`number at maximum`, 7.21],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be >= 2.14`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be <= 7.21`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+
+      [`number below minimum`, 2.03],
+
+      [`number above maximum`, 7.24],
+
+      [`string`, `Test String`],
+
+      [`array`, []],
+
+      [`object`, {}],
+
+      [`false`, false],
+
+      [`true`, true],
     ]
   );
 
@@ -428,51 +214,24 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-      },
-      {
-        description: `number above minimum`,
-        json: { testName: 3.01 },
-      },
+      [`number at minimum`, 2.14],
+
+      [`number above minimum`, 3.01],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be >= 2.14`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+
+      [`number below minimum`, 2.03],
+
+      [`string`, `Test String`],
+
+      [`array`, []],
+
+      [`object`, {}],
+
+      [`false`, false],
+
+      [`true`, true],
     ]
   );
 
@@ -487,53 +246,23 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: [7.21, `exclusive`],
       required: true,
     },
+    [[`number below maximum`, 3.01]],
     [
-      {
-        description: `number below maximum`,
-        json: { testName: 3.01 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-        error: `data.testName should be < 7.21`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be < 7.21`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+
+      [`number at maximum`, 7.21],
+
+      [`number above maximum`, 7.24],
+
+      [`string`, `Test String`],
+
+      [`array`, []],
+
+      [`object`, {}],
+
+      [`false`, false],
+
+      [`true`, true],
     ]
   );
 
@@ -549,51 +278,17 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `number below maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-      },
+      [`number below maximum`, 3.01],
+      [`number at maximum`, 7.21],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be <= 7.21`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -608,43 +303,14 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: null,
       required: true,
     },
+    [[`number`, 3.01]],
     [
-      {
-        description: `number`,
-        json: { testName: 3.01 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -659,63 +325,18 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: [7.21, `exclusive`],
       required: true,
     },
+    [[`number between minimum and maximum`, 3.01]],
     [
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be > 2.14`,
-      },
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-        error: `data.testName should be > 2.14`,
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-        error: `data.testName should be < 7.21`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be < 7.21`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+      [`number below minimum`, 2.03],
+      [`number at minimum`, 2.14],
+      [`number at maximum`, 7.21],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -731,61 +352,19 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-      },
+      [`number between minimum and maximum`, 3.01],
+      [`number at maximum`, 7.21],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be > 2.14`,
-      },
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-        error: `data.testName should be > 2.14`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be <= 7.21`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+      [`number below minimum`, 2.03],
+      [`number at minimum`, 2.14],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -800,53 +379,16 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: null,
       required: true,
     },
+    [[`number above minimum`, 3.01]],
     [
-      {
-        description: `number above minimum`,
-        json: { testName: 3.01 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be > 2.14`,
-      },
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-        error: `data.testName should be > 2.14`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+      [`number below minimum`, 2.03],
+      [`number at minimum`, 2.14],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -862,61 +404,19 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-      },
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
+      [`number at minimum`, 2.14],
+      [`number between minimum and maximum`, 3.01],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be >= 2.14`,
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-        error: `data.testName should be < 7.21`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be < 7.21`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+      [`number below minimum`, 2.03],
+      [`number at maximum`, 7.21],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -932,60 +432,19 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-      },
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-      },
+      [`number at minimum`, 2.14],
+      [`number between minimum and maximum`, 3.01],
+      [`number at maximum`, 7.21],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be >= 2.14`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be <= 7.21`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+      [`number below minimum`, 2.03],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1001,51 +460,17 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-      },
-      {
-        description: `number above minimum`,
-        json: { testName: 3.01 },
-      },
+      [`number at minimum`, 2.14],
+      [`number above minimum`, 3.01],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be >= 2.14`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+      [`number below minimum`, 2.03],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1060,53 +485,16 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: [7.21, `exclusive`],
       required: true,
     },
+    [[`number below maximum`, 3.01]],
     [
-      {
-        description: `number below maximum`,
-        json: { testName: 3.01 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-        error: `data.testName should be < 7.21`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be < 7.21`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+      [`number at maximum`, 7.21],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1122,51 +510,17 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `number below maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-      },
+      [`number below maximum`, 3.01],
+      [`number at maximum`, 7.21],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be <= 7.21`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1181,43 +535,14 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: null,
       required: true,
     },
+    [[`number`, 3.01]],
     [
-      {
-        description: `number`,
-        json: { testName: 3.01 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number`,
-      },
+      [`null`, null],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1233,61 +558,19 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number between minimum and maximum`, 3.01],
+      [`null`, null],
     ],
     [
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be > 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-        error: `data.testName should be > 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-        error: `data.testName should be < 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be < 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number below minimum`, 2.03],
+      [`number at minimum`, 2.14],
+      [`number at maximum`, 7.21],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1303,60 +586,19 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number between minimum and maximum`, 3.01],
+      [`number at maximum`, 7.21],
+      [`null`, null],
     ],
     [
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be > 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-        error: `data.testName should be > 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be <= 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number below minimum`, 2.03],
+      [`number at minimum`, 2.14],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1372,51 +614,17 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number above minimum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number above minimum`, 3.01],
+      [`null`, null],
     ],
     [
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be > 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-        error: `data.testName should be > 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number below minimum`, 2.03],
+      [`number at minimum`, 2.14],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1432,60 +640,19 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-      },
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number at minimum`, 2.14],
+      [`number between minimum and maximum`, 3.01],
+      [`null`, null],
     ],
     [
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be >= 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-        error: `data.testName should be < 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be < 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number below minimum`, 2.03],
+      [`number at maximum`, 7.21],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1501,59 +668,19 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-      },
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number at minimum`, 2.14],
+      [`number between minimum and maximum`, 3.01],
+      [`number at maximum`, 7.21],
+      [`null`, null],
     ],
     [
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be >= 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be <= 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number below minimum`, 2.03],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1569,50 +696,17 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-      },
-      {
-        description: `number above minimum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number at minimum`, 2.14],
+      [`number above minimum`, 3.01],
+      [`null`, null],
     ],
     [
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be >= 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number below minimum`, 2.03],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1628,51 +722,17 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number below maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number below maximum`, 3.01],
+      [`null`, null],
     ],
     [
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-        error: `data.testName should be < 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be < 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number at maximum`, 7.21],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1688,50 +748,17 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number below maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number below maximum`, 3.01],
+      [`number at maximum`, 7.21],
+      [`null`, null],
     ],
     [
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be <= 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1747,41 +774,15 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number`, 3.01],
+      [`null`, null],
     ],
     [
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1797,61 +798,19 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number between minimum and maximum`, 3.01],
+      [`null`, null],
     ],
     [
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be > 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-        error: `data.testName should be > 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-        error: `data.testName should be < 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be < 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number below minimum`, 2.03],
+      [`number at minimum`, 2.14],
+      [`number at maximum`, 7.21],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1867,60 +826,19 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number between minimum and maximum`, 3.01],
+      [`number at maximum`, 7.21],
+      [`null`, null],
     ],
     [
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be > 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-        error: `data.testName should be > 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be <= 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number below minimum`, 2.03],
+      [`number at minimum`, 2.14],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1936,51 +854,17 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number above minimum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number above minimum`, 3.01],
+      [`null`, null],
     ],
     [
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be > 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-        error: `data.testName should be > 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number below minimum`, 2.03],
+      [`number at minimum`, 2.14],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -1996,60 +880,19 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-      },
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number at minimum`, 2.14],
+      [`number between minimum and maximum`, 3.01],
+      [`null`, null],
     ],
     [
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be >= 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-        error: `data.testName should be < 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be < 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number below minimum`, 2.03],
+      [`number at maximum`, 7.21],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2065,59 +908,19 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-      },
-      {
-        description: `number between minimum and maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number at minimum`, 2.14],
+      [`number between minimum and maximum`, 3.01],
+      [`number at maximum`, 7.21],
+      [`null`, null],
     ],
     [
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be >= 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be <= 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number below minimum`, 2.03],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2133,50 +936,17 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number at minimum`,
-        json: { testName: 2.14 },
-      },
-      {
-        description: `number above minimum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number at minimum`, 2.14],
+      [`number above minimum`, 3.01],
+      [`null`, null],
     ],
     [
-      {
-        description: `number below minimum`,
-        json: { testName: 2.03 },
-        error: `data.testName should be >= 2.14, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number below minimum`, 2.03],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2192,51 +962,17 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number below maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number below maximum`, 3.01],
+      [`null`, null],
     ],
     [
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-        error: `data.testName should be < 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be < 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number at maximum`, 7.21],
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2252,50 +988,17 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number below maximum`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `number at maximum`,
-        json: { testName: 7.21 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number below maximum`, 3.01],
+      [`number at maximum`, 7.21],
+      [`null`, null],
     ],
     [
-      {
-        description: `number above maximum`,
-        json: { testName: 7.24 },
-        error: `data.testName should be <= 7.21, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`number above maximum`, 7.24],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2311,41 +1014,15 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `number`,
-        json: { testName: 3.01 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`number`, 3.01],
+      [`null`, null],
     ],
     [
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be number, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2360,68 +1037,19 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: [8, `exclusive`],
       required: true,
     },
+    [[`integer between minimum and maximum`, 6]],
     [
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be > 3`,
-      },
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-        error: `data.testName should be > 3`,
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-        error: `data.testName should be < 8`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be < 8`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer below minimum`, 2],
+      [`integer at minimum`, 3],
+      [`integer at maximum`, 8],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2437,66 +1065,20 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-      },
+      [`integer between minimum and maximum`, 6],
+      [`integer at maximum`, 8],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be > 3`,
-      },
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-        error: `data.testName should be > 3`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be <= 8`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer below minimum`, 2],
+      [`integer at minimum`, 3],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2511,58 +1093,17 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: null,
       required: true,
     },
+    [[`integer above minimum`, 4]],
     [
-      {
-        description: `integer above minimum`,
-        json: { testName: 4 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be > 3`,
-      },
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-        error: `data.testName should be > 3`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer below minimum`, 2],
+      [`integer at minimum`, 3],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2578,66 +1119,20 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-      },
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
+      [`integer at minimum`, 3],
+      [`integer between minimum and maximum`, 6],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be >= 3`,
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-        error: `data.testName should be < 8`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be < 8`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer below minimum`, 2],
+      [`integer at maximum`, 8],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2653,65 +1148,20 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-      },
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-      },
+      [`integer at minimum`, 3],
+      [`integer between minimum and maximum`, 6],
+      [`integer at maximum`, 8],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be >= 3`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be <= 8`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer below minimum`, 2],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2727,56 +1177,18 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-      },
-      {
-        description: `integer above minimum`,
-        json: { testName: 4 },
-      },
+      [`integer at minimum`, 3],
+      [`integer above minimum`, 4],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be >= 3`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer below minimum`, 2],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2791,58 +1203,17 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: [8, `exclusive`],
       required: true,
     },
+    [[`integer below maximum`, 7]],
     [
-      {
-        description: `integer below maximum`,
-        json: { testName: 7 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-        error: `data.testName should be < 8`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be < 8`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer at maximum`, 8],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2858,56 +1229,18 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `integer below maximum`,
-        json: { testName: 7 },
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-      },
+      [`integer below maximum`, 7],
+      [`integer at maximum`, 8],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be <= 8`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2922,48 +1255,15 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: null,
       required: true,
     },
+    [[`integer`, 6]],
     [
-      {
-        description: `integer`,
-        json: { testName: 6 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -2978,68 +1278,19 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: [8, `exclusive`],
       required: true,
     },
+    [[`integer between minimum and maximum`, 6]],
     [
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be > 3`,
-      },
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-        error: `data.testName should be > 3`,
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-        error: `data.testName should be < 8`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be < 8`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer below minimum`, 2],
+      [`integer at minimum`, 3],
+      [`integer at maximum`, 8],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -3055,66 +1306,20 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-      },
+      [`integer between minimum and maximum`, 6],
+      [`integer at maximum`, 8],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be > 3`,
-      },
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-        error: `data.testName should be > 3`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be <= 8`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer below minimum`, 2],
+      [`integer at minimum`, 3],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -3129,58 +1334,17 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: null,
       required: true,
     },
+    [[`integer above minimum`, 4]],
     [
-      {
-        description: `integer above minimum`,
-        json: { testName: 4 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be > 3`,
-      },
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-        error: `data.testName should be > 3`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer below minimum`, 2],
+      [`integer at minimum`, 3],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -3196,66 +1360,20 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-      },
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
+      [`integer at minimum`, 3],
+      [`integer between minimum and maximum`, 6],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be >= 3`,
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-        error: `data.testName should be < 8`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be < 8`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer below minimum`, 2],
+      [`integer at maximum`, 8],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -3271,65 +1389,20 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-      },
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-      },
+      [`integer at minimum`, 3],
+      [`integer between minimum and maximum`, 6],
+      [`integer at maximum`, 8],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be >= 3`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be <= 8`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer below minimum`, 2],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -3345,56 +1418,18 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-      },
-      {
-        description: `integer above minimum`,
-        json: { testName: 4 },
-      },
+      [`integer at minimum`, 3],
+      [`integer above minimum`, 4],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be >= 3`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer below minimum`, 2],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -3409,58 +1444,17 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: [8, `exclusive`],
       required: true,
     },
+    [[`integer below maximum`, 7]],
     [
-      {
-        description: `integer below maximum`,
-        json: { testName: 7 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-        error: `data.testName should be < 8`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be < 8`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer at maximum`, 8],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -3476,56 +1470,18 @@ describe(`convertFieldToJsonSchema`, () => {
       required: true,
     },
     [
-      {
-        description: `integer below maximum`,
-        json: { testName: 7 },
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-      },
+      [`integer below maximum`, 7],
+      [`integer at maximum`, 8],
     ],
     [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be <= 8`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -3540,48 +1496,15 @@ describe(`convertFieldToJsonSchema`, () => {
       maximum: null,
       required: true,
     },
+    [[`integer`, 6]],
     [
-      {
-        description: `integer`,
-        json: { testName: 6 },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer`,
-      },
+      [`null`, null],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -3597,66 +1520,20 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer between minimum and maximum`, 6],
+      [`null`, null],
     ],
     [
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be > 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-        error: `data.testName should be > 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-        error: `data.testName should be < 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be < 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer below minimum`, 2],
+      [`integer at minimum`, 3],
+      [`integer at maximum`, 8],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -3672,65 +1549,20 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer between minimum and maximum`, 6],
+      [`integer at maximum`, 8],
+      [`null`, null],
     ],
     [
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be > 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-        error: `data.testName should be > 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be <= 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer below minimum`, 2],
+      [`integer at minimum`, 3],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -3746,56 +1578,26 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer above minimum`,
-        json: { testName: 4 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer above minimum`, 4],
+
+      [`null`, null],
     ],
     [
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be > 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-        error: `data.testName should be > 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer below minimum`, 2],
+
+      [`integer at minimum`, 3],
+
+      [`float`, 5.321],
+
+      [`string`, `Test String`],
+
+      [`array`, []],
+
+      [`object`, {}],
+
+      [`false`, false],
+
+      [`true`, true],
     ]
   );
 
@@ -3811,65 +1613,30 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-      },
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer at minimum`, 3],
+
+      [`integer between minimum and maximum`, 6],
+
+      [`null`, null],
     ],
     [
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be >= 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-        error: `data.testName should be < 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be < 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer below minimum`, 2],
+
+      [`integer at maximum`, 8],
+
+      [`integer above maximum`, 9],
+
+      [`float`, 5.321],
+
+      [`string`, `Test String`],
+
+      [`array`, []],
+
+      [`object`, {}],
+
+      [`false`, false],
+
+      [`true`, true],
     ]
   );
 
@@ -3885,64 +1652,30 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-      },
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer at minimum`, 3],
+
+      [`integer between minimum and maximum`, 6],
+
+      [`integer at maximum`, 8],
+
+      [`null`, null],
     ],
     [
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be >= 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be <= 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer below minimum`, 2],
+
+      [`integer above maximum`, 9],
+
+      [`float`, 5.321],
+
+      [`string`, `Test String`],
+
+      [`array`, []],
+
+      [`object`, {}],
+
+      [`false`, false],
+
+      [`true`, true],
     ]
   );
 
@@ -3958,55 +1691,26 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-      },
-      {
-        description: `integer above minimum`,
-        json: { testName: 4 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer at minimum`, 3],
+
+      [`integer above minimum`, 4],
+
+      [`null`, null],
     ],
     [
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be >= 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer below minimum`, 2],
+
+      [`float`, 5.321],
+
+      [`string`, `Test String`],
+
+      [`array`, []],
+
+      [`object`, {}],
+
+      [`false`, false],
+
+      [`true`, true],
     ]
   );
 
@@ -4022,56 +1726,18 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer below maximum`,
-        json: { testName: 7 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer below maximum`, 7],
+      [`null`, null],
     ],
     [
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-        error: `data.testName should be < 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be < 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer at maximum`, 8],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -4087,55 +1753,20 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer below maximum`,
-        json: { testName: 7 },
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer below maximum`, 7],
+      [`integer at maximum`, 8],
+      [`null`, null],
     ],
     [
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be <= 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+
+      [`false`, false],
+
+      [`true`, true],
     ]
   );
 
@@ -4151,46 +1782,16 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer`,
-        json: { testName: 6 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer`, 6],
+      [`null`, null],
     ],
     [
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -4206,66 +1807,20 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer between minimum and maximum`, 6],
+      [`null`, null],
     ],
     [
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be > 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-        error: `data.testName should be > 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-        error: `data.testName should be < 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be < 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer below minimum`, 2],
+      [`integer at minimum`, 3],
+      [`integer at maximum`, 8],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -4281,65 +1836,21 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer between minimum and maximum`, 6],
+      [`integer at maximum`, 8],
+      [`null`, null],
     ],
     [
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be > 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-        error: `data.testName should be > 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be <= 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer below minimum`, 2],
+      [`integer at minimum`, 3],
+      [`integer above maximum`, 9],
+
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -4355,56 +1866,18 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer above minimum`,
-        json: { testName: 4 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer above minimum`, 4],
+      [`null`, null],
     ],
     [
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be > 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-        error: `data.testName should be > 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer below minimum`, 2],
+      [`integer at minimum`, 3],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -4420,65 +1893,20 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-      },
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer at minimum`, 3],
+      [`integer between minimum and maximum`, 6],
+      [`null`, null],
     ],
     [
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be >= 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-        error: `data.testName should be < 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be < 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer below minimum`, 2],
+      [`integer at maximum`, 8],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -4494,64 +1922,20 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-      },
-      {
-        description: `integer between minimum and maximum`,
-        json: { testName: 6 },
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer at minimum`, 3],
+      [`integer between minimum and maximum`, 6],
+      [`integer at maximum`, 8],
+      [`null`, null],
     ],
     [
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be >= 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be <= 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer below minimum`, 2],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -4567,55 +1951,18 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer at minimum`,
-        json: { testName: 3 },
-      },
-      {
-        description: `integer above minimum`,
-        json: { testName: 4 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer at minimum`, 3],
+      [`integer above minimum`, 4],
+      [`null`, null],
     ],
     [
-      {
-        description: `integer below minimum`,
-        json: { testName: 2 },
-        error: `data.testName should be >= 3, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer below minimum`, 2],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -4631,56 +1978,18 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer below maximum`,
-        json: { testName: 7 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer below maximum`, 7],
+      [`null`, null],
     ],
     [
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-        error: `data.testName should be < 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be < 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer at maximum`, 8],
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -4696,55 +2005,18 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer below maximum`,
-        json: { testName: 7 },
-      },
-      {
-        description: `integer at maximum`,
-        json: { testName: 8 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer below maximum`, 7],
+      [`integer at maximum`, 8],
+      [`null`, null],
     ],
     [
-      {
-        description: `integer above maximum`,
-        json: { testName: 9 },
-        error: `data.testName should be <= 8, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`integer above maximum`, 9],
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -4760,54 +2032,18 @@ describe(`convertFieldToJsonSchema`, () => {
       required: false,
     },
     [
-      {
-        description: `integer`,
-        json: { testName: 6 },
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-      },
+      [`integer`, 6],
+      [`null`, null],
     ],
     [
-      {
-        description: `float`,
-        json: { testName: 5.321 },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be integer, data.testName should be null, data.testName should match exactly one schema in oneOf`,
-      },
+      [`float`, 5.321],
+      [`string`, `Test String`],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
-
-  noOutputScenario(`paragraph`, {
-    type: `paragraph`,
-    content: `Test Content`,
-    name: `Test Name`,
-  });
 
   scenario(
     `string with minimum length with maximum length`,
@@ -4820,60 +2056,19 @@ describe(`convertFieldToJsonSchema`, () => {
       maximumLength: 6,
     },
     [
-      {
-        description: `string at minimum length`,
-        json: { testName: `Tes` },
-      },
-      {
-        description: `string at maximum length`,
-        json: { testName: `Test S` },
-      },
-      {
-        description: `string between minimum and maximum lengths`,
-        json: { testName: `Tests` },
-      },
+      [`string at minimum length`, `Tes`],
+      [`string at maximum length`, `Test S`],
+      [`string between minimum and maximum lengths`, `Tests`],
     ],
     [
-      {
-        description: `string below minimum length`,
-        json: { testName: `Te` },
-        error: `data.testName should NOT be shorter than 3 characters`,
-      },
-      {
-        description: `string above maximum length`,
-        json: { testName: `Test Str` },
-        error: `data.testName should NOT be longer than 6 characters`,
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `number`,
-        json: { testName: 5.321 },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be string`,
-      },
+      [`string below minimum length`, `Te`],
+      [`string above maximum length`, `Test Str`],
+      [`null`, null],
+      [`number`, 5.321],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -4888,51 +2083,17 @@ describe(`convertFieldToJsonSchema`, () => {
       maximumLength: null,
     },
     [
-      {
-        description: `string at minimum length`,
-        json: { testName: `Tes` },
-      },
-      {
-        description: `string above minimum length`,
-        json: { testName: `Test` },
-      },
+      [`string at minimum length`, `Tes`],
+      [`string above minimum length`, `Test`],
     ],
     [
-      {
-        description: `string below minimum length`,
-        json: { testName: `Te` },
-        error: `data.testName should NOT be shorter than 3 characters`,
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `number`,
-        json: { testName: 5.321 },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be string`,
-      },
+      [`string below minimum length`, `Te`],
+      [`null`, null],
+      [`number`, 5.321],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -4947,51 +2108,17 @@ describe(`convertFieldToJsonSchema`, () => {
       maximumLength: 6,
     },
     [
-      {
-        description: `string below maximum length`,
-        json: { testName: `Tes` },
-      },
-      {
-        description: `string at maximum length`,
-        json: { testName: `Test S` },
-      },
+      [`string below maximum length`, `Tes`],
+      [`string at maximum length`, `Test S`],
     ],
     [
-      {
-        description: `string above maximum length`,
-        json: { testName: `Test Str` },
-        error: `data.testName should NOT be longer than 6 characters`,
-      },
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `number`,
-        json: { testName: 5.321 },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be string`,
-      },
+      [`string above maximum length`, `Test Str`],
+      [`null`, null],
+      [`number`, 5.321],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
 
@@ -5005,104 +2132,14 @@ describe(`convertFieldToJsonSchema`, () => {
       minimumLength: null,
       maximumLength: null,
     },
+    [[`string`, `Test String`]],
     [
-      {
-        description: `string`,
-        json: { testName: `Test String` },
-      },
-    ],
-    [
-      {
-        description: `null`,
-        json: { testName: null },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `number`,
-        json: { testName: 5.321 },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `array`,
-        json: { testName: [] },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `object`,
-        json: { testName: {} },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `false`,
-        json: { testName: false },
-        error: `data.testName should be string`,
-      },
-      {
-        description: `true`,
-        json: { testName: true },
-        error: `data.testName should be string`,
-      },
+      [`null`, null],
+      [`number`, 5.321],
+      [`array`, []],
+      [`object`, {}],
+      [`false`, false],
+      [`true`, true],
     ]
   );
-
-  noOutputScenario(`subtitle`, {
-    type: `subtitle`,
-    content: `Test Content`,
-    name: `Test Name`,
-  });
-
-  noOutputScenario(`title`, {
-    type: `title`,
-    content: `Test Content`,
-    name: `Test Name`,
-  });
-
-  noOutputScenario(`video`, {
-    type: `video`,
-    sources: [
-      {
-        mimeType: `Test Source A Mime Type`,
-        url: `Test Source A Url`,
-      },
-      {
-        mimeType: `Test Source B Mime Type`,
-        url: `Test Source B Url`,
-      },
-      {
-        mimeType: `Test Source C Mime Type`,
-        url: `Test Source C Url`,
-      },
-    ],
-    name: `Test Name`,
-    autoplay: true,
-    loop: false,
-  });
-
-  noOutputScenario(`audio`, {
-    type: `audio`,
-    sources: [
-      {
-        mimeType: `Test Source A Mime Type`,
-        url: `Test Source A Url`,
-      },
-      {
-        mimeType: `Test Source B Mime Type`,
-        url: `Test Source B Url`,
-      },
-      {
-        mimeType: `Test Source C Mime Type`,
-        url: `Test Source C Url`,
-      },
-    ],
-    name: `Test Name`,
-    autoplay: true,
-    loop: false,
-  });
-
-  noOutputScenario(`image`, {
-    type: `image`,
-    url: `Test Url`,
-    name: `Test Name`,
-    description: `Test Description`,
-  });
 });

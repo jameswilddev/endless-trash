@@ -1,57 +1,69 @@
-import { JSONSchema7 } from "json-schema";
-import Ajv = require("ajv");
 import { Json } from "@endless-trash/immutable-json-type";
 import { convertFormToJsonSchema } from ".";
-
-const ajv = new Ajv();
+import { Form } from "../..";
 
 describe(`convertFormToJsonSchema`, () => {
   describe(`when the form does not have a submit button`, () => {
-    let jsonSchema: null | JSONSchema7;
+    let output: boolean;
 
     beforeAll(() => {
-      jsonSchema = convertFormToJsonSchema({
-        name: `Test Form Name`,
-        fields: [
-          {
-            name: `testFieldAName`,
-            type: `string`,
-            value: `Test Field A Existing Value`,
-            label: `Test Field A Label`,
-            minimumLength: 4,
-            maximumLength: null,
+      output = convertFormToJsonSchema(
+        {
+          name: `Test Form Name`,
+          fields: [
+            {
+              name: `testFieldAName`,
+              type: `string`,
+              value: `Test Field A Existing Value`,
+              label: `Test Field A Label`,
+              minimumLength: 4,
+              maximumLength: null,
+            },
+            {
+              name: `testFieldBName`,
+              type: `string`,
+              value: `Test Field B Existing Value`,
+              label: `Test Field B Label`,
+              minimumLength: null,
+              maximumLength: 20,
+            },
+            {
+              name: `testFieldCName`,
+              type: `subtitle`,
+              content: `Test Field C Content`,
+            },
+            {
+              name: `testFieldDName`,
+              type: `string`,
+              value: `Test Field D Existing Value`,
+              label: `Test Field D Label`,
+              minimumLength: null,
+              maximumLength: 25,
+            },
+          ],
+          submitButtonLabel: null,
+        },
+        {
+          formName: `Test Form Name`,
+          fields: {
+            testFieldAName: `Test Field A Value`,
+            testFieldBName: ``,
+            testFieldDName: `Test Field D Value`,
           },
-          {
-            name: `testFieldBName`,
-            type: `string`,
-            value: `Test Field B Existing Value`,
-            label: `Test Field B Label`,
-            minimumLength: null,
-            maximumLength: 20,
-          },
-          {
-            name: `testFieldCName`,
-            type: `string`,
-            value: `Test Field C Existing Value`,
-            label: `Test Field C Label`,
-            minimumLength: null,
-            maximumLength: 25,
-          },
-        ],
-        submitButtonLabel: null,
-      });
+        }
+      );
     });
 
-    it(`returns null`, () => {
-      expect(jsonSchema).toBeNull();
+    it(`returns false`, () => {
+      expect(output).toBeFalse();
     });
   });
 
   describe(`when the form has a submit button`, () => {
-    let validateFunction: Ajv.ValidateFunction;
+    let form: Form;
 
     beforeAll(() => {
-      const jsonSchema = convertFormToJsonSchema({
+      form = {
         name: `Test Form Name`,
         fields: [
           {
@@ -72,180 +84,144 @@ describe(`convertFormToJsonSchema`, () => {
           },
           {
             name: `testFieldCName`,
+            type: `subtitle`,
+            content: `Test Field C Content`,
+          },
+          {
+            name: `testFieldDName`,
             type: `string`,
-            value: `Test Field C Existing Value`,
-            label: `Test Field C Label`,
+            value: `Test Field D Existing Value`,
+            label: `Test Field D Label`,
             minimumLength: null,
             maximumLength: 25,
           },
         ],
         submitButtonLabel: `Test Submit Button Label`,
+      };
+    });
+
+    describe(`when the request is valid`, () => {
+      let output: boolean;
+
+      beforeAll(() => {
+        output = convertFormToJsonSchema(form, {
+          formName: `Test Form Name`,
+          fields: {
+            testFieldAName: `Test Field A Value`,
+            testFieldBName: ``,
+            testFieldDName: `Test Field D Value`,
+          },
+        });
       });
 
-      if (jsonSchema === null) {
-        fail(`Expected a JSON schema, but returned null.`);
-      } else {
-        validateFunction = ajv.compile(jsonSchema);
-      }
+      it(`returns true`, () => {
+        expect(output).toBeTrue();
+      });
     });
 
-    it(`accepts valid form submissions`, () => {
-      const value = {
-        formName: `Test Form Name`,
-        fields: {
-          testFieldAName: `Test Field A Value`,
-          testFieldBName: ``,
-          testFieldCName: `Test Field C Value`,
-        },
-      };
+    function rejects(description: string, value: Json): void {
+      describe(description, () => {
+        let output: boolean;
 
-      expect(validateFunction(value)).toBeTrue();
-    });
+        beforeAll(() => {
+          output = convertFormToJsonSchema(form, value);
+        });
 
-    function rejects(description: string, value: Json, error: string): void {
-      it(description, () => {
-        expect(validateFunction(value)).toBeFalse();
-        expect(ajv.errorsText(validateFunction.errors)).toEqual(error);
+        it(`returns false`, () => {
+          expect(output).toBeFalse();
+        });
       });
     }
 
-    rejects(
-      `formName missing`,
-      {
-        fields: {
-          testFieldAName: `Test Field A Value`,
-          testFieldBName: ``,
-          testFieldCName: `Test Field C Value`,
-        },
+    rejects(`formName missing`, {
+      fields: {
+        testFieldAName: `Test Field A Value`,
+        testFieldBName: ``,
+        testFieldDName: `Test Field D Value`,
       },
-      `data should have required property 'formName'`
-    );
+    });
 
-    rejects(
-      `formName invalid`,
-      {
-        formName: `Test Invalid Form Name`,
-        fields: {
-          testFieldAName: `Test Field A Value`,
-          testFieldBName: ``,
-          testFieldCName: `Test Field C Value`,
-        },
+    rejects(`formName invalid`, {
+      formName: `Test Invalid Form Name`,
+      fields: {
+        testFieldAName: `Test Field A Value`,
+        testFieldBName: ``,
+        testFieldDName: `Test Field D Value`,
       },
-      `data.formName should be equal to constant`
-    );
+    });
 
-    rejects(
-      `fields missing`,
-      {
-        formName: `Test Form Name`,
+    rejects(`fields missing`, {
+      formName: `Test Form Name`,
+    });
+
+    rejects(`fields missing properties`, {
+      formName: `Test Form Name`,
+      fields: {
+        testFieldAName: `Test Field A Value`,
+        testFieldDName: `Test Field D Value`,
       },
-      `data should have required property 'fields'`
-    );
+    });
 
-    rejects(
-      `fields missing properties`,
-      {
-        formName: `Test Form Name`,
-        fields: {
-          testFieldAName: `Test Field A Value`,
-          testFieldCName: `Test Field C Value`,
-        },
-      },
-      `data.fields should have required property 'testFieldBName'`
-    );
-
-    rejects(
-      `fields unexpected properties`,
-      {
-        formName: `Test Form Name`,
-        fields: {
-          testFieldAName: `Test Field A Value`,
-          testFieldBName: ``,
-          testFieldCName: `Test Field C Value`,
-          testUnexpectedKey: `Test Unexpected Value`,
-        },
-      },
-      `data.fields should NOT have additional properties`
-    );
-
-    rejects(
-      `fields null`,
-      {
-        formName: `Test Form Name`,
-        fields: null,
-      },
-      `data.fields should be object`
-    );
-
-    rejects(
-      `fields false`,
-      {
-        formName: `Test Form Name`,
-        fields: false,
-      },
-      `data.fields should be object`
-    );
-
-    rejects(
-      `fields true`,
-      {
-        formName: `Test Form Name`,
-        fields: true,
-      },
-      `data.fields should be object`
-    );
-
-    rejects(
-      `fields number`,
-      {
-        formName: `Test Form Name`,
-        fields: 56.2342,
-      },
-      `data.fields should be object`
-    );
-
-    rejects(
-      `fields string`,
-      {
-        formName: `Test Form Name`,
-        fields: `Test String`,
-      },
-      `data.fields should be object`
-    );
-
-    rejects(
-      `fields array`,
-      {
-        formName: `Test Form Name`,
-        fields: [],
-      },
-      `data.fields should be object`
-    );
-
-    rejects(
-      `unexpected properties`,
-      {
-        formName: `Test Form Name`,
-        fields: {
-          testFieldAName: `Test Field A Value`,
-          testFieldBName: ``,
-          testFieldCName: `Test Field C Value`,
-        },
+    rejects(`fields unexpected properties`, {
+      formName: `Test Form Name`,
+      fields: {
+        testFieldAName: `Test Field A Value`,
+        testFieldBName: ``,
+        testFieldDName: `Test Field D Value`,
         testUnexpectedKey: `Test Unexpected Value`,
       },
-      `data should NOT have additional properties`
-    );
+    });
 
-    rejects(`null`, null, `data should be object`);
+    rejects(`fields null`, {
+      formName: `Test Form Name`,
+      fields: null,
+    });
 
-    rejects(`arrays`, [], `data should be object`);
+    rejects(`fields false`, {
+      formName: `Test Form Name`,
+      fields: false,
+    });
 
-    rejects(`false`, false, `data should be object`);
+    rejects(`fields true`, {
+      formName: `Test Form Name`,
+      fields: true,
+    });
 
-    rejects(`true`, true, `data should be object`);
+    rejects(`fields number`, {
+      formName: `Test Form Name`,
+      fields: 56.2342,
+    });
 
-    rejects(`numbers`, 5.21, `data should be object`);
+    rejects(`fields string`, {
+      formName: `Test Form Name`,
+      fields: `Test String`,
+    });
 
-    rejects(`strings`, `Test String`, `data should be object`);
+    rejects(`fields array`, {
+      formName: `Test Form Name`,
+      fields: [],
+    });
+
+    rejects(`unexpected properties`, {
+      formName: `Test Form Name`,
+      fields: {
+        testFieldAName: `Test Field A Value`,
+        testFieldBName: ``,
+        testFieldDName: `Test Field D Value`,
+      },
+      testUnexpectedKey: `Test Unexpected Value`,
+    });
+
+    rejects(`null`, null);
+
+    rejects(`arrays`, []);
+
+    rejects(`false`, false);
+
+    rejects(`true`, true);
+
+    rejects(`numbers`, 5.21);
+
+    rejects(`strings`, `Test String`);
   });
 });

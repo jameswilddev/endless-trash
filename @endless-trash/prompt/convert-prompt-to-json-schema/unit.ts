@@ -1,15 +1,11 @@
-import Ajv = require("ajv");
 import { Json } from "@endless-trash/immutable-json-type";
-import { convertPromptToJsonSchema } from "..";
-import { Prompt } from "../prompt";
-
-const ajv = new Ajv();
+import { convertPromptToJsonSchema, Prompt, Request } from "..";
 
 describe(`convertPromptToJsonSchema`, () => {
-  let validateFunction: Ajv.ValidateFunction;
+  let prompt: Prompt;
 
   beforeAll(() => {
-    const prompt: Prompt = {
+    prompt = {
       formGroups: [
         {
           name: `Test Form Group A Name`,
@@ -128,22 +124,33 @@ describe(`convertPromptToJsonSchema`, () => {
         },
       ],
     };
-
-    const jsonSchema = convertPromptToJsonSchema(prompt);
-
-    validateFunction = ajv.compile(jsonSchema);
   });
 
   function accepts(description: string, value: Json): void {
-    it(`accepts ${description}`, () => {
-      expect(validateFunction(value)).toBeTrue();
+    describe(description, () => {
+      let output: null | Request;
+
+      beforeAll(() => {
+        output = convertPromptToJsonSchema(prompt, value);
+      });
+
+      it(`is accepted`, () => {
+        expect(output).toEqual(value as Request);
+      });
     });
   }
 
-  function rejects(description: string, value: Json, error: string): void {
-    it(`rejects ${description}`, () => {
-      expect(validateFunction(value)).toBeFalse();
-      expect(ajv.errorsText(validateFunction.errors)).toEqual(error);
+  function rejects(description: string, value: Json): void {
+    describe(description, () => {
+      let output: null | Request;
+
+      beforeAll(() => {
+        output = convertPromptToJsonSchema(prompt, value);
+      });
+
+      it(`is rejected`, () => {
+        expect(output).toBeNull();
+      });
     });
   }
 
@@ -156,82 +163,42 @@ describe(`convertPromptToJsonSchema`, () => {
     },
   });
 
-  rejects(
-    `invalid form submissions`,
-    {
-      formName: `Test Form C Name`,
-      fields: {
-        testFieldCAName: ``,
-        testFieldCBName: ``,
-        testFieldCCName: `Test Field C C Value`,
-      },
+  rejects(`invalid form submissions`, {
+    formName: `Test Form C Name`,
+    fields: {
+      testFieldCAName: ``,
+      testFieldCBName: ``,
+      testFieldCCName: `Test Field C C Value`,
     },
-    `data.formName should be equal to constant, data.formName should be equal to constant, data.fields.testFieldCAName should NOT be shorter than 4 characters, data.formName should be equal to constant, data.formName should be equal to constant, data should match exactly one schema in oneOf`
-  );
+  });
 
-  rejects(
-    `submissions of unsubmissible forms`,
-    {
-      formName: `Test Form B Name`,
-      fields: {
-        testFieldBAName: `Test Field B A Value`,
-      },
+  rejects(`submissions of unsubmissible forms`, {
+    formName: `Test Form B Name`,
+    fields: {
+      testFieldBAName: `Test Field B A Value`,
     },
-    `data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data should match exactly one schema in oneOf`
-  );
+  });
 
-  rejects(
-    `submissions of nonexistent forms`,
-    {
-      formName: `Test Form E Name`,
-      fields: {
-        testFieldEAName: `Test Field E A Value`,
-        testFieldEBName: ``,
-        testFieldECName: `Test Field E C Value`,
-      },
+  rejects(`submissions of nonexistent forms`, {
+    formName: `Test Form E Name`,
+    fields: {
+      testFieldEAName: `Test Field E A Value`,
+      testFieldEBName: ``,
+      testFieldECName: `Test Field E C Value`,
     },
-    `data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data.formName should be equal to constant, data should match exactly one schema in oneOf`
-  );
+  });
 
-  rejects(
-    `null`,
-    null,
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-  );
+  rejects(`null`, null);
 
-  rejects(
-    `arrays`,
-    [],
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-  );
+  rejects(`arrays`, []);
 
-  rejects(
-    `empty objects`,
-    [],
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-  );
+  rejects(`empty objects`, []);
 
-  rejects(
-    `false`,
-    false,
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-  );
+  rejects(`false`, false);
 
-  rejects(
-    `true`,
-    true,
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-  );
+  rejects(`true`, true);
 
-  rejects(
-    `numbers`,
-    5.21,
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-  );
+  rejects(`numbers`, 5.21);
 
-  rejects(
-    `strings`,
-    `Test String`,
-    `data should be object, data should be object, data should be object, data should be object, data should be object, data should match exactly one schema in oneOf`
-  );
+  rejects(`strings`, `Test String`);
 });
