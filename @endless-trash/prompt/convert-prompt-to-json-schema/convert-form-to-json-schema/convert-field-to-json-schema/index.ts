@@ -63,7 +63,10 @@ export function convertFieldToJsonSchema(
 
     case `paragraph`:
     case `subtitle`:
-    case `title`: {
+    case `title`:
+    case `video`:
+    case `image`:
+    case `audio`: {
       return null;
     }
 

@@ -5056,4 +5056,53 @@ describe(`convertFieldToJsonSchema`, () => {
     content: `Test Content`,
     name: `Test Name`,
   });
+
+  noOutputScenario(`video`, {
+    type: `video`,
+    sources: [
+      {
+        mimeType: `Test Source A Mime Type`,
+        url: `Test Source A Url`,
+      },
+      {
+        mimeType: `Test Source B Mime Type`,
+        url: `Test Source B Url`,
+      },
+      {
+        mimeType: `Test Source C Mime Type`,
+        url: `Test Source C Url`,
+      },
+    ],
+    name: `Test Name`,
+    autoplay: true,
+    loop: false,
+  });
+
+  noOutputScenario(`audio`, {
+    type: `audio`,
+    sources: [
+      {
+        mimeType: `Test Source A Mime Type`,
+        url: `Test Source A Url`,
+      },
+      {
+        mimeType: `Test Source B Mime Type`,
+        url: `Test Source B Url`,
+      },
+      {
+        mimeType: `Test Source C Mime Type`,
+        url: `Test Source C Url`,
+      },
+    ],
+    name: `Test Name`,
+    autoplay: true,
+    loop: false,
+  });
+
+  noOutputScenario(`image`, {
+    type: `image`,
+    url: `Test Url`,
+    name: `Test Name`,
+    description: `Test Description`,
+  });
 });

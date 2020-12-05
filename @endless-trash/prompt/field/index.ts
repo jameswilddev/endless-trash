@@ -8,6 +8,10 @@ export {
   EditableField,
 } from "./editable-field";
 export {
+  AudioField,
+  ImageField,
+  VideoField,
+  MediaField,
   ParagraphField,
   SubtitleField,
   TitleField,
