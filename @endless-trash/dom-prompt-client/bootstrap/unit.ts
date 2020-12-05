@@ -233,7 +233,7 @@ describe(`bootstrap`, () => {
     it(`dispatches the response`, () => {
       expect(dispatch).toHaveBeenCalledWith(applyResponse, {
         response: `Test Response`,
-        send: channelSend,
+        channelSend,
       });
     });
 

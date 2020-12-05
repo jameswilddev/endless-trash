@@ -18,7 +18,7 @@ export async function bootstrap(
   try {
     channelSend = await channel(
       async (response, send) => {
-        dispatch(applyResponse, { response, send });
+        dispatch(applyResponse, { response, channelSend: send });
       },
       (error) => {
         dispatch(applyError, error);
