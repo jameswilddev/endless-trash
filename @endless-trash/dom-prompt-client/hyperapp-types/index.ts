@@ -8,7 +8,7 @@
 declare module "hyperapp-cjs" {
   // The `app` function initiates a Hyperapp application. `app` along with
   // effects are the only places where side effects are allowed.
-  function app<S>(props: App<S>): Dispatch<S>;
+  function app<S>(props: App<S>): void;
 
   // The `h` function builds a virtual DOM node.
   function h<S>(
@@ -18,7 +18,7 @@ declare module "hyperapp-cjs" {
   ): VDOM<S>;
 
   // The `memo` function stores a view along with properties for it.
-  function memo<S>(view: View<S>, props: PropList<S>): Partial<VDOM<S>>;
+  function memo<S>(tag: View<S>, memo: PropList<S>): Partial<VDOM<S>>;
 
   // The `text` function creates a virtual DOM node representing plain text.
   function text<S>(value: number | string, node?: Node): VDOM<S>;
@@ -28,7 +28,6 @@ declare module "hyperapp-cjs" {
   // A Hyperapp application instance has an initial state and a base view.
   // It must also be mounted over an available DOM element.
   type App<S> = Readonly<{
-    // init: Transition<S> | Action<S>
     init: State<S> | EffectfulState<S> | Action<S>;
     view: View<S>;
     node: Node;
@@ -139,7 +138,12 @@ declare module "hyperapp-cjs" {
   >;
 
   // The `class` property represents an HTML class attribute string.
-  type ClassProp = false | string | Record<string, boolean> | ClassProp[];
+  type ClassProp =
+    | false
+    | string
+    | undefined
+    | Record<string, boolean | undefined>
+    | ClassProp[];
 
   // The `style` property represents inline CSS.
   type StyleProp = {
@@ -152,6 +156,11 @@ declare module "hyperapp-cjs" {
     OnWindowEventMap & { onsearch: Event };
 
   // ---------------------------------------------------------------------------
+
+  // TODO:
+  // - setting up for TypeScript 4.1...
+  // type OnHTMLElementEventMap = { [K in keyof HTMLElementEventMap as `on${K}`]: HTMLElementEventMap[K] }
+  // type OnWindowEventMap = { [K in keyof WindowEventMap as `on${K}`]: WindowEventMap[K] }
 
   // Due to current limitations with TypeScript (which will get resolved in the
   // future: https://devblogs.microsoft.com/typescript/announcing-typescript-4-1-beta/#key-remapping-mapped-types),
