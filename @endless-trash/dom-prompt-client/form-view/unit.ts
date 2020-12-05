@@ -379,8 +379,11 @@ describe(`formView`, () => {
               [
                 sendEffect,
                 {
-                  formName: `Test Form Name`,
-                  fields: { "Test Field Name": 24 },
+                  channelSend,
+                  request: {
+                    formName: `Test Form Name`,
+                    fields: { "Test Field Name": 24 },
+                  },
                 },
               ],
             ]);
