@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/channel",
   "description": "Types for channels through which clients can communicate with hosts.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=10.19.0"
   },
