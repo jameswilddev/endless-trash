@@ -39,6 +39,9 @@ export function initialFieldState(
     case `paragraph`:
     case `subtitle`:
     case `title`:
+    case `video`:
+    case `audio`:
+    case `image`:
       return {
         type: `static`,
         id,

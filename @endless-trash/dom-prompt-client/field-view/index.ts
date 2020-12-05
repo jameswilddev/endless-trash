@@ -1,8 +1,8 @@
 import { VDOM } from "hyperapp-cjs";
 import { editableFieldView } from "../editable-field-view";
-import { messageFieldView } from "../message-field-view";
 import { PromptState } from "../prompt-state";
 import { State } from "../state";
+import { staticFieldView } from "../static-field-view";
 
 export function fieldView(
   promptState: PromptState,
@@ -19,6 +19,6 @@ export function fieldView(
       return editableFieldView(promptState, formGroupName, formName, fieldName);
 
     case `static`:
-      return messageFieldView(fieldState);
+      return staticFieldView(fieldState);
   }
 }

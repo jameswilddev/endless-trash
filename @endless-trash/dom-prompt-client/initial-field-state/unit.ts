@@ -154,7 +154,7 @@ describe(`initialFieldState`, () => {
       );
     });
 
-    it(`defaults to being parsed`, () => {
+    it(`wraps the returned state`, () => {
       expect(output).toEqual({
         type: `static`,
         id: `test-form-group-name--test-form-name--test-name`,
@@ -189,7 +189,7 @@ describe(`initialFieldState`, () => {
       );
     });
 
-    it(`defaults to being parsed`, () => {
+    it(`wraps the returned state`, () => {
       expect(output).toEqual({
         type: `static`,
         id: `test-form-group-name--test-form-name--test-name`,
@@ -224,7 +224,7 @@ describe(`initialFieldState`, () => {
       );
     });
 
-    it(`defaults to being parsed`, () => {
+    it(`wraps the returned state`, () => {
       expect(output).toEqual({
         type: `static`,
         id: `test-form-group-name--test-form-name--test-name`,
@@ -232,6 +232,173 @@ describe(`initialFieldState`, () => {
           type: `title`,
           name: `Test Name`,
           content: `Test Content`,
+        },
+      });
+    });
+  });
+
+  describe(`video`, () => {
+    let output: FieldState;
+
+    beforeAll(() => {
+      output = initialFieldState(
+        {
+          name: `Test Form Group Name`,
+          forms: [],
+        },
+        {
+          name: `Test Form Name`,
+          fields: [],
+          submitButtonLabel: `Test Submit Button Label`,
+        },
+        {
+          type: `video`,
+          sources: [
+            {
+              mimeType: `Test Source A Mime Type`,
+              url: `Test Source A Url`,
+            },
+            {
+              mimeType: `Test Source B Mime Type`,
+              url: `Test Source B Url`,
+            },
+            {
+              mimeType: `Test Source C Mime Type`,
+              url: `Test Source C Url`,
+            },
+          ],
+          name: `Test Name`,
+          autoplay: true,
+          loop: false,
+        }
+      );
+    });
+
+    it(`wraps the returned state`, () => {
+      expect(output).toEqual({
+        type: `static`,
+        id: `test-form-group-name--test-form-name--test-name`,
+        field: {
+          type: `video`,
+          sources: [
+            {
+              mimeType: `Test Source A Mime Type`,
+              url: `Test Source A Url`,
+            },
+            {
+              mimeType: `Test Source B Mime Type`,
+              url: `Test Source B Url`,
+            },
+            {
+              mimeType: `Test Source C Mime Type`,
+              url: `Test Source C Url`,
+            },
+          ],
+          name: `Test Name`,
+          autoplay: true,
+          loop: false,
+        },
+      });
+    });
+  });
+
+  describe(`audio`, () => {
+    let output: FieldState;
+
+    beforeAll(() => {
+      output = initialFieldState(
+        {
+          name: `Test Form Group Name`,
+          forms: [],
+        },
+        {
+          name: `Test Form Name`,
+          fields: [],
+          submitButtonLabel: `Test Submit Button Label`,
+        },
+        {
+          type: `audio`,
+          sources: [
+            {
+              mimeType: `Test Source A Mime Type`,
+              url: `Test Source A Url`,
+            },
+            {
+              mimeType: `Test Source B Mime Type`,
+              url: `Test Source B Url`,
+            },
+            {
+              mimeType: `Test Source C Mime Type`,
+              url: `Test Source C Url`,
+            },
+          ],
+          name: `Test Name`,
+          autoplay: true,
+          loop: false,
+        }
+      );
+    });
+
+    it(`wraps the returned state`, () => {
+      expect(output).toEqual({
+        type: `static`,
+        id: `test-form-group-name--test-form-name--test-name`,
+        field: {
+          type: `audio`,
+          sources: [
+            {
+              mimeType: `Test Source A Mime Type`,
+              url: `Test Source A Url`,
+            },
+            {
+              mimeType: `Test Source B Mime Type`,
+              url: `Test Source B Url`,
+            },
+            {
+              mimeType: `Test Source C Mime Type`,
+              url: `Test Source C Url`,
+            },
+          ],
+          name: `Test Name`,
+          autoplay: true,
+          loop: false,
+        },
+      });
+    });
+  });
+
+  describe(`image`, () => {
+    let output: FieldState;
+
+    beforeAll(() => {
+      output = initialFieldState(
+        {
+          name: `Test Form Group Name`,
+          forms: [],
+        },
+        {
+          name: `Test Form Name`,
+          fields: [],
+          submitButtonLabel: `Test Submit Button Label`,
+        },
+        {
+          type: `image`,
+          name: `Test Name`,
+          url: `Test Url`,
+          description: `Test Description`,
+        }
+      );
+    });
+
+    it(`wraps the returned state`, () => {
+      expect(output).toEqual({
+        type: `static`,
+        id: `test-form-group-name--test-form-name--test-name`,
+        field: {
+          type: `image`,
+          name: `Test Name`,
+          url: `Test Url`,
+          description: `Test Description`,
         },
       });
     });
