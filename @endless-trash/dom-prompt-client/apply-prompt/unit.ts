@@ -1,9 +1,66 @@
 import { Prompt } from "@endless-trash/prompt";
 import { applyPrompt } from ".";
+import { ErrorState } from "../error-state";
 import { MessageState } from "../message-state";
 import { PromptState } from "../prompt-state";
+import { State } from "../state";
 
 describe(`applyPrompt`, () => {
+  describe(`error`, () => {
+    let channelSend: jasmine.Spy;
+    let output: State;
+
+    beforeAll(() => {
+      channelSend = jasmine.createSpy(`channelSend`);
+
+      const errorState: ErrorState = {
+        type: `error`,
+        error: new Error(`Test Error`),
+      };
+
+      const prompt: Prompt = {
+        formGroups: [
+          {
+            name: `Test Added Form Group`,
+            forms: [
+              {
+                name: `Test Added Form`,
+                fields: [
+                  {
+                    type: `integer`,
+                    name: `Test Added Field`,
+                    label: `Test Label`,
+                    minimum: null,
+                    maximum: null,
+                    required: true,
+                    value: 64.5,
+                  },
+                ],
+                submitButtonLabel: `Test Submit Button Label`,
+              },
+            ],
+          },
+        ],
+      };
+
+      output = applyPrompt(errorState, {
+        prompt,
+        channelSend,
+      }) as State;
+    });
+
+    it(`returns the current state`, () => {
+      expect(output).toEqual({
+        type: `error`,
+        error: new Error(`Test Error`),
+      });
+    });
+
+    it(`does not send a message through the channel`, () => {
+      expect(channelSend).not.toHaveBeenCalled();
+    });
+  });
+
   describe(`message`, () => {
     let channelSend: jasmine.Spy;
     let output: PromptState;

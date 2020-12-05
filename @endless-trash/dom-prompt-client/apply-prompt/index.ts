@@ -11,6 +11,9 @@ export const applyPrompt: ActionTransform<State, ApplyPromptProps> = (
   const providedProps = props as ApplyPromptProps;
 
   switch (state.type) {
+    case `error`:
+      return state;
+
     case `message`:
       return {
         type: `prompt`,

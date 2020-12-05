@@ -2,6 +2,7 @@ import { State } from "../state";
 
 export function applyAwaitingResponse(state: State): State {
   switch (state.type) {
+    case `error`:
     case `message`:
       return state;
 

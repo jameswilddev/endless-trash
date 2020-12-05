@@ -2,6 +2,24 @@ import { applyAwaitingResponse } from ".";
 import { State } from "../state";
 
 describe(`applyAwaitingResponse`, () => {
+  describe(`error`, () => {
+    let output: State;
+
+    beforeAll(() => {
+      output = applyAwaitingResponse({
+        type: `error`,
+        error: new Error(`Test Error`),
+      });
+    });
+
+    it(`returns the unmodified state`, () => {
+      expect(output).toEqual({
+        type: `error`,
+        error: new Error(`Test Error`),
+      });
+    });
+  });
+
   describe(`message`, () => {
     let output: State;
 

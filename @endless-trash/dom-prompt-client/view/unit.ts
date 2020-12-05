@@ -1,8 +1,41 @@
-import { h, text, VDOM } from "hyperapp-cjs";
+import { ActionTransform, h, text, VDOM } from "hyperapp-cjs";
 import { view } from ".";
 import { State } from "../state";
 
 describe(`view`, () => {
+  describe(`error`, () => {
+    let output: VDOM<State>;
+
+    beforeAll(() => {
+      output = view({
+        type: `error`,
+        error: new Error(`Test Error`),
+      });
+    });
+
+    it(`defers to messageView`, () => {
+      expect(output).toEqual(
+        h(`div`, { class: `error` }, [
+          h(
+            `p`,
+            text(`A communication error has occurred:\n\nError: Test Error`)
+          ),
+          h(
+            `button`,
+            {
+              type: `button`,
+              onclick: (jasmine.any(Function) as unknown) as ActionTransform<
+                State,
+                Event
+              >,
+            },
+            text(`Reload`)
+          ),
+        ]) as VDOM<State>
+      );
+    });
+  });
+
   describe(`message`, () => {
     let output: VDOM<State>;
 

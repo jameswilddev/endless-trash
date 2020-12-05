@@ -1,9 +1,32 @@
-import { Action, ActionDescriptor, EffectfulState, State } from "hyperapp-cjs";
+import { Action, EffectfulState, State } from "hyperapp-cjs";
 import { applyError } from ".";
-import { applyMessage } from "../apply-message";
 import { State as DomPromptClientState } from "../state";
 
 describe(`applyError`, () => {
+  describe(`error`, () => {
+    let output:
+      | State<DomPromptClientState>
+      | EffectfulState<DomPromptClientState>
+      | Action<DomPromptClientState>;
+
+    beforeAll(() => {
+      output = applyError(
+        {
+          type: `error`,
+          error: new Error(`Test Previous Error`),
+        },
+        new Error(`Test New Error`)
+      );
+    });
+
+    it(`returns the new message state`, () => {
+      expect(output as State<DomPromptClientState>).toEqual({
+        type: `error`,
+        error: new Error(`Test New Error`),
+      });
+    });
+  });
+
   describe(`message`, () => {
     let output:
       | State<DomPromptClientState>
@@ -21,10 +44,10 @@ describe(`applyError`, () => {
     });
 
     it(`returns the new message state`, () => {
-      expect(output as ActionDescriptor<DomPromptClientState, string>).toEqual([
-        applyMessage,
-        `A communication error has occurred:\n\nError: Test New Error\n\nPlease refresh to reconnect.`,
-      ]);
+      expect(output as State<DomPromptClientState>).toEqual({
+        type: `error`,
+        error: new Error(`Test New Error`),
+      });
     });
   });
 
@@ -53,10 +76,10 @@ describe(`applyError`, () => {
     });
 
     it(`returns the new message state`, () => {
-      expect(output as ActionDescriptor<DomPromptClientState, string>).toEqual([
-        applyMessage,
-        `A communication error has occurred:\n\nError: Test New Error\n\nPlease refresh to reconnect.`,
-      ]);
+      expect(output as State<DomPromptClientState>).toEqual({
+        type: `error`,
+        error: new Error(`Test New Error`),
+      });
     });
 
     it(`does not send a message through the channel`, () => {

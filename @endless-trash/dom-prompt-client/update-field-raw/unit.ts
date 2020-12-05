@@ -1,9 +1,35 @@
 import { updateFieldRaw } from ".";
+import { ErrorState } from "../error-state";
 import { MessageState } from "../message-state";
 import { PromptState } from "../prompt-state";
 import { State } from "../state";
 
 describe(`updateFieldRaw`, () => {
+  describe(`error`, () => {
+    let output: State;
+
+    beforeAll(() => {
+      const messageState: ErrorState = {
+        type: `error`,
+        error: new Error(`Test Error`),
+      };
+
+      output = updateFieldRaw(messageState, {
+        formGroupName: `Test Form Group Name`,
+        formName: `Test Form Name`,
+        fieldName: `Test Field Name`,
+        raw: `Test Updated Raw`,
+      });
+    });
+
+    it(`returns the state`, () => {
+      expect(output).toEqual({
+        type: `error`,
+        error: new Error(`Test Error`),
+      });
+    });
+  });
+
   describe(`message`, () => {
     let output: State;
 

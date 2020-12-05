@@ -7,6 +7,7 @@ export function updateFieldRaw(
   props: UpdateFieldRawProps
 ): State {
   switch (state.type) {
+    case `error`:
     case `message`:
       return state;
 
