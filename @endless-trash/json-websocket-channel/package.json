@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/json-websocket-channel",
   "description": "A channel implementation which communicates in JSON with a host using a WebSocket.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": ">=10.19.0"
   },
