@@ -1,7 +1,7 @@
 import { Json } from "@endless-trash/immutable-json-type";
 import { filterEditableField } from "../../filter-editable-field";
 import { Form } from "../../form";
-import { requestFieldIsValid } from "./request-field-is-valid";
+import { requestFieldIsValid } from "../../request-field-is-valid";
 
 export function requestFormIsValid(form: Form, request: Json): boolean {
   if (form.submitButtonLabel === null) {

@@ -30,4 +30,5 @@ export {
   RequestField,
   Request,
 } from "./request";
+export { requestFieldIsValid } from "./request-field-is-valid";
 export { requestIsValid } from "./request-is-valid";

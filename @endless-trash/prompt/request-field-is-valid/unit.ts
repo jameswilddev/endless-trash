@@ -1,6 +1,5 @@
 import { Json } from "@endless-trash/immutable-json-type";
-import { requestFieldIsValid } from ".";
-import { EditableField } from "../../..";
+import { EditableField, requestFieldIsValid } from "..";
 
 describe(`requestFieldIsValid`, () => {
   function scenario(

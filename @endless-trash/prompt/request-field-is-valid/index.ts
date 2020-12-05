@@ -1,5 +1,5 @@
 import { Json } from "@endless-trash/immutable-json-type";
-import { EditableField } from "../../../field";
+import { EditableField } from "../field";
 
 export function requestFieldIsValid(
   editableField: EditableField,
