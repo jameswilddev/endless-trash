@@ -4,7 +4,11 @@ import { State } from "../state";
 
 export function errorView(errorState: ErrorState): VDOM<State> {
   return h(`div`, { class: `error` }, [
-    h(`p`, text(`A communication error has occurred:\n\n${errorState.error}`)),
+    h(
+      `p`,
+      {},
+      text(`A communication error has occurred:\n\n${errorState.error}`)
+    ),
     h(
       `button`,
       {
