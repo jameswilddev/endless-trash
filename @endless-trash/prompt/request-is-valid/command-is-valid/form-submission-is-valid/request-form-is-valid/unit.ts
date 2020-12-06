@@ -1,6 +1,6 @@
-import { Json } from "@endless-trash/immutable-json-type";
 import { requestFormIsValid } from ".";
-import { Form } from "../..";
+import { Form } from "../../../..";
+import { FormSubmissionCommand } from "../../../../request/command";
 
 describe(`requestFormIsValid`, () => {
   describe(`when the form does not have a submit button`, () => {
@@ -44,6 +44,7 @@ describe(`requestFormIsValid`, () => {
           submitButtonLabel: null,
         },
         {
+          type: `formSubmission`,
           formName: `Test Form Name`,
           fields: {
             testFieldAName: `Test Field A Value`,
@@ -105,6 +106,7 @@ describe(`requestFormIsValid`, () => {
 
       beforeAll(() => {
         output = requestFormIsValid(form, {
+          type: `formSubmission`,
           formName: `Test Form Name`,
           fields: {
             testFieldAName: `Test Field A Value`,
@@ -119,7 +121,7 @@ describe(`requestFormIsValid`, () => {
       });
     });
 
-    function rejects(description: string, value: Json): void {
+    function rejects(description: string, value: FormSubmissionCommand): void {
       describe(description, () => {
         let output: boolean;
 
@@ -133,15 +135,8 @@ describe(`requestFormIsValid`, () => {
       });
     }
 
-    rejects(`formName missing`, {
-      fields: {
-        testFieldAName: `Test Field A Value`,
-        testFieldBName: ``,
-        testFieldDName: `Test Field D Value`,
-      },
-    });
-
     rejects(`formName invalid`, {
+      type: `formSubmission`,
       formName: `Test Invalid Form Name`,
       fields: {
         testFieldAName: `Test Field A Value`,
@@ -150,11 +145,8 @@ describe(`requestFormIsValid`, () => {
       },
     });
 
-    rejects(`fields missing`, {
-      formName: `Test Form Name`,
-    });
-
     rejects(`fields missing properties`, {
+      type: `formSubmission`,
       formName: `Test Form Name`,
       fields: {
         testFieldAName: `Test Field A Value`,
@@ -163,6 +155,7 @@ describe(`requestFormIsValid`, () => {
     });
 
     rejects(`fields unexpected properties`, {
+      type: `formSubmission`,
       formName: `Test Form Name`,
       fields: {
         testFieldAName: `Test Field A Value`,
@@ -172,56 +165,14 @@ describe(`requestFormIsValid`, () => {
       },
     });
 
-    rejects(`fields null`, {
-      formName: `Test Form Name`,
-      fields: null,
-    });
-
-    rejects(`fields false`, {
-      formName: `Test Form Name`,
-      fields: false,
-    });
-
-    rejects(`fields true`, {
-      formName: `Test Form Name`,
-      fields: true,
-    });
-
-    rejects(`fields number`, {
-      formName: `Test Form Name`,
-      fields: 56.2342,
-    });
-
-    rejects(`fields string`, {
-      formName: `Test Form Name`,
-      fields: `Test String`,
-    });
-
-    rejects(`fields array`, {
-      formName: `Test Form Name`,
-      fields: [],
-    });
-
-    rejects(`unexpected properties`, {
+    rejects(`field invalid`, {
+      type: `formSubmission`,
       formName: `Test Form Name`,
       fields: {
         testFieldAName: `Test Field A Value`,
-        testFieldBName: ``,
+        testFieldBName: null,
         testFieldDName: `Test Field D Value`,
       },
-      testUnexpectedKey: `Test Unexpected Value`,
     });
-
-    rejects(`null`, null);
-
-    rejects(`arrays`, []);
-
-    rejects(`false`, false);
-
-    rejects(`true`, true);
-
-    rejects(`numbers`, 5.21);
-
-    rejects(`strings`, `Test String`);
   });
 });

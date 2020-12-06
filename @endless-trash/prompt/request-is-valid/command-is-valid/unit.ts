@@ -1,7 +1,8 @@
-import { Json, JsonObject } from "@endless-trash/immutable-json-type";
-import { requestIsValid, Prompt, Request } from "..";
+import { Json } from "@endless-trash/immutable-json-type";
+import { commandIsValid } from ".";
+import { Prompt } from "../../prompt";
 
-describe(`requestIsValid`, () => {
+describe(`commandIsValid`, () => {
   let prompt: Prompt;
 
   beforeAll(() => {
@@ -126,135 +127,93 @@ describe(`requestIsValid`, () => {
     };
   });
 
-  describe(`when the request is valid`, () => {
-    let metadataContentIsValid: jasmine.Spy;
-    let output: null | Request;
-
-    beforeAll(() => {
-      metadataContentIsValid = jasmine
-        .createSpy(`metadataContentIsValid`)
-        .and.returnValue(true);
-
-      output = requestIsValid(prompt, metadataContentIsValid, {
-        metadata: { testMetadataKey: `Test Metadata Value` },
-        command: { type: `refresh` },
-      });
-    });
-
-    it(`does not execute the callback more than expected`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledTimes(1);
-    });
-
-    it(`passes the metadata object to the callback`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledWith({
-        testMetadataKey: `Test Metadata Value`,
-      });
-    });
-
-    it(`returns the request`, () => {
-      expect(output).toEqual({
-        metadata: { testMetadataKey: `Test Metadata Value` } as JsonObject,
-        command: { type: `refresh` },
-      });
-    });
-  });
-
-  describe(`when the command is invalid`, () => {
-    let metadataContentIsValid: jasmine.Spy;
-    let output: null | Request;
-
-    beforeAll(() => {
-      metadataContentIsValid = jasmine
-        .createSpy(`metadataContentIsValid`)
-        .and.returnValue(true);
-
-      output = requestIsValid(prompt, metadataContentIsValid, {
-        metadata: { testMetadataKey: `Test Metadata Value` },
-        command: {
-          type: `refresh`,
-          testUnexpectedKey: `Test Unexpected Value`,
-        },
-      });
-    });
-
-    it(`does not execute the callback more than expected`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledTimes(1);
-    });
-
-    it(`passes the metadata object to the callback`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledWith({
-        testMetadataKey: `Test Metadata Value`,
-      });
-    });
-
-    it(`returns null`, () => {
-      expect(output).toBeNull();
-    });
-  });
-
-  describe(`when the metadata is invalid`, () => {
-    let metadataContentIsValid: jasmine.Spy;
-    let output: null | Request;
-
-    beforeAll(() => {
-      metadataContentIsValid = jasmine
-        .createSpy(`metadataContentIsValid`)
-        .and.returnValue(false);
-
-      output = requestIsValid(prompt, metadataContentIsValid, {
-        metadata: { testMetadataKey: `Test Metadata Value` },
-        command: {
-          type: `refresh`,
-          testUnexpectedKey: `Test Unexpected Value`,
-        },
-      });
-    });
-
-    it(`does not execute the callback more than expected`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledTimes(1);
-    });
-
-    it(`passes the metadata object to the callback`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledWith({
-        testMetadataKey: `Test Metadata Value`,
-      });
-    });
-
-    it(`returns null`, () => {
-      expect(output).toBeNull();
-    });
-  });
-
-  function rejects(description: string, value: Json): void {
-    describe(description, () => {
-      let metadataContentIsValid: jasmine.Spy;
-      let output: null | Request;
+  describe(`form submission`, () => {
+    describe(`valid`, () => {
+      let output: boolean;
 
       beforeAll(() => {
-        metadataContentIsValid = jasmine.createSpy(`metadataContentIsValid`);
-
-        output = requestIsValid(prompt, metadataContentIsValid, value);
+        output = commandIsValid(prompt, {
+          type: `formSubmission`,
+          formName: `Test Form C Name`,
+          fields: {
+            testFieldCAName: `Test Field C A Value`,
+            testFieldCBName: `Test Field C B Value`,
+            testFieldCCName: `Test Field C C Value`,
+          },
+        });
       });
 
-      it(`does not execute the metadata validation callback`, () => {
-        expect(metadataContentIsValid).not.toHaveBeenCalled();
+      it(`returns true`, () => {
+        expect(output).toBeTrue();
+      });
+    });
+
+    describe(`invalid`, () => {
+      let output: boolean;
+
+      beforeAll(() => {
+        output = commandIsValid(prompt, {
+          type: `formSubmission`,
+          formName: `Test Form C Name`,
+          fields: {
+            testFieldCAName: `Test Field C A Value`,
+            testFieldCBName: `Test Field C B Value`,
+            testFieldCCName: `Test Field C C Value`,
+          },
+          testUnexpectedKey: `Test Unexpected Value`,
+        });
       });
 
-      it(`is rejected`, () => {
-        expect(output).toBeNull();
+      it(`returns false`, () => {
+        expect(output).toBeFalse();
+      });
+    });
+  });
+
+  describe(`refresh`, () => {
+    describe(`valid`, () => {
+      let output: boolean;
+
+      beforeAll(() => {
+        output = commandIsValid(prompt, {
+          type: `refresh`,
+        });
+      });
+
+      it(`returns true`, () => {
+        expect(output).toBeTrue();
+      });
+    });
+
+    describe(`invalid`, () => {
+      let output: boolean;
+
+      beforeAll(() => {
+        output = commandIsValid(prompt, {
+          type: `refresh`,
+          testUnexpectedKey: `Test Unexpected Value`,
+        });
+      });
+
+      it(`returns false`, () => {
+        expect(output).toBeFalse();
+      });
+    });
+  });
+
+  function rejects(description: string, command: Json): void {
+    describe(description, () => {
+      let output: boolean;
+
+      beforeAll(() => {
+        output = commandIsValid(prompt, command);
+      });
+
+      it(`returns false`, () => {
+        expect(output).toBeFalse();
       });
     });
   }
-
-  rejects(`missing metadata`, { command: { type: `refresh` } });
-
-  rejects(`missing command`, { metadata: {} });
-
-  rejects(`unexpected properties`, {
-    metadata: {},
-    command: { type: `refresh` },
-    testUnexpectedKey: `Test Unexpected Value`,
-  });
 
   rejects(`null`, null);
 
@@ -269,4 +228,6 @@ describe(`requestIsValid`, () => {
   rejects(`numbers`, 5.21);
 
   rejects(`strings`, `Test String`);
+
+  rejects(`unknown type`, { type: `unknown` });
 });

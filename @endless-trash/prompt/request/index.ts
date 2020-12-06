@@ -1,4 +1,5 @@
-import { RequestField } from "./request-field";
+import { Command } from "./command";
+import { Metadata } from "./metadata";
 
 export {
   RequestRequiredFloatField,
@@ -9,11 +10,13 @@ export {
   RequestIntegerField,
   RequestStringField,
   RequestField,
-} from "./request-field";
+  FormSubmissionCommand,
+  RefreshCommand,
+} from "./command";
+
+export { Metadata } from "./metadata";
 
 export type Request = {
-  readonly formName: string;
-  readonly fields: {
-    readonly [fieldName: string]: RequestField;
-  };
+  readonly command: Command;
+  readonly metadata: Metadata;
 };

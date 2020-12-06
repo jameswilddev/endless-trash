@@ -1,7 +1,8 @@
-import { Json, JsonObject } from "@endless-trash/immutable-json-type";
-import { requestIsValid, Prompt, Request } from "..";
+import { JsonObject } from "@endless-trash/immutable-json-type";
+import { Prompt } from "../../../prompt";
+import { formSubmissionIsValid } from ".";
 
-describe(`requestIsValid`, () => {
+describe(`formSubmissionIsValid`, () => {
   let prompt: Prompt;
 
   beforeAll(() => {
@@ -126,147 +127,104 @@ describe(`requestIsValid`, () => {
     };
   });
 
-  describe(`when the request is valid`, () => {
-    let metadataContentIsValid: jasmine.Spy;
-    let output: null | Request;
-
-    beforeAll(() => {
-      metadataContentIsValid = jasmine
-        .createSpy(`metadataContentIsValid`)
-        .and.returnValue(true);
-
-      output = requestIsValid(prompt, metadataContentIsValid, {
-        metadata: { testMetadataKey: `Test Metadata Value` },
-        command: { type: `refresh` },
-      });
-    });
-
-    it(`does not execute the callback more than expected`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledTimes(1);
-    });
-
-    it(`passes the metadata object to the callback`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledWith({
-        testMetadataKey: `Test Metadata Value`,
-      });
-    });
-
-    it(`returns the request`, () => {
-      expect(output).toEqual({
-        metadata: { testMetadataKey: `Test Metadata Value` } as JsonObject,
-        command: { type: `refresh` },
-      });
-    });
-  });
-
-  describe(`when the command is invalid`, () => {
-    let metadataContentIsValid: jasmine.Spy;
-    let output: null | Request;
-
-    beforeAll(() => {
-      metadataContentIsValid = jasmine
-        .createSpy(`metadataContentIsValid`)
-        .and.returnValue(true);
-
-      output = requestIsValid(prompt, metadataContentIsValid, {
-        metadata: { testMetadataKey: `Test Metadata Value` },
-        command: {
-          type: `refresh`,
-          testUnexpectedKey: `Test Unexpected Value`,
-        },
-      });
-    });
-
-    it(`does not execute the callback more than expected`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledTimes(1);
-    });
-
-    it(`passes the metadata object to the callback`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledWith({
-        testMetadataKey: `Test Metadata Value`,
-      });
-    });
-
-    it(`returns null`, () => {
-      expect(output).toBeNull();
-    });
-  });
-
-  describe(`when the metadata is invalid`, () => {
-    let metadataContentIsValid: jasmine.Spy;
-    let output: null | Request;
-
-    beforeAll(() => {
-      metadataContentIsValid = jasmine
-        .createSpy(`metadataContentIsValid`)
-        .and.returnValue(false);
-
-      output = requestIsValid(prompt, metadataContentIsValid, {
-        metadata: { testMetadataKey: `Test Metadata Value` },
-        command: {
-          type: `refresh`,
-          testUnexpectedKey: `Test Unexpected Value`,
-        },
-      });
-    });
-
-    it(`does not execute the callback more than expected`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledTimes(1);
-    });
-
-    it(`passes the metadata object to the callback`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledWith({
-        testMetadataKey: `Test Metadata Value`,
-      });
-    });
-
-    it(`returns null`, () => {
-      expect(output).toBeNull();
-    });
-  });
-
-  function rejects(description: string, value: Json): void {
+  function rejects(description: string, command: JsonObject): void {
     describe(description, () => {
-      let metadataContentIsValid: jasmine.Spy;
-      let output: null | Request;
+      let output: boolean;
 
       beforeAll(() => {
-        metadataContentIsValid = jasmine.createSpy(`metadataContentIsValid`);
-
-        output = requestIsValid(prompt, metadataContentIsValid, value);
+        output = formSubmissionIsValid(prompt, command);
       });
 
-      it(`does not execute the metadata validation callback`, () => {
-        expect(metadataContentIsValid).not.toHaveBeenCalled();
-      });
-
-      it(`is rejected`, () => {
-        expect(output).toBeNull();
+      it(`returns false`, () => {
+        expect(output).toBeFalse();
       });
     });
   }
 
-  rejects(`missing metadata`, { command: { type: `refresh` } });
+  rejects(`formName missing`, {
+    type: `formSubmission`,
+    fields: {
+      testFieldCAName: `Test Field C A Value`,
+      testFieldCBName: `Test Field C B Value`,
+      testFieldCCName: `Test Field C C Value`,
+    },
+  });
 
-  rejects(`missing command`, { metadata: {} });
+  rejects(`fields missing`, {
+    type: `formSubmission`,
+    formName: `Test Form C Name`,
+  });
+
+  rejects(`fields null`, {
+    type: `formSubmission`,
+    formName: `Test Form C Name`,
+    fields: null,
+  });
+
+  rejects(`fields array`, {
+    type: `formSubmission`,
+    formName: `Test Form C Name`,
+    fields: [],
+  });
+
+  rejects(`fields false`, {
+    type: `formSubmission`,
+    formName: `Test Form C Name`,
+    fields: false,
+  });
+
+  rejects(`fields true`, {
+    type: `formSubmission`,
+    formName: `Test Form C Name`,
+    fields: true,
+  });
+
+  rejects(`fields number`, {
+    type: `formSubmission`,
+    formName: `Test Form C Name`,
+    fields: 5.21,
+  });
+
+  rejects(`fields string`, {
+    type: `formSubmission`,
+    formName: `Test Form C Name`,
+    fields: `Test String`,
+  });
 
   rejects(`unexpected properties`, {
-    metadata: {},
-    command: { type: `refresh` },
+    type: `formSubmission`,
+    formName: `Test Form C Name`,
+    fields: {
+      testFieldCAName: `Test Field C A Value`,
+      testFieldCBName: `Test Field C B Value`,
+      testFieldCCName: `Test Field C C Value`,
+    },
     testUnexpectedKey: `Test Unexpected Value`,
   });
 
-  rejects(`null`, null);
+  rejects(`no form matches`, {
+    type: `formSubmission`,
+    formName: `Test Form H Name`,
+    fields: {},
+  });
 
-  rejects(`arrays`, []);
+  describe(`when valid`, () => {
+    let output: boolean;
 
-  rejects(`empty objects`, {});
+    beforeAll(() => {
+      output = formSubmissionIsValid(prompt, {
+        type: `formSubmission`,
+        formName: `Test Form C Name`,
+        fields: {
+          testFieldCAName: `Test Field C A Value`,
+          testFieldCBName: `Test Field C B Value`,
+          testFieldCCName: `Test Field C C Value`,
+        },
+      });
+    });
 
-  rejects(`false`, false);
-
-  rejects(`true`, true);
-
-  rejects(`numbers`, 5.21);
-
-  rejects(`strings`, `Test String`);
+    it(`returns true`, () => {
+      expect(output).toBeTrue();
+    });
+  });
 });
