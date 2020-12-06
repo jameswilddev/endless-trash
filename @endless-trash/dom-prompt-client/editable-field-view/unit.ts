@@ -79,6 +79,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `interactive`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -200,6 +201,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `interactive`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -321,6 +323,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `interactive`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -444,6 +447,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `interactive`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -565,6 +569,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `interactive`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -686,6 +691,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `interactive`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -811,6 +817,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `beingSent`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -932,6 +939,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `beingSent`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -1053,6 +1061,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `beingSent`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -1176,6 +1185,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `beingSent`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -1297,6 +1307,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `beingSent`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -1418,6 +1429,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `beingSent`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -1543,6 +1555,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `awaitingResponse`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -1664,6 +1677,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `awaitingResponse`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -1785,6 +1799,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `awaitingResponse`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -1908,6 +1923,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `awaitingResponse`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -2029,6 +2045,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `awaitingResponse`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(
@@ -2150,6 +2167,7 @@ describe(`editableFieldView`, () => {
             },
             mode: `awaitingResponse`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = editableFieldView(

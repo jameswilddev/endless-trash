@@ -1,4 +1,5 @@
 import { Channel, ChannelSend } from "@endless-trash/channel";
+import { JsonObject } from "@endless-trash/immutable-json-type";
 import { Prompt, Request } from "@endless-trash/prompt";
 import { Dispatch } from "hyperapp-cjs";
 import { applyError } from "../apply-error";
@@ -8,7 +9,7 @@ import { State } from "../state";
 
 export async function bootstrap(
   channel: Channel<Request, Prompt>,
-  request: Request,
+  metadata: JsonObject,
   dispatch: Dispatch<State>
 ): Promise<void> {
   dispatch(applyMessage, `Connecting...`);
@@ -32,7 +33,10 @@ export async function bootstrap(
   dispatch(applyMessage, `Sending initial request...`);
 
   try {
-    await channelSend(request);
+    await channelSend({
+      metadata,
+      command: { type: `refresh` },
+    });
   } catch (e) {
     dispatch(applyError, e);
     return;

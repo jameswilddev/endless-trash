@@ -18,7 +18,14 @@ describe(`sendEffect`, () => {
 
       sendEffect(dispatch, {
         channelSend,
-        request: { formName: `Test Form Name`, fields: {} },
+        request: {
+          metadata: { testMetadataKey: `Test Metadata Value` },
+          command: {
+            type: `formSubmission`,
+            formName: `Test Form Name`,
+            fields: {},
+          },
+        },
       });
     });
 
@@ -28,8 +35,12 @@ describe(`sendEffect`, () => {
 
     it(`sends the request through the channel`, () => {
       expect(channelSend).toHaveBeenCalledWith({
-        formName: `Test Form Name`,
-        fields: {},
+        metadata: { testMetadataKey: `Test Metadata Value` },
+        command: {
+          type: `formSubmission`,
+          formName: `Test Form Name`,
+          fields: {},
+        },
       });
     });
 
@@ -49,7 +60,14 @@ describe(`sendEffect`, () => {
 
       sendEffect(dispatch, {
         channelSend,
-        request: { formName: `Test Form Name`, fields: {} },
+        request: {
+          metadata: { testMetadataKey: `Test Metadata Value` },
+          command: {
+            type: `formSubmission`,
+            formName: `Test Form Name`,
+            fields: {},
+          },
+        },
       });
     });
 
@@ -79,7 +97,14 @@ describe(`sendEffect`, () => {
 
       sendEffect(dispatch, {
         channelSend,
-        request: { formName: `Test Form Name`, fields: {} },
+        request: {
+          metadata: { testMetadataKey: `Test Metadata Value` },
+          command: {
+            type: `formSubmission`,
+            formName: `Test Form Name`,
+            fields: {},
+          },
+        },
       });
     });
 

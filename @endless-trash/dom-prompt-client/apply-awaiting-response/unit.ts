@@ -1,3 +1,4 @@
+import { JsonObject } from "@endless-trash/immutable-json-type";
 import { applyAwaitingResponse } from ".";
 import { State } from "../state";
 
@@ -27,6 +28,7 @@ describe(`applyAwaitingResponse`, () => {
       output = applyAwaitingResponse({
         type: `message`,
         content: `Test Content`,
+        metadata: { testMetadataKey: `Test Metadata Value` },
       });
     });
 
@@ -34,6 +36,7 @@ describe(`applyAwaitingResponse`, () => {
       expect(output).toEqual({
         type: `message`,
         content: `Test Content`,
+        metadata: { testMetadataKey: `Test Metadata Value` } as JsonObject,
       });
     });
   });
@@ -52,6 +55,7 @@ describe(`applyAwaitingResponse`, () => {
           prompt: { formGroups: [] },
           formGroups: {},
           channelSend,
+          metadata: { testMetadataKey: `Test Metadata Value` },
         });
       });
 
@@ -62,6 +66,7 @@ describe(`applyAwaitingResponse`, () => {
           prompt: { formGroups: [] },
           formGroups: {},
           channelSend,
+          metadata: { testMetadataKey: `Test Metadata Value` } as JsonObject,
         });
       });
 
@@ -83,6 +88,7 @@ describe(`applyAwaitingResponse`, () => {
           prompt: { formGroups: [] },
           formGroups: {},
           channelSend,
+          metadata: { testMetadataKey: `Test Metadata Value` },
         });
       });
 
@@ -93,6 +99,7 @@ describe(`applyAwaitingResponse`, () => {
           prompt: { formGroups: [] },
           formGroups: {},
           channelSend,
+          metadata: { testMetadataKey: `Test Metadata Value` } as JsonObject,
         });
       });
 
@@ -114,6 +121,7 @@ describe(`applyAwaitingResponse`, () => {
           prompt: { formGroups: [] },
           formGroups: {},
           channelSend,
+          metadata: { testMetadataKey: `Test Metadata Value` },
         });
       });
 
@@ -124,6 +132,7 @@ describe(`applyAwaitingResponse`, () => {
           prompt: { formGroups: [] },
           formGroups: {},
           channelSend,
+          metadata: { testMetadataKey: `Test Metadata Value` } as JsonObject,
         });
       });
 

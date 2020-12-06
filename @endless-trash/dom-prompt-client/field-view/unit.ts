@@ -77,6 +77,7 @@ describe(`fieldView`, () => {
         },
         mode: `interactive`,
         channelSend,
+        metadata: { testMetadataKey: `Test Metadata Value` },
       };
 
       output = fieldView(
@@ -195,6 +196,7 @@ describe(`fieldView`, () => {
         },
         mode: `interactive`,
         channelSend,
+        metadata: { testMetadataKey: `Test Metadata Value` },
       };
 
       output = fieldView(

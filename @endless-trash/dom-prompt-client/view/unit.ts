@@ -40,6 +40,7 @@ describe(`view`, () => {
       output = view({
         type: `message`,
         content: `Test Content`,
+        metadata: { testMetadataKey: `Test Metadata Value` },
       });
     });
 
@@ -63,6 +64,7 @@ describe(`view`, () => {
         formGroups: {},
         channelSend,
         mode: `interactive`,
+        metadata: { testMetadataKey: `Test Metadata Value` },
       });
     });
 

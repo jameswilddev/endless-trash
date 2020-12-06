@@ -116,6 +116,7 @@ describe(`formGroupView`, () => {
       },
       mode: `awaitingResponse`,
       channelSend,
+      metadata: { testMetadataKey: `Test Metadata Value` },
     };
 
     output = formGroupView(promptState, `Test Form Group Name`);

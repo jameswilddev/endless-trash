@@ -100,6 +100,7 @@ describe(`formView`, () => {
               },
               mode: `interactive`,
               channelSend,
+              metadata: { testMetadataKey: `Test Metadata Value` },
             };
 
             output = formView(
@@ -270,6 +271,7 @@ describe(`formView`, () => {
               },
               mode: `interactive`,
               channelSend,
+              metadata: { testMetadataKey: `Test Metadata Value` },
             };
 
             eventPreventDefault = jasmine.createSpy(`eventPreventDefault`);
@@ -378,14 +380,19 @@ describe(`formView`, () => {
                 },
                 mode: `beingSent`,
                 channelSend,
+                metadata: { testMetadataKey: `Test Metadata Value` },
               },
               [
                 sendEffect,
                 {
                   channelSend,
                   request: {
-                    formName: `Test Form Name`,
-                    fields: { "Test Field Name": 24 },
+                    metadata: { testMetadataKey: `Test Metadata Value` },
+                    command: {
+                      type: `formSubmission`,
+                      formName: `Test Form Name`,
+                      fields: { "Test Field Name": 24 },
+                    },
                   },
                 },
               ],
@@ -482,6 +489,7 @@ describe(`formView`, () => {
             },
             mode: `interactive`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = formView(
@@ -650,6 +658,7 @@ describe(`formView`, () => {
             },
             mode: `interactive`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = formView(
@@ -807,6 +816,7 @@ describe(`formView`, () => {
             },
             mode: `interactive`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = formView(
@@ -968,6 +978,7 @@ describe(`formView`, () => {
             },
             mode: `beingSent`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = formView(
@@ -1134,6 +1145,7 @@ describe(`formView`, () => {
             },
             mode: `beingSent`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = formView(
@@ -1302,6 +1314,7 @@ describe(`formView`, () => {
             },
             mode: `beingSent`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = formView(
@@ -1459,6 +1472,7 @@ describe(`formView`, () => {
             },
             mode: `beingSent`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = formView(
@@ -1620,6 +1634,7 @@ describe(`formView`, () => {
             },
             mode: `awaitingResponse`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = formView(
@@ -1786,6 +1801,7 @@ describe(`formView`, () => {
             },
             mode: `awaitingResponse`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = formView(
@@ -1954,6 +1970,7 @@ describe(`formView`, () => {
             },
             mode: `awaitingResponse`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = formView(
@@ -2111,6 +2128,7 @@ describe(`formView`, () => {
             },
             mode: `awaitingResponse`,
             channelSend,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           };
 
           output = formView(

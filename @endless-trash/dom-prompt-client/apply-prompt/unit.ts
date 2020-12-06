@@ -1,3 +1,4 @@
+import { JsonObject } from "@endless-trash/immutable-json-type";
 import { Prompt } from "@endless-trash/prompt";
 import { applyPrompt } from ".";
 import { ErrorState } from "../error-state";
@@ -71,6 +72,7 @@ describe(`applyPrompt`, () => {
       const messageState: MessageState = {
         type: `message`,
         content: `Test Content`,
+        metadata: { testMetadataKey: `Test Metadata Value` },
       };
 
       const prompt: Prompt = {
@@ -210,6 +212,12 @@ describe(`applyPrompt`, () => {
     it(`does not send a message through the channel`, () => {
       expect(channelSend).not.toHaveBeenCalled();
     });
+
+    it(`includes the metadata`, () => {
+      expect(output.metadata).toEqual({
+        testMetadataKey: `Test Metadata Value`,
+      } as JsonObject);
+    });
   });
 
   describe(`prompt`, () => {
@@ -308,6 +316,7 @@ describe(`applyPrompt`, () => {
         },
         mode: `awaitingResponse`,
         channelSend,
+        metadata: { testMetadataKey: `Test Metadata Value` },
       };
 
       const prompt: Prompt = {
@@ -592,6 +601,12 @@ describe(`applyPrompt`, () => {
 
     it(`does not send a message through the channel`, () => {
       expect(channelSend).not.toHaveBeenCalled();
+    });
+
+    it(`includes the metadata`, () => {
+      expect(output.metadata).toEqual({
+        testMetadataKey: `Test Metadata Value`,
+      } as JsonObject);
     });
   });
 });

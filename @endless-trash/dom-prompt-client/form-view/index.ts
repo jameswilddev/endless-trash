@@ -71,7 +71,7 @@ export function formView(
                   sendEffect,
                   {
                     channelSend: promptState.channelSend,
-                    request: convertFormStateToRequest(formState),
+                    request: convertFormStateToRequest(promptState, formState),
                   },
                 ],
               ];

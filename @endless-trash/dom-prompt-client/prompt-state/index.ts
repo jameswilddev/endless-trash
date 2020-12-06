@@ -2,6 +2,7 @@ import { Prompt, Request } from "@endless-trash/prompt";
 import { ChannelSend } from "@endless-trash/channel";
 import { FormGroupState } from "../form-group-state";
 import { PromptMode } from "./prompt-mode";
+import { JsonObject } from "@endless-trash/immutable-json-type";
 
 export type PromptState = {
   readonly type: `prompt`;
@@ -11,4 +12,5 @@ export type PromptState = {
   };
   readonly mode: PromptMode;
   readonly channelSend: ChannelSend<Request>;
+  readonly metadata: JsonObject;
 };

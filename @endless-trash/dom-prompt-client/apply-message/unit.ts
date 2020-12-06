@@ -1,8 +1,33 @@
+import { JsonObject } from "@endless-trash/immutable-json-type";
 import { Action, EffectfulState, State } from "hyperapp-cjs";
 import { applyMessage } from ".";
 import { State as DomPromptClientState } from "../state";
 
 describe(`applyMessage`, () => {
+  describe(`error`, () => {
+    let output:
+      | State<DomPromptClientState>
+      | EffectfulState<DomPromptClientState>
+      | Action<DomPromptClientState>;
+
+    beforeAll(() => {
+      output = applyMessage(
+        {
+          type: `error`,
+          error: `Test Error`,
+        },
+        `Test New Content`
+      );
+    });
+
+    it(`returns the error state, unmodified`, () => {
+      expect(output as State<DomPromptClientState>).toEqual({
+        type: `error`,
+        error: `Test Error`,
+      });
+    });
+  });
+
   describe(`message`, () => {
     let output:
       | State<DomPromptClientState>
@@ -14,6 +39,7 @@ describe(`applyMessage`, () => {
         {
           type: `message`,
           content: `Test Previous Content`,
+          metadata: { testMetadataKey: `Test Metadata Value` },
         },
         `Test New Content`
       );
@@ -23,6 +49,7 @@ describe(`applyMessage`, () => {
       expect(output as State<DomPromptClientState>).toEqual({
         type: `message`,
         content: `Test New Content`,
+        metadata: { testMetadataKey: `Test Metadata Value` } as JsonObject,
       });
     });
   });
@@ -46,6 +73,7 @@ describe(`applyMessage`, () => {
           formGroups: {},
           mode: `interactive`,
           channelSend,
+          metadata: { testMetadataKey: `Test Metadata Value` },
         },
         `Test New Content`
       );
@@ -55,6 +83,7 @@ describe(`applyMessage`, () => {
       expect(output as State<DomPromptClientState>).toEqual({
         type: `message`,
         content: `Test New Content`,
+        metadata: { testMetadataKey: `Test Metadata Value` } as JsonObject,
       });
     });
 

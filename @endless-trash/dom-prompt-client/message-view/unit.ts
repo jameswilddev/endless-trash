@@ -9,6 +9,7 @@ describe(`messageView`, () => {
     output = messageView({
       type: `message`,
       content: `Test Content`,
+      metadata: { testMetadataKey: `Test Metadata Value` },
     });
   });
 

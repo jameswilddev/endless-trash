@@ -241,6 +241,7 @@ describe(`stringEditableFieldImplementation`, () => {
                 },
                 mode: `interactive`,
                 channelSend,
+                metadata: { testMetadataKey: `Test Metadata Value` },
               };
 
               value = act(

@@ -149,6 +149,7 @@ describe(`promptView`, () => {
         },
         mode: `interactive`,
         channelSend,
+        metadata: { testMetadataKey: `Test Metadata Value` },
       };
 
       output = promptView(promptState);
@@ -425,6 +426,7 @@ describe(`promptView`, () => {
         },
         mode: `beingSent`,
         channelSend,
+        metadata: { testMetadataKey: `Test Metadata Value` },
       };
 
       output = promptView(promptState);
@@ -697,6 +699,7 @@ describe(`promptView`, () => {
         },
         mode: `awaitingResponse`,
         channelSend,
+        metadata: { testMetadataKey: `Test Metadata Value` },
       };
 
       output = promptView(promptState);

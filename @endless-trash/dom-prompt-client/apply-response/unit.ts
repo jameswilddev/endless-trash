@@ -23,6 +23,7 @@ describe(`applyResponse`, () => {
           {
             type: `message`,
             content: `Test Previous Content`,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           },
           {
             response: {
@@ -67,6 +68,7 @@ describe(`applyResponse`, () => {
           {
             type: `message`,
             content: `Test Previous Content`,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           },
           {
             response: ({
@@ -116,6 +118,7 @@ describe(`applyResponse`, () => {
           {
             type: `message`,
             content: `Test Previous Content`,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           },
           {
             response: {
@@ -160,6 +163,7 @@ describe(`applyResponse`, () => {
           {
             type: `message`,
             content: `Test Previous Content`,
+            metadata: { testMetadataKey: `Test Metadata Value` },
           },
           {
             response: ({

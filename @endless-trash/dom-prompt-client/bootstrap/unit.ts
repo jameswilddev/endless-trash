@@ -17,7 +17,7 @@ describe(`bootstrap`, () => {
 
       dispatch = jasmine.createSpy(`dispatch`);
 
-      bootstrap(channel, { formName: `Test Form Name`, fields: {} }, dispatch);
+      bootstrap(channel, { testMetadataKey: `Test Metadata Value` }, dispatch);
 
       await new Promise<void>((resolve) => {
         setTimeout(resolve, 2000);
@@ -48,7 +48,7 @@ describe(`bootstrap`, () => {
 
       dispatch = jasmine.createSpy(`dispatch`);
 
-      bootstrap(channel, { formName: `Test Form Name`, fields: {} }, dispatch);
+      bootstrap(channel, { testMetadataKey: `Test Metadata Value` }, dispatch);
 
       await new Promise<void>((resolve) => {
         setTimeout(resolve, 2000);
@@ -87,7 +87,7 @@ describe(`bootstrap`, () => {
 
       dispatch = jasmine.createSpy(`dispatch`);
 
-      bootstrap(channel, { formName: `Test Form Name`, fields: {} }, dispatch);
+      bootstrap(channel, { testMetadataKey: `Test Metadata Value` }, dispatch);
 
       await new Promise<void>((resolve) => {
         setTimeout(resolve, 2000);
@@ -115,8 +115,10 @@ describe(`bootstrap`, () => {
 
     it(`sends the initial request`, () => {
       expect(channelSend).toHaveBeenCalledWith({
-        formName: `Test Form Name`,
-        fields: {},
+        metadata: {
+          testMetadataKey: `Test Metadata Value`,
+        },
+        command: { type: `refresh` },
       });
     });
   });
@@ -135,7 +137,7 @@ describe(`bootstrap`, () => {
 
       dispatch = jasmine.createSpy(`dispatch`);
 
-      bootstrap(channel, { formName: `Test Form Name`, fields: {} }, dispatch);
+      bootstrap(channel, { testMetadataKey: `Test Metadata Value` }, dispatch);
 
       await new Promise<void>((resolve) => {
         setTimeout(resolve, 2000);
@@ -174,7 +176,7 @@ describe(`bootstrap`, () => {
 
       dispatch = jasmine.createSpy(`dispatch`);
 
-      bootstrap(channel, { formName: `Test Form Name`, fields: {} }, dispatch);
+      bootstrap(channel, { testMetadataKey: `Test Metadata Value` }, dispatch);
 
       await new Promise<void>((resolve) => {
         setTimeout(resolve, 2000);
@@ -213,7 +215,7 @@ describe(`bootstrap`, () => {
 
       dispatch = jasmine.createSpy(`dispatch`);
 
-      bootstrap(channel, { formName: `Test Form Name`, fields: {} }, dispatch);
+      bootstrap(channel, { testMetadataKey: `Test Metadata Value` }, dispatch);
 
       await new Promise<void>((resolve) => {
         setTimeout(resolve, 2000);
@@ -258,7 +260,7 @@ describe(`bootstrap`, () => {
 
       dispatch = jasmine.createSpy(`dispatch`);
 
-      bootstrap(channel, { formName: `Test Form Name`, fields: {} }, dispatch);
+      bootstrap(channel, { testMetadataKey: `Test Metadata Value` }, dispatch);
 
       await new Promise<void>((resolve) => {
         setTimeout(resolve, 2000);

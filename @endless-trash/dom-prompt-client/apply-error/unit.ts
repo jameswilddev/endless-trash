@@ -44,6 +44,7 @@ describe(`applyError`, () => {
             {
               type: `message`,
               content: `Test Previous Content`,
+              metadata: { testMetadataKey: `Test Metadata Value` },
             },
             input
           );
@@ -76,6 +77,7 @@ describe(`applyError`, () => {
               formGroups: {},
               mode: `interactive`,
               channelSend,
+              metadata: { testMetadataKey: `Test Metadata Value` },
             },
             input
           );

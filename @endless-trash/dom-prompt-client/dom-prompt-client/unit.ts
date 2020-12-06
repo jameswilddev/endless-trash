@@ -20,7 +20,7 @@ describe(`domPromptClient`, () => {
 
     domPromptClient(
       channel,
-      { formName: `Test Form Name`, fields: {} },
+      { testMetadataKey: `Test Metadata Value` },
       dom.window.document.getElementById(`root`) as HTMLElement
     );
 

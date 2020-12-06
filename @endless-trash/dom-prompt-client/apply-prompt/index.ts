@@ -21,6 +21,7 @@ export const applyPrompt: ActionTransform<State, ApplyPromptProps> = (
         formGroups: initialFormGroupsState(providedProps.prompt.formGroups),
         mode: `interactive`,
         channelSend: providedProps.channelSend,
+        metadata: state.metadata,
       };
 
     case `prompt`:
@@ -33,6 +34,7 @@ export const applyPrompt: ActionTransform<State, ApplyPromptProps> = (
         ),
         mode: `interactive`,
         channelSend: providedProps.channelSend,
+        metadata: state.metadata,
       };
   }
 };

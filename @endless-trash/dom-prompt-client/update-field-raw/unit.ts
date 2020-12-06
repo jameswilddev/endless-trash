@@ -1,3 +1,4 @@
+import { JsonObject } from "@endless-trash/immutable-json-type";
 import { updateFieldRaw } from ".";
 import { ErrorState } from "../error-state";
 import { MessageState } from "../message-state";
@@ -37,6 +38,7 @@ describe(`updateFieldRaw`, () => {
       const messageState: MessageState = {
         type: `message`,
         content: `Test Content`,
+        metadata: { testMetadataKey: `Test Metadata Value` },
       };
 
       output = updateFieldRaw(messageState, {
@@ -51,6 +53,7 @@ describe(`updateFieldRaw`, () => {
       expect(output).toEqual({
         type: `message`,
         content: `Test Content`,
+        metadata: { testMetadataKey: `Test Metadata Value` } as JsonObject,
       });
     });
   });
@@ -241,6 +244,7 @@ describe(`updateFieldRaw`, () => {
         },
         mode: `interactive`,
         channelSend,
+        metadata: { testMetadataKey: `Test Metadata Value` },
       };
 
       output = updateFieldRaw(promptState, {
@@ -431,6 +435,7 @@ describe(`updateFieldRaw`, () => {
         },
         mode: `interactive`,
         channelSend,
+        metadata: { testMetadataKey: `Test Metadata Value` } as JsonObject,
       });
     });
 
