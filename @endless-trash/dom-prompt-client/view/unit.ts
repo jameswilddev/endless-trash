@@ -16,7 +16,7 @@ describe(`view`, () => {
     it(`defers to messageView`, () => {
       expect(output).toEqual(
         h(`div`, { class: `error` }, [
-          h(`p`, text(`A communication error has occurred:\n\nTest Error`)),
+          h(`p`, {}, text(`A communication error has occurred:\n\nTest Error`)),
           h(
             `button`,
             {
