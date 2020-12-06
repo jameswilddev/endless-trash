@@ -1,7 +1,7 @@
-export type Json =
-  | null
-  | boolean
-  | number
-  | string
-  | ReadonlyArray<Json>
-  | { readonly [key: string]: Json };
+export type JsonPrimitive = null | boolean | number | string;
+
+export type JsonArray = ReadonlyArray<Json>;
+
+export type JsonObject = { readonly [key: string]: Json };
+
+export type Json = JsonPrimitive | JsonArray | JsonObject;
