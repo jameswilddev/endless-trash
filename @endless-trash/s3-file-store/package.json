@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@endless-trash/file-store": "0.0.5",
-    "@endless-trash/immutable-json-type": "0.0.1",
+    "@endless-trash/immutable-json-type": "0.0.2",
     "@types/rimraf": "3.0.0",
     "@types/s3rver": "0.0.32",
     "@types/uuid": "8.3.0",
