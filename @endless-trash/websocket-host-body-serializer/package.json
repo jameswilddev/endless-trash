@@ -1,0 +1,30 @@
+{
+  "name": "@endless-trash/websocket-host-body-serializer",
+  "description": "Adapts a body serializer to serialize the output messages of a WebSocket host event handler.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=10.19.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/endless-trash"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@endless-trash/body-serializer": "0.0.3",
+    "@endless-trash/event-handler": "0.0.3",
+    "@endless-trash/websocket-host": "0.0.1"
+  },
+  "types": "index.d.ts",
+  "sideEffects": false
+}
