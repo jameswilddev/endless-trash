@@ -1,4 +1,4 @@
-import { Json, JsonObject } from "@endless-trash/immutable-json-type";
+import { JsonObject } from "@endless-trash/immutable-json-type";
 import { requestIsValid, Prompt, Request } from "..";
 
 describe(`requestIsValid`, () => {
@@ -127,27 +127,12 @@ describe(`requestIsValid`, () => {
   });
 
   describe(`when the request is valid`, () => {
-    let metadataContentIsValid: jasmine.Spy;
     let output: null | Request;
 
     beforeAll(() => {
-      metadataContentIsValid = jasmine
-        .createSpy(`metadataContentIsValid`)
-        .and.returnValue(true);
-
-      output = requestIsValid(prompt, metadataContentIsValid, {
+      output = requestIsValid(prompt, {
         metadata: { testMetadataKey: `Test Metadata Value` },
         command: { type: `refresh` },
-      });
-    });
-
-    it(`does not execute the callback more than expected`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledTimes(1);
-    });
-
-    it(`passes the metadata object to the callback`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledWith({
-        testMetadataKey: `Test Metadata Value`,
       });
     });
 
@@ -160,15 +145,10 @@ describe(`requestIsValid`, () => {
   });
 
   describe(`when the command is invalid`, () => {
-    let metadataContentIsValid: jasmine.Spy;
     let output: null | Request;
 
     beforeAll(() => {
-      metadataContentIsValid = jasmine
-        .createSpy(`metadataContentIsValid`)
-        .and.returnValue(true);
-
-      output = requestIsValid(prompt, metadataContentIsValid, {
+      output = requestIsValid(prompt, {
         metadata: { testMetadataKey: `Test Metadata Value` },
         command: {
           type: `refresh`,
@@ -177,96 +157,8 @@ describe(`requestIsValid`, () => {
       });
     });
 
-    it(`does not execute the callback more than expected`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledTimes(1);
-    });
-
-    it(`passes the metadata object to the callback`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledWith({
-        testMetadataKey: `Test Metadata Value`,
-      });
-    });
-
     it(`returns null`, () => {
       expect(output).toBeNull();
     });
   });
-
-  describe(`when the metadata is invalid`, () => {
-    let metadataContentIsValid: jasmine.Spy;
-    let output: null | Request;
-
-    beforeAll(() => {
-      metadataContentIsValid = jasmine
-        .createSpy(`metadataContentIsValid`)
-        .and.returnValue(false);
-
-      output = requestIsValid(prompt, metadataContentIsValid, {
-        metadata: { testMetadataKey: `Test Metadata Value` },
-        command: {
-          type: `refresh`,
-          testUnexpectedKey: `Test Unexpected Value`,
-        },
-      });
-    });
-
-    it(`does not execute the callback more than expected`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledTimes(1);
-    });
-
-    it(`passes the metadata object to the callback`, () => {
-      expect(metadataContentIsValid).toHaveBeenCalledWith({
-        testMetadataKey: `Test Metadata Value`,
-      });
-    });
-
-    it(`returns null`, () => {
-      expect(output).toBeNull();
-    });
-  });
-
-  function rejects(description: string, value: Json): void {
-    describe(description, () => {
-      let metadataContentIsValid: jasmine.Spy;
-      let output: null | Request;
-
-      beforeAll(() => {
-        metadataContentIsValid = jasmine.createSpy(`metadataContentIsValid`);
-
-        output = requestIsValid(prompt, metadataContentIsValid, value);
-      });
-
-      it(`does not execute the metadata validation callback`, () => {
-        expect(metadataContentIsValid).not.toHaveBeenCalled();
-      });
-
-      it(`is rejected`, () => {
-        expect(output).toBeNull();
-      });
-    });
-  }
-
-  rejects(`missing metadata`, { command: { type: `refresh` } });
-
-  rejects(`missing command`, { metadata: {} });
-
-  rejects(`unexpected properties`, {
-    metadata: {},
-    command: { type: `refresh` },
-    testUnexpectedKey: `Test Unexpected Value`,
-  });
-
-  rejects(`null`, null);
-
-  rejects(`arrays`, []);
-
-  rejects(`empty objects`, {});
-
-  rejects(`false`, false);
-
-  rejects(`true`, true);
-
-  rejects(`numbers`, 5.21);
-
-  rejects(`strings`, `Test String`);
 });
