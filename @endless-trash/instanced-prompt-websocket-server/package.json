@@ -1,0 +1,39 @@
+{
+  "name": "@endless-trash/instanced-prompt-websocket-server",
+  "description": "A WebSocket event handler which hosts an instanced prompt application.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=10.19.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/endless-trash"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@endless-trash/prompt": "0.0.11",
+    "@endless-trash/websocket-host-body-serializer": "0.0.0",
+    "lodash": "4.17.20"
+  },
+  "devDependencies": {
+    "@endless-trash/body-parser": "0.0.1",
+    "@endless-trash/body-serializer": "0.0.3",
+    "@endless-trash/event-handler": "0.0.3",
+    "@endless-trash/immutable-json-type": "0.0.2",
+    "@endless-trash/key-value-store": "0.0.5",
+    "@endless-trash/websocket-host": "0.0.2",
+    "@types/lodash": "4.14.165"
+  },
+  "types": "index.d.ts",
+  "sideEffects": false
+}
