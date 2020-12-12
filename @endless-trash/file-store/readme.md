@@ -9,7 +9,7 @@ This package has the following runtime dependencies:
 Name               | Version                                                                                                          
 ------------------ | -----------------------------------------------------------------------------------------------------------------
 data-uri-to-buffer | [![3.0.1](https://img.shields.io/npm/v/data-uri-to-buffer.svg)](https://www.npmjs.com/package/data-uri-to-buffer)
-got                | [![11.8.0](https://img.shields.io/npm/v/got.svg)](https://www.npmjs.com/package/got)                             
+got                | [![11.8.1](https://img.shields.io/npm/v/got.svg)](https://www.npmjs.com/package/got)                             
 
 ## Peer Dependencies
 

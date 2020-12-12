@@ -4,7 +4,11 @@ A WebSocket event handler which hosts an instanced prompt application.
 
 ## Dependencies
 
-This package has no runtime dependencies.
+This package has the following runtime dependencies:
+
+Name   | Version                                                                                    
+------ | -------------------------------------------------------------------------------------------
+lodash | [![4.17.20](https://img.shields.io/npm/v/lodash.svg)](https://www.npmjs.com/package/lodash)
 
 ## Peer Dependencies
 
