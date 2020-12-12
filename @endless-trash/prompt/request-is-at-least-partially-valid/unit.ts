@@ -1,6 +1,8 @@
 import { Json } from "@endless-trash/immutable-json-type";
-import { requestIsAtLeastPartiallyValid } from ".";
-import { AtLeastPartiallyValidRequest } from "../at-least-partially-valid-request";
+import {
+  AtLeastPartiallyValidRequest,
+  requestIsAtLeastPartiallyValid,
+} from "..";
 
 describe(`requestIsAtLeastPartiallyValid`, () => {
   describe(`valid`, () => {

@@ -1,3 +1,4 @@
+export { AtLeastPartiallyValidRequest } from "./at-least-partially-valid-request";
 export { BoundType } from "./bound-type";
 export {
   FloatField,
@@ -34,4 +35,5 @@ export {
   Request,
 } from "./request";
 export { requestFieldIsValid } from "./request-field-is-valid";
+export { requestIsAtLeastPartiallyValid } from "./request-is-at-least-partially-valid";
 export { requestIsValid } from "./request-is-valid";
