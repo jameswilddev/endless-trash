@@ -3,8 +3,8 @@ import { Json } from "@endless-trash/immutable-json-type";
 import { KeyValueStore } from "@endless-trash/key-value-store";
 import {
   AtLeastPartiallyValidRequest,
+  FormSubmissionCommand,
   Prompt,
-  Request,
 } from "@endless-trash/prompt";
 import {
   WebsocketHostInput,
@@ -17,13 +17,19 @@ export interface InstancedPromptApplication<TState extends Json, TVersion> {
 
   renderPrompt(state: TState, sessionId: string): Promise<Prompt>;
 
-  applyRequest(
+  applyFormSubmissionCommand(
     previousState: TState,
     sessionId: string,
-    request: Request
+    formSubmissionCommand: FormSubmissionCommand
   ): Promise<TState>;
 
-  performSideEffects(previousState: TState, nextState: TState): Promise<void>;
+  performSideEffects(
+    previousState: TState,
+    nextState: TState,
+    instanceId: string,
+    sessionId: string,
+    formSubmissionCommand: FormSubmissionCommand
+  ): Promise<void>;
 
   listSessionIds(state: TState): Promise<ReadonlyArray<string>>;
 
