@@ -2,14 +2,15 @@ import { Prompt } from "@endless-trash/prompt";
 import { WebsocketHostUnserializedOutput } from "@endless-trash/websocket-host-body-serializer";
 import { generateResponse } from ".";
 import { InstancedPromptApplication } from "../../instanced-prompt-application";
+import { Session } from "../../session";
 
 describe(`generateResponse`, () => {
   type TestState = `Test Previous State` | `Test Next State`;
 
   function scenario(
     description: string,
-    previousStateSessionIds: ReadonlyArray<string>,
-    nextStateSessionIds: ReadonlyArray<string>
+    previousStateSessionIds: ReadonlyArray<Session>,
+    nextStateSessionIds: ReadonlyArray<Session>
   ): void {
     describe(description, () => {
       let instancedPromptApplicationStateKeyValueStoreGet: jasmine.Spy;
@@ -18,7 +19,7 @@ describe(`generateResponse`, () => {
       let renderPrompt: jasmine.Spy;
       let applyFormSubmissionCommand: jasmine.Spy;
       let performSideEffects: jasmine.Spy;
-      let listSessionIds: jasmine.Spy;
+      let listSessions: jasmine.Spy;
       let invalidRequestEventHandler: jasmine.Spy;
       let nonexistentInstanceEventHandler: jasmine.Spy;
       let instancedPromptApplication: InstancedPromptApplication<
@@ -42,151 +43,161 @@ describe(`generateResponse`, () => {
 
         renderPrompt = jasmine
           .createSpy(`renderPrompt`)
-          .and.callFake((state: TestState, sessionId: string) => {
-            switch (state) {
-              case `Test Previous State`:
-                switch (sessionId) {
-                  case `Test Previous State Only Unchanged Session Id`:
-                    return {
-                      formGroups: [
-                        {
-                          name: `Test Previous State Only Unchanged Session`,
-                          forms: [],
-                        },
-                      ],
-                    };
+          .and.callFake(
+            (
+              state: TestState,
+              instanceId: string,
+              userId: string,
+              sessionId: string
+            ) => {
+              instanceId;
+              userId;
 
-                  case `Test Previous State Only Changed Session Id`:
-                    return {
-                      formGroups: [
-                        {
-                          name: `Test Previous State Only Changed Session Previous State`,
-                          forms: [],
-                        },
-                      ],
-                    };
+              switch (state) {
+                case `Test Previous State`:
+                  switch (sessionId) {
+                    case `Test Previous State Only Unchanged Session Id`:
+                      return {
+                        formGroups: [
+                          {
+                            name: `Test Previous State Only Unchanged Session`,
+                            forms: [],
+                          },
+                        ],
+                      };
 
-                  case `Test Next State Only Unchanged Session Id`:
-                    return {
-                      formGroups: [
-                        {
-                          name: `Test Next State Only Unchanged Session`,
-                          forms: [],
-                        },
-                      ],
-                    };
+                    case `Test Previous State Only Changed Session Id`:
+                      return {
+                        formGroups: [
+                          {
+                            name: `Test Previous State Only Changed Session Previous State`,
+                            forms: [],
+                          },
+                        ],
+                      };
 
-                  case `Test Next State Only Changed Session Id`:
-                    return {
-                      formGroups: [
-                        {
-                          name: `Test Next State Only Changed Session Previous State`,
-                          forms: [],
-                        },
-                      ],
-                    };
+                    case `Test Next State Only Unchanged Session Id`:
+                      return {
+                        formGroups: [
+                          {
+                            name: `Test Next State Only Unchanged Session`,
+                            forms: [],
+                          },
+                        ],
+                      };
 
-                  case `Test Previous And Next State Unchanged Session Id`:
-                    return {
-                      formGroups: [
-                        {
-                          name: `Test Previous And Next State Unchanged Session`,
-                          forms: [],
-                        },
-                      ],
-                    };
+                    case `Test Next State Only Changed Session Id`:
+                      return {
+                        formGroups: [
+                          {
+                            name: `Test Next State Only Changed Session Previous State`,
+                            forms: [],
+                          },
+                        ],
+                      };
 
-                  case `Test Previous And Next State Changed Session Id`:
-                    return {
-                      formGroups: [
-                        {
-                          name: `Test Previous And Next State Changed Session Previous State`,
-                          forms: [],
-                        },
-                      ],
-                    };
+                    case `Test Previous And Next State Unchanged Session Id`:
+                      return {
+                        formGroups: [
+                          {
+                            name: `Test Previous And Next State Unchanged Session`,
+                            forms: [],
+                          },
+                        ],
+                      };
 
-                  default:
-                    throw new Error(`Unexpected session ID "${sessionId}".`);
-                }
+                    case `Test Previous And Next State Changed Session Id`:
+                      return {
+                        formGroups: [
+                          {
+                            name: `Test Previous And Next State Changed Session Previous State`,
+                            forms: [],
+                          },
+                        ],
+                      };
 
-              case `Test Next State`:
-                switch (sessionId) {
-                  case `Test Session Id`:
-                    return {
-                      formGroups: [
-                        { name: `Test Session Next State`, forms: [] },
-                      ],
-                    };
+                    default:
+                      throw new Error(`Unexpected session ID "${sessionId}".`);
+                  }
 
-                  case `Test Previous State Only Unchanged Session Id`:
-                    return {
-                      formGroups: [
-                        {
-                          name: `Test Previous State Only Unchanged Session`,
-                          forms: [],
-                        },
-                      ],
-                    };
+                case `Test Next State`:
+                  switch (sessionId) {
+                    case `Test Session Id`:
+                      return {
+                        formGroups: [
+                          { name: `Test Session Next State`, forms: [] },
+                        ],
+                      };
 
-                  case `Test Previous State Only Changed Session Id`:
-                    return {
-                      formGroups: [
-                        {
-                          name: `Test Previous State Only Changed Session Next State`,
-                          forms: [],
-                        },
-                      ],
-                    };
+                    case `Test Previous State Only Unchanged Session Id`:
+                      return {
+                        formGroups: [
+                          {
+                            name: `Test Previous State Only Unchanged Session`,
+                            forms: [],
+                          },
+                        ],
+                      };
 
-                  case `Test Next State Only Unchanged Session Id`:
-                    return {
-                      formGroups: [
-                        {
-                          name: `Test Next State Only Unchanged Session`,
-                          forms: [],
-                        },
-                      ],
-                    };
+                    case `Test Previous State Only Changed Session Id`:
+                      return {
+                        formGroups: [
+                          {
+                            name: `Test Previous State Only Changed Session Next State`,
+                            forms: [],
+                          },
+                        ],
+                      };
 
-                  case `Test Next State Only Changed Session Id`:
-                    return {
-                      formGroups: [
-                        {
-                          name: `Test Next State Only Changed Session Next State`,
-                          forms: [],
-                        },
-                      ],
-                    };
+                    case `Test Next State Only Unchanged Session Id`:
+                      return {
+                        formGroups: [
+                          {
+                            name: `Test Next State Only Unchanged Session`,
+                            forms: [],
+                          },
+                        ],
+                      };
 
-                  case `Test Previous And Next State Unchanged Session Id`:
-                    return {
-                      formGroups: [
-                        {
-                          name: `Test Previous And Next State Unchanged Session`,
-                          forms: [],
-                        },
-                      ],
-                    };
+                    case `Test Next State Only Changed Session Id`:
+                      return {
+                        formGroups: [
+                          {
+                            name: `Test Next State Only Changed Session Next State`,
+                            forms: [],
+                          },
+                        ],
+                      };
 
-                  case `Test Previous And Next State Changed Session Id`:
-                    return {
-                      formGroups: [
-                        {
-                          name: `Test Previous And Next State Changed Session Next State`,
-                          forms: [],
-                        },
-                      ],
-                    };
+                    case `Test Previous And Next State Unchanged Session Id`:
+                      return {
+                        formGroups: [
+                          {
+                            name: `Test Previous And Next State Unchanged Session`,
+                            forms: [],
+                          },
+                        ],
+                      };
 
-                  default:
-                    throw new Error(`Unexpected session ID "${sessionId}".`);
-                }
+                    case `Test Previous And Next State Changed Session Id`:
+                      return {
+                        formGroups: [
+                          {
+                            name: `Test Previous And Next State Changed Session Next State`,
+                            forms: [],
+                          },
+                        ],
+                      };
 
-              default:
-                throw new Error(`Unexpected state "${state}".`);
+                    default:
+                      throw new Error(`Unexpected session ID "${sessionId}".`);
+                  }
+
+                default:
+                  throw new Error(`Unexpected state "${state}".`);
+              }
             }
-          });
+          );
 
         applyFormSubmissionCommand = jasmine.createSpy(
           `applyFormSubmissionCommand`
@@ -194,8 +205,8 @@ describe(`generateResponse`, () => {
 
         performSideEffects = jasmine.createSpy(`performSideEffects`);
 
-        listSessionIds = jasmine
-          .createSpy(`listSessionIds`)
+        listSessions = jasmine
+          .createSpy(`listSessions`)
           .and.callFake((state: TestState) => {
             switch (state) {
               case `Test Previous State`:
@@ -227,13 +238,15 @@ describe(`generateResponse`, () => {
           renderPrompt,
           applyFormSubmissionCommand,
           performSideEffects,
-          listSessionIds,
+          listSessions,
           invalidRequestEventHandler,
           nonexistentInstanceEventHandler,
         };
 
         output = await generateResponse(
           instancedPromptApplication,
+          `Test Instance Id`,
+          `Test User Id`,
           `Test Session Id`,
           `Test Previous State`,
           `Test Next State`
@@ -266,7 +279,7 @@ describe(`generateResponse`, () => {
         expect(performSideEffects).not.toHaveBeenCalled();
       });
 
-      it(`handle any invalid requests`, () => {
+      it(`does not handle any invalid requests`, () => {
         expect(invalidRequestEventHandler).not.toHaveBeenCalled();
       });
 
@@ -275,19 +288,19 @@ describe(`generateResponse`, () => {
       });
 
       it(`lists the sessions of the previous state`, () => {
-        expect(listSessionIds).toHaveBeenCalledWith(`Test Previous State`);
+        expect(listSessions).toHaveBeenCalledWith(`Test Previous State`);
       });
 
       it(`lists the sessions of the next state`, () => {
-        expect(listSessionIds).toHaveBeenCalledWith(`Test Next State`);
+        expect(listSessions).toHaveBeenCalledWith(`Test Next State`);
       });
 
       it(`does not list any further sessions`, () => {
-        expect(listSessionIds).toHaveBeenCalledTimes(2);
+        expect(listSessions).toHaveBeenCalledTimes(2);
       });
 
       it(`lists sessions with the appropriate "this"`, () => {
-        for (const call of listSessionIds.calls.all()) {
+        for (const call of listSessions.calls.all()) {
           expect(call.object).toBe(instancedPromptApplication);
         }
       });
@@ -295,6 +308,8 @@ describe(`generateResponse`, () => {
       it(`renders a prompt for the next state for the current session`, () => {
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
+          `Test Instance Id`,
+          `Test User Id`,
           `Test Session Id`
         );
       });
@@ -302,11 +317,15 @@ describe(`generateResponse`, () => {
       it(`renders a prompt for the previous state for sessions which exist only in the previous state`, () => {
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Previous State`,
+          `Test Instance Id`,
+          `Test Previous State Only Unchanged User Id`,
           `Test Previous State Only Unchanged Session Id`
         );
 
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Previous State`,
+          `Test Instance Id`,
+          `Test Previous State Only Changed User Id`,
           `Test Previous State Only Changed Session Id`
         );
       });
@@ -314,11 +333,15 @@ describe(`generateResponse`, () => {
       it(`renders a prompt for the next state for sessions which exist only in the previous state`, () => {
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
+          `Test Instance Id`,
+          `Test Previous State Only Unchanged User Id`,
           `Test Previous State Only Unchanged Session Id`
         );
 
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
+          `Test Instance Id`,
+          `Test Previous State Only Changed User Id`,
           `Test Previous State Only Changed Session Id`
         );
       });
@@ -326,11 +349,15 @@ describe(`generateResponse`, () => {
       it(`renders a prompt for the previous state for sessions which exist only in the next state`, () => {
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Previous State`,
+          `Test Instance Id`,
+          `Test Next State Only Unchanged User Id`,
           `Test Next State Only Unchanged Session Id`
         );
 
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Previous State`,
+          `Test Instance Id`,
+          `Test Next State Only Changed User Id`,
           `Test Next State Only Changed Session Id`
         );
       });
@@ -338,11 +365,15 @@ describe(`generateResponse`, () => {
       it(`renders a prompt for the next state for sessions which exist only in the next state`, () => {
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
+          `Test Instance Id`,
+          `Test Next State Only Unchanged User Id`,
           `Test Next State Only Unchanged Session Id`
         );
 
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
+          `Test Instance Id`,
+          `Test Next State Only Changed User Id`,
           `Test Next State Only Changed Session Id`
         );
       });
@@ -350,11 +381,15 @@ describe(`generateResponse`, () => {
       it(`renders a prompt for the previous state for sessions which exist in both the previous and next states`, () => {
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Previous State`,
+          `Test Instance Id`,
+          `Test Previous And Next State Unchanged Previous User Id`,
           `Test Previous And Next State Unchanged Session Id`
         );
 
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Previous State`,
+          `Test Instance Id`,
+          `Test Previous And Next State Changed Previous User Id`,
           `Test Previous And Next State Changed Session Id`
         );
       });
@@ -362,11 +397,15 @@ describe(`generateResponse`, () => {
       it(`renders a prompt for the next state for sessions which exist in both the previous and next states`, () => {
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
+          `Test Instance Id`,
+          `Test Previous And Next State Unchanged Next User Id`,
           `Test Previous And Next State Unchanged Session Id`
         );
 
         expect(renderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
+          `Test Instance Id`,
+          `Test Previous And Next State Changed Next User Id`,
           `Test Previous And Next State Changed Session Id`
         );
       });
@@ -432,68 +471,176 @@ describe(`generateResponse`, () => {
   scenario(
     `when the session is not listed in the previous or next state`,
     [
-      `Test Previous State Only Unchanged Session Id`,
-      `Test Previous State Only Changed Session Id`,
-      `Test Previous And Next State Unchanged Session Id`,
-      `Test Previous And Next State Changed Session Id`,
+      {
+        sessionId: `Test Previous State Only Unchanged Session Id`,
+        userId: `Test Previous State Only Unchanged User Id`,
+      },
+      {
+        sessionId: `Test Previous State Only Changed Session Id`,
+        userId: `Test Previous State Only Changed User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Unchanged Session Id`,
+        userId: `Test Previous And Next State Unchanged Previous User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Changed Session Id`,
+        userId: `Test Previous And Next State Changed Previous User Id`,
+      },
     ],
     [
-      `Test Next State Only Unchanged Session Id`,
-      `Test Next State Only Changed Session Id`,
-      `Test Previous And Next State Unchanged Session Id`,
-      `Test Previous And Next State Changed Session Id`,
+      {
+        sessionId: `Test Next State Only Unchanged Session Id`,
+        userId: `Test Next State Only Unchanged User Id`,
+      },
+      {
+        sessionId: `Test Next State Only Changed Session Id`,
+        userId: `Test Next State Only Changed User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Unchanged Session Id`,
+        userId: `Test Previous And Next State Unchanged Next User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Changed Session Id`,
+        userId: `Test Previous And Next State Changed Next User Id`,
+      },
     ]
   );
 
   scenario(
     `when the session is only listed in the previous state`,
     [
-      `Test Previous State Only Unchanged Session Id`,
-      `Test Previous State Only Changed Session Id`,
-      `Test Session Id`,
-      `Test Previous And Next State Unchanged Session Id`,
-      `Test Previous And Next State Changed Session Id`,
+      {
+        sessionId: `Test Previous State Only Unchanged Session Id`,
+        userId: `Test Previous State Only Unchanged User Id`,
+      },
+      {
+        sessionId: `Test Previous State Only Changed Session Id`,
+        userId: `Test Previous State Only Changed User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Unchanged Session Id`,
+        userId: `Test Previous And Next State Unchanged Previous User Id`,
+      },
+      {
+        sessionId: `Test Session Id`,
+        userId: `Test Previous User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Changed Session Id`,
+        userId: `Test Previous And Next State Changed Previous User Id`,
+      },
     ],
     [
-      `Test Next State Only Unchanged Session Id`,
-      `Test Next State Only Changed Session Id`,
-      `Test Previous And Next State Unchanged Session Id`,
-      `Test Previous And Next State Changed Session Id`,
+      {
+        sessionId: `Test Next State Only Unchanged Session Id`,
+        userId: `Test Next State Only Unchanged User Id`,
+      },
+      {
+        sessionId: `Test Next State Only Changed Session Id`,
+        userId: `Test Next State Only Changed User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Unchanged Session Id`,
+        userId: `Test Previous And Next State Unchanged Next User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Changed Session Id`,
+        userId: `Test Previous And Next State Changed Next User Id`,
+      },
     ]
   );
 
   scenario(
     `when the session is only listed in the next state`,
     [
-      `Test Previous State Only Unchanged Session Id`,
-      `Test Previous State Only Changed Session Id`,
-      `Test Previous And Next State Unchanged Session Id`,
-      `Test Previous And Next State Changed Session Id`,
+      {
+        sessionId: `Test Previous State Only Unchanged Session Id`,
+        userId: `Test Previous State Only Unchanged User Id`,
+      },
+      {
+        sessionId: `Test Previous State Only Changed Session Id`,
+        userId: `Test Previous State Only Changed User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Unchanged Session Id`,
+        userId: `Test Previous And Next State Unchanged Previous User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Changed Session Id`,
+        userId: `Test Previous And Next State Changed Previous User Id`,
+      },
     ],
     [
-      `Test Next State Only Unchanged Session Id`,
-      `Test Next State Only Changed Session Id`,
-      `Test Session Id`,
-      `Test Previous And Next State Unchanged Session Id`,
-      `Test Previous And Next State Changed Session Id`,
+      {
+        sessionId: `Test Next State Only Unchanged Session Id`,
+        userId: `Test Next State Only Unchanged User Id`,
+      },
+      {
+        sessionId: `Test Next State Only Changed Session Id`,
+        userId: `Test Next State Only Changed User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Unchanged Session Id`,
+        userId: `Test Previous And Next State Unchanged Next User Id`,
+      },
+      {
+        sessionId: `Test Session Id`,
+        userId: `Test Next User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Changed Session Id`,
+        userId: `Test Previous And Next State Changed Next User Id`,
+      },
     ]
   );
 
   scenario(
     `when the session is listed in both the previous and next states`,
     [
-      `Test Previous State Only Unchanged Session Id`,
-      `Test Previous State Only Changed Session Id`,
-      `Test Previous And Next State Unchanged Session Id`,
-      `Test Session Id`,
-      `Test Previous And Next State Changed Session Id`,
+      {
+        sessionId: `Test Previous State Only Unchanged Session Id`,
+        userId: `Test Previous State Only Unchanged User Id`,
+      },
+      {
+        sessionId: `Test Session Id`,
+        userId: `Test Previous User Id`,
+      },
+      {
+        sessionId: `Test Previous State Only Changed Session Id`,
+        userId: `Test Previous State Only Changed User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Unchanged Session Id`,
+        userId: `Test Previous And Next State Unchanged Previous User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Changed Session Id`,
+        userId: `Test Previous And Next State Changed Previous User Id`,
+      },
     ],
     [
-      `Test Next State Only Unchanged Session Id`,
-      `Test Session Id`,
-      `Test Next State Only Changed Session Id`,
-      `Test Previous And Next State Unchanged Session Id`,
-      `Test Previous And Next State Changed Session Id`,
+      {
+        sessionId: `Test Next State Only Unchanged Session Id`,
+        userId: `Test Next State Only Unchanged User Id`,
+      },
+      {
+        sessionId: `Test Next State Only Changed Session Id`,
+        userId: `Test Next State Only Changed User Id`,
+      },
+      {
+        sessionId: `Test Session Id`,
+        userId: `Test Next User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Unchanged Session Id`,
+        userId: `Test Previous And Next State Unchanged Next User Id`,
+      },
+      {
+        sessionId: `Test Previous And Next State Changed Session Id`,
+        userId: `Test Previous And Next State Changed Next User Id`,
+      },
     ]
   );
 });

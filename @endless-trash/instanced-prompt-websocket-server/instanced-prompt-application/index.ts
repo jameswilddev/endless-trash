@@ -11,14 +11,22 @@ import {
   WebsocketHostParsedInput,
 } from "@endless-trash/websocket-host";
 import { WebsocketHostUnserializedOutput } from "@endless-trash/websocket-host-body-serializer";
+import { Session } from "../session";
 
 export interface InstancedPromptApplication<TState extends Json, TVersion> {
   readonly stateKeyValueStore: KeyValueStore<TState, TVersion>;
 
-  renderPrompt(state: TState, sessionId: string): Promise<Prompt>;
+  renderPrompt(
+    state: TState,
+    instanceId: string,
+    userId: string,
+    sessionId: string
+  ): Promise<Prompt>;
 
   applyFormSubmissionCommand(
     previousState: TState,
+    instanceId: string,
+    userId: string,
     sessionId: string,
     formSubmissionCommand: FormSubmissionCommand
   ): Promise<TState>;
@@ -27,11 +35,12 @@ export interface InstancedPromptApplication<TState extends Json, TVersion> {
     previousState: TState,
     nextState: TState,
     instanceId: string,
+    userId: string,
     sessionId: string,
     formSubmissionCommand: FormSubmissionCommand
   ): Promise<void>;
 
-  listSessionIds(state: TState): Promise<ReadonlyArray<string>>;
+  listSessions(state: TState): Promise<ReadonlyArray<Session>>;
 
   readonly invalidRequestEventHandler: EventHandler<
     WebsocketHostInput,

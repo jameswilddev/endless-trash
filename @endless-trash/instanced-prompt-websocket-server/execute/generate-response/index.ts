@@ -1,5 +1,4 @@
 import isEqual = require("lodash/isEqual");
-import union = require("lodash/union");
 import { Json } from "@endless-trash/immutable-json-type";
 import { Prompt } from "@endless-trash/prompt";
 import {
@@ -10,49 +9,88 @@ import { InstancedPromptApplication } from "../../instanced-prompt-application";
 
 export async function generateResponse<TState extends Json, TVersion>(
   instancedPromptApplication: InstancedPromptApplication<TState, TVersion>,
+  instanceId: string,
+  userId: string,
   sessionId: string,
   previousState: TState,
   nextState: TState
 ): Promise<WebsocketHostUnserializedOutput<Prompt>> {
-  const previousSessionIds = await instancedPromptApplication.listSessionIds(
-    previousState
-  );
-
-  const nextSessionIds = await instancedPromptApplication.listSessionIds(
-    nextState
-  );
-
-  const sessionIds = union(previousSessionIds, nextSessionIds).filter(
-    (discoveredSessionId) => discoveredSessionId !== sessionId
-  );
-
   const messages: WebsocketHostUnserializedOutputMessage<Prompt>[] = [
     {
-      body: await instancedPromptApplication.renderPrompt(nextState, sessionId),
+      body: await instancedPromptApplication.renderPrompt(
+        nextState,
+        instanceId,
+        userId,
+        sessionId
+      ),
       sessionId,
     },
   ];
 
-  await Promise.all(
-    sessionIds.map(async (sessionId) => {
+  const previousSessions = await instancedPromptApplication.listSessions(
+    previousState
+  );
+
+  const nextSessions = await instancedPromptApplication.listSessions(nextState);
+
+  for (const previousSession of previousSessions) {
+    if (previousSession.sessionId !== sessionId) {
+      const nextSession = nextSessions.find(
+        (nextSession) => nextSession.sessionId === previousSession.sessionId
+      );
+
       const previousPrompt = await instancedPromptApplication.renderPrompt(
         previousState,
-        sessionId
+        instanceId,
+        previousSession.userId,
+        previousSession.sessionId
       );
 
       const nextPrompt = await instancedPromptApplication.renderPrompt(
         nextState,
-        sessionId
+        instanceId,
+        nextSession === undefined ? previousSession.userId : nextSession.userId,
+        previousSession.sessionId
       );
 
       if (!isEqual(previousPrompt, nextPrompt)) {
         messages.push({
           body: nextPrompt,
-          sessionId,
+          sessionId: previousSession.sessionId,
         });
       }
-    })
-  );
+    }
+  }
+
+  for (const nextSession of nextSessions) {
+    if (
+      nextSession.sessionId !== sessionId &&
+      !previousSessions.some(
+        (previousSession) => previousSession.sessionId === nextSession.sessionId
+      )
+    ) {
+      const previousPrompt = await instancedPromptApplication.renderPrompt(
+        previousState,
+        instanceId,
+        nextSession.userId,
+        nextSession.sessionId
+      );
+
+      const nextPrompt = await instancedPromptApplication.renderPrompt(
+        nextState,
+        instanceId,
+        nextSession.userId,
+        nextSession.sessionId
+      );
+
+      if (!isEqual(previousPrompt, nextPrompt)) {
+        messages.push({
+          body: nextPrompt,
+          sessionId: nextSession.sessionId,
+        });
+      }
+    }
+  }
 
   return { messages };
 }
