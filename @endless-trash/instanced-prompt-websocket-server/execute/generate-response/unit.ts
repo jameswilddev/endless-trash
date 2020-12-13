@@ -16,12 +16,12 @@ describe(`generateResponse`, () => {
       let instancedPromptApplicationStateKeyValueStoreGet: jasmine.Spy;
       let instancedPromptApplicationStateKeyValueStoreInsert: jasmine.Spy;
       let instancedPromptApplicationStateKeyValueStoreUpdate: jasmine.Spy;
-      let renderPrompt: jasmine.Spy;
-      let applyFormSubmissionCommand: jasmine.Spy;
-      let performSideEffects: jasmine.Spy;
-      let listSessions: jasmine.Spy;
-      let invalidRequestEventHandler: jasmine.Spy;
-      let nonexistentInstanceEventHandler: jasmine.Spy;
+      let instancedPromptApplicationRenderPrompt: jasmine.Spy;
+      let instancedPromptApplicationApplyFormSubmissionCommand: jasmine.Spy;
+      let instancedPromptApplicationPerformSideEffects: jasmine.Spy;
+      let instancedPromptApplicationListSessions: jasmine.Spy;
+      let instancedPromptApplicationInvalidRequestEventHandler: jasmine.Spy;
+      let instancedPromptApplicationNonexistentInstanceEventHandler: jasmine.Spy;
       let instancedPromptApplication: InstancedPromptApplication<
         TestState,
         never
@@ -41,8 +41,8 @@ describe(`generateResponse`, () => {
           `instancedPromptApplicationStateKeyValueStoreUpdate`
         );
 
-        renderPrompt = jasmine
-          .createSpy(`renderPrompt`)
+        instancedPromptApplicationRenderPrompt = jasmine
+          .createSpy(`instancedPromptApplicationRenderPrompt`)
           .and.callFake(
             (
               state: TestState,
@@ -199,14 +199,16 @@ describe(`generateResponse`, () => {
             }
           );
 
-        applyFormSubmissionCommand = jasmine.createSpy(
-          `applyFormSubmissionCommand`
+        instancedPromptApplicationApplyFormSubmissionCommand = jasmine.createSpy(
+          `instancedPromptApplicationApplyFormSubmissionCommand`
         );
 
-        performSideEffects = jasmine.createSpy(`performSideEffects`);
+        instancedPromptApplicationPerformSideEffects = jasmine.createSpy(
+          `instancedPromptApplicationPerformSideEffects`
+        );
 
-        listSessions = jasmine
-          .createSpy(`listSessions`)
+        instancedPromptApplicationListSessions = jasmine
+          .createSpy(`instancedPromptApplicationListSessions`)
           .and.callFake((state: TestState) => {
             switch (state) {
               case `Test Previous State`:
@@ -220,12 +222,12 @@ describe(`generateResponse`, () => {
             }
           });
 
-        invalidRequestEventHandler = jasmine.createSpy(
-          `invalidRequestEventHandler`
+        instancedPromptApplicationInvalidRequestEventHandler = jasmine.createSpy(
+          `instancedPromptApplicationInvalidRequestEventHandler`
         );
 
-        nonexistentInstanceEventHandler = jasmine.createSpy(
-          `nonexistentInstanceEventHandler`
+        instancedPromptApplicationNonexistentInstanceEventHandler = jasmine.createSpy(
+          `instancedPromptApplicationNonexistentInstanceEventHandler`
         );
 
         instancedPromptApplication = {
@@ -234,13 +236,12 @@ describe(`generateResponse`, () => {
             insert: instancedPromptApplicationStateKeyValueStoreInsert,
             update: instancedPromptApplicationStateKeyValueStoreUpdate,
           },
-
-          renderPrompt,
-          applyFormSubmissionCommand,
-          performSideEffects,
-          listSessions,
-          invalidRequestEventHandler,
-          nonexistentInstanceEventHandler,
+          renderPrompt: instancedPromptApplicationRenderPrompt,
+          applyFormSubmissionCommand: instancedPromptApplicationApplyFormSubmissionCommand,
+          performSideEffects: instancedPromptApplicationPerformSideEffects,
+          listSessions: instancedPromptApplicationListSessions,
+          invalidRequestEventHandler: instancedPromptApplicationInvalidRequestEventHandler,
+          nonexistentInstanceEventHandler: instancedPromptApplicationNonexistentInstanceEventHandler,
         };
 
         output = await generateResponse(
@@ -272,41 +273,53 @@ describe(`generateResponse`, () => {
       });
 
       it(`does not apply any form submission commands`, () => {
-        expect(applyFormSubmissionCommand).not.toHaveBeenCalled();
+        expect(
+          instancedPromptApplicationApplyFormSubmissionCommand
+        ).not.toHaveBeenCalled();
       });
 
       it(`does not perform any side effects`, () => {
-        expect(performSideEffects).not.toHaveBeenCalled();
+        expect(
+          instancedPromptApplicationPerformSideEffects
+        ).not.toHaveBeenCalled();
       });
 
       it(`does not handle any invalid requests`, () => {
-        expect(invalidRequestEventHandler).not.toHaveBeenCalled();
+        expect(
+          instancedPromptApplicationInvalidRequestEventHandler
+        ).not.toHaveBeenCalled();
       });
 
       it(`does not handle any nonexistent instances`, () => {
-        expect(nonexistentInstanceEventHandler).not.toHaveBeenCalled();
+        expect(
+          instancedPromptApplicationNonexistentInstanceEventHandler
+        ).not.toHaveBeenCalled();
       });
 
       it(`lists the sessions of the previous state`, () => {
-        expect(listSessions).toHaveBeenCalledWith(`Test Previous State`);
+        expect(instancedPromptApplicationListSessions).toHaveBeenCalledWith(
+          `Test Previous State`
+        );
       });
 
       it(`lists the sessions of the next state`, () => {
-        expect(listSessions).toHaveBeenCalledWith(`Test Next State`);
+        expect(instancedPromptApplicationListSessions).toHaveBeenCalledWith(
+          `Test Next State`
+        );
       });
 
       it(`does not list any further sessions`, () => {
-        expect(listSessions).toHaveBeenCalledTimes(2);
+        expect(instancedPromptApplicationListSessions).toHaveBeenCalledTimes(2);
       });
 
       it(`lists sessions with the appropriate "this"`, () => {
-        for (const call of listSessions.calls.all()) {
+        for (const call of instancedPromptApplicationListSessions.calls.all()) {
           expect(call.object).toBe(instancedPromptApplication);
         }
       });
 
       it(`renders a prompt for the next state for the current session`, () => {
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
           `Test Instance Id`,
           `Test User Id`,
@@ -315,14 +328,14 @@ describe(`generateResponse`, () => {
       });
 
       it(`renders a prompt for the previous state for sessions which exist only in the previous state`, () => {
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Previous State`,
           `Test Instance Id`,
           `Test Previous State Only Unchanged User Id`,
           `Test Previous State Only Unchanged Session Id`
         );
 
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Previous State`,
           `Test Instance Id`,
           `Test Previous State Only Changed User Id`,
@@ -331,14 +344,14 @@ describe(`generateResponse`, () => {
       });
 
       it(`renders a prompt for the next state for sessions which exist only in the previous state`, () => {
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
           `Test Instance Id`,
           `Test Previous State Only Unchanged User Id`,
           `Test Previous State Only Unchanged Session Id`
         );
 
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
           `Test Instance Id`,
           `Test Previous State Only Changed User Id`,
@@ -347,14 +360,14 @@ describe(`generateResponse`, () => {
       });
 
       it(`renders a prompt for the previous state for sessions which exist only in the next state`, () => {
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Previous State`,
           `Test Instance Id`,
           `Test Next State Only Unchanged User Id`,
           `Test Next State Only Unchanged Session Id`
         );
 
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Previous State`,
           `Test Instance Id`,
           `Test Next State Only Changed User Id`,
@@ -363,14 +376,14 @@ describe(`generateResponse`, () => {
       });
 
       it(`renders a prompt for the next state for sessions which exist only in the next state`, () => {
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
           `Test Instance Id`,
           `Test Next State Only Unchanged User Id`,
           `Test Next State Only Unchanged Session Id`
         );
 
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
           `Test Instance Id`,
           `Test Next State Only Changed User Id`,
@@ -379,14 +392,14 @@ describe(`generateResponse`, () => {
       });
 
       it(`renders a prompt for the previous state for sessions which exist in both the previous and next states`, () => {
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Previous State`,
           `Test Instance Id`,
           `Test Previous And Next State Unchanged Previous User Id`,
           `Test Previous And Next State Unchanged Session Id`
         );
 
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Previous State`,
           `Test Instance Id`,
           `Test Previous And Next State Changed Previous User Id`,
@@ -395,14 +408,14 @@ describe(`generateResponse`, () => {
       });
 
       it(`renders a prompt for the next state for sessions which exist in both the previous and next states`, () => {
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
           `Test Instance Id`,
           `Test Previous And Next State Unchanged Next User Id`,
           `Test Previous And Next State Unchanged Session Id`
         );
 
-        expect(renderPrompt).toHaveBeenCalledWith(
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledWith(
           `Test Next State`,
           `Test Instance Id`,
           `Test Previous And Next State Changed Next User Id`,
@@ -411,11 +424,13 @@ describe(`generateResponse`, () => {
       });
 
       it(`does not render any further prompts`, () => {
-        expect(renderPrompt).toHaveBeenCalledTimes(13);
+        expect(instancedPromptApplicationRenderPrompt).toHaveBeenCalledTimes(
+          13
+        );
       });
 
       it(`renders prompts with the appropriate "this"`, () => {
-        for (const call of renderPrompt.calls.all()) {
+        for (const call of instancedPromptApplicationRenderPrompt.calls.all()) {
           expect(call.object).toBe(instancedPromptApplication);
         }
       });
