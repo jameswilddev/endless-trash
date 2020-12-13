@@ -43,7 +43,9 @@ export interface InstancedPromptApplication<TState extends Json, TVersion> {
   listSessions(state: TState): Promise<ReadonlyArray<Session>>;
 
   readonly invalidRequestEventHandler: EventHandler<
-    WebsocketHostInput,
+    | WebsocketHostInput
+    | WebsocketHostParsedInput<Json>
+    | WebsocketHostParsedInput<AtLeastPartiallyValidRequest>,
     WebsocketHostUnserializedOutput<Prompt>
   >;
 
