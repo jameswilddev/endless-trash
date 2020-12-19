@@ -1,65 +1,15 @@
+import { BodyParserResult } from "@endless-trash/body-parser";
 import { Json } from "@endless-trash/immutable-json-type";
-import { EventHandler } from "@endless-trash/event-handler";
 import { jsonBodyParser } from "..";
 
-type TestInput = {
-  readonly testInjectedKey: `Test Injected Value`;
-  readonly body: null | string | Buffer;
-};
-
-type TestOutput = {
-  readonly testInjectedKey: `Test Injected Value`;
-  readonly body: Json;
-};
-
-type TestSuccessful = {
-  readonly testSuccessfulKey: `Test Successful Value`;
-};
-
-type TestFailure = {
-  readonly testFailureKey: `Test Failure Value`;
-};
-
 describe(`jsonBodyParser`, () => {
-  describe(`on construction`, () => {
-    let onSuccessful: EventHandler<TestOutput, TestSuccessful>;
-    let onFailure: EventHandler<TestInput, TestFailure>;
-
-    beforeAll(() => {
-      onSuccessful = jasmine.createSpy(`onSuccessful`);
-      onFailure = jasmine.createSpy(`onFailure`);
-
-      jsonBodyParser(onSuccessful, onFailure);
-    });
-
-    it(`does not execute the successful event handler`, () => {
-      expect(onSuccessful).not.toHaveBeenCalled();
-    });
-
-    it(`does not execute the failure event handler`, () => {
-      expect(onFailure).not.toHaveBeenCalled();
-    });
-  });
-
   describe(`on execution`, () => {
     describe(`when the input contains invalid text`, () => {
-      let onSuccessful: EventHandler<TestOutput, TestSuccessful>;
-      let onFailure: EventHandler<TestInput, TestFailure>;
-
-      let result: TestSuccessful | TestFailure;
+      let result: BodyParserResult<Json>;
 
       beforeAll(async () => {
-        onSuccessful = jasmine.createSpy(`onSuccessful`);
-        onFailure = jasmine
-          .createSpy(`onFailure`)
-          .and.returnValue({ testFailureKey: `Test Failure Value` });
-
         result = await jsonBodyParser(
-          onSuccessful,
-          onFailure
-        )({
-          testInjectedKey: `Test Injected Value`,
-          body: Buffer.from(
+          Buffer.from(
             Uint8Array.from([
               0x48,
               0x65,
@@ -75,64 +25,21 @@ describe(`jsonBodyParser`, () => {
               0x6c,
               0x64,
             ])
-          ),
-        });
+          )
+        );
       });
 
-      it(`does not execute the successful event handler`, () => {
-        expect(onSuccessful).not.toHaveBeenCalled();
-      });
-
-      it(`executes the failure event handler once`, () => {
-        expect(onFailure).toHaveBeenCalledTimes(1);
-      });
-
-      it(`executes the failure event handler with the expected input`, () => {
-        expect(onFailure).toHaveBeenCalledWith({
-          testInjectedKey: `Test Injected Value`,
-          body: Buffer.from(
-            Uint8Array.from([
-              0x48,
-              0x65,
-              0x6c,
-              0x6c,
-              0x6f,
-              0x20,
-              0xff,
-              0x20,
-              0x77,
-              0x6f,
-              0x72,
-              0x6c,
-              0x64,
-            ])
-          ),
-        });
-      });
-
-      it(`returns the output of the failure event handler`, () => {
-        expect(result).toEqual({ testFailureKey: `Test Failure Value` });
+      it(`returns unsuccessfully`, () => {
+        expect(result).toEqual({ type: `unsuccessful` });
       });
     });
 
     describe(`when the input contains valid text which is invalid JSON`, () => {
-      let onSuccessful: EventHandler<TestOutput, TestSuccessful>;
-      let onFailure: EventHandler<TestInput, TestFailure>;
-
-      let result: TestSuccessful | TestFailure;
+      let result: BodyParserResult<Json>;
 
       beforeAll(async () => {
-        onSuccessful = jasmine.createSpy(`onSuccessful`);
-        onFailure = jasmine
-          .createSpy(`onFailure`)
-          .and.returnValue({ testFailureKey: `Test Failure Value` });
-
         result = await jsonBodyParser(
-          onSuccessful,
-          onFailure
-        )({
-          testInjectedKey: `Test Injected Value`,
-          body: Buffer.from(
+          Buffer.from(
             Uint8Array.from([
               0x7b,
               0x0a,
@@ -547,462 +454,23 @@ describe(`jsonBodyParser`, () => {
               0x7d,
               0x0a,
             ])
-          ),
+          )
+        );
+      });
+
+      it(`returns unsuccessfully`, () => {
+        expect(result).toEqual({
+          type: `unsuccessful`,
         });
-      });
-
-      it(`does not execute the successful event handler`, () => {
-        expect(onSuccessful).not.toHaveBeenCalled();
-      });
-
-      it(`executes the failure event handler once`, () => {
-        expect(onFailure).toHaveBeenCalledTimes(1);
-      });
-
-      it(`executes the failure event handler with the expected input`, () => {
-        expect(onFailure).toHaveBeenCalledWith({
-          testInjectedKey: `Test Injected Value`,
-          body: Buffer.from(
-            Uint8Array.from([
-              0x7b,
-              0x0a,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x22,
-              0x74,
-              0x65,
-              0x73,
-              0x74,
-              0x42,
-              0x6f,
-              0x64,
-              0x79,
-              0x41,
-              0x22,
-              0x3a,
-              0x20,
-              0x7b,
-              0x0a,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x22,
-              0x74,
-              0x65,
-              0x73,
-              0x74,
-              0x42,
-              0x6f,
-              0x64,
-              0x79,
-              0x42,
-              0x22,
-              0x3a,
-              0x20,
-              0x7b,
-              0x0a,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x22,
-              0x74,
-              0x65,
-              0x73,
-              0x74,
-              0x42,
-              0x6f,
-              0x64,
-              0x79,
-              0x43,
-              0x22,
-              0x3a,
-              0x20,
-              0x5b,
-              0x0a,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x74,
-              0x72,
-              0x75,
-              0x65,
-              0x2c,
-              0x0a,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x66,
-              0x61,
-              0x6c,
-              0x73,
-              0x65,
-              0x2c,
-              0x0a,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x6e,
-              0x75,
-              0x6c,
-              0x6c,
-              0x2c,
-              0x0a,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x34,
-              0x2e,
-              0x33,
-              0x32,
-              0x2c,
-              0x0a,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x22,
-              0x54,
-              0x65,
-              0x73,
-              0x74,
-              0x20,
-              0x53,
-              0x74,
-              0x72,
-              0x69,
-              0x6e,
-              0x67,
-              0x22,
-              0x0a,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x5d,
-              0x0a,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x7d,
-              0x0a,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x20,
-              0x7d,
-              0x0a,
-            ])
-          ),
-        });
-      });
-
-      it(`returns the output of the failure event handler`, () => {
-        expect(result).toEqual({ testFailureKey: `Test Failure Value` });
       });
     });
 
     describe(`when the input contains valid JSON`, () => {
-      let onSuccessful: EventHandler<TestOutput, TestSuccessful>;
-      let onFailure: EventHandler<TestInput, TestFailure>;
-      let result: TestSuccessful | TestFailure;
+      let result: BodyParserResult<Json>;
 
       beforeAll(async () => {
-        onSuccessful = jasmine
-          .createSpy(`onSuccessful`)
-          .and.returnValue({ testSuccessfulKey: `Test Successful Value` });
-        onFailure = jasmine.createSpy(`onFailure`);
-
         result = await jsonBodyParser(
-          onSuccessful,
-          onFailure
-        )({
-          testInjectedKey: `Test Injected Value`,
-          body: Buffer.from(
+          Buffer.from(
             Uint8Array.from([
               0x7b,
               0x0a,
@@ -1418,24 +886,21 @@ describe(`jsonBodyParser`, () => {
               0x0a,
               0x7d,
             ])
-          ),
-        });
+          )
+        );
       });
 
-      it(`executes the successful event handler once`, () => {
-        expect(onSuccessful).toHaveBeenCalledTimes(1);
-      });
-
-      it(`executes the successful event handler with the expected input`, () => {
-        expect(onSuccessful).toHaveBeenCalledWith;
-      });
-
-      it(`returns the output of the successful event handler`, () => {
-        expect(result).toEqual({ testSuccessfulKey: `Test Successful Value` });
-      });
-
-      it(`does not execute the failure event handler`, () => {
-        expect(onFailure).not.toHaveBeenCalled();
+      it(`returns successfully`, () => {
+        expect(result).toEqual({
+          type: `successful`,
+          body: {
+            testBodyA: {
+              testBodyB: {
+                testBodyC: [true, false, null, 4.32, `Test String`],
+              },
+            },
+          },
+        } as BodyParserResult<Json>);
       });
     });
   });
