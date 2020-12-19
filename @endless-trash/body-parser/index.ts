@@ -1,1 +1,7 @@
-export { BodyParserInput, BodyParserOutput, BodyParser } from "./body-parser";
+export {
+  SuccessfulBodyParserResult,
+  UnsuccessfulBodyParserResult,
+  BodyParserResult,
+  UnparsedBody,
+  BodyParser,
+} from "./body-parser";

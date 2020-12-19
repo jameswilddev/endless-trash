@@ -1,5 +1,1 @@
-export {
-  BodySerializerInput,
-  BodySerializerOutput,
-  BodySerializer,
-} from "./body-serializer";
+export { SerializedBody, BodySerializer } from "./body-serializer";

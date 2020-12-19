@@ -1,11 +1,9 @@
-import { PassthroughEventHandler } from "@endless-trash/event-handler";
-import { BodySerializerInput } from "./body-serializer-input";
-import { BodySerializerOutput } from "./body-serializer-output";
+import { SerializedBody } from "./serialized-body";
 
-export { BodySerializerInput } from "./body-serializer-input";
-export { BodySerializerOutput } from "./body-serializer-output";
+export { SerializedBody } from "./serialized-body";
 
-export type BodySerializer<TParsed> = PassthroughEventHandler<
-  BodySerializerInput<TParsed>,
-  BodySerializerOutput
->;
+export interface BodySerializer<TUnserializedLimit> {
+  <TUnserialized extends TUnserializedLimit>(
+    unserialized: TUnserialized
+  ): Promise<SerializedBody>;
+}

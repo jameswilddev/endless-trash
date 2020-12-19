@@ -1,17 +1,16 @@
-import { EventHandler } from "@endless-trash/event-handler";
-import { BodyParserInput } from "./body-parser-input";
-import { BodyParserOutput } from "./body-parser-output";
+import { UnparsedBody } from "./unparsed-body";
+import { BodyParserResult } from "./body-parser-result";
 
-export { BodyParserInput } from "./body-parser-input";
-export { BodyParserOutput } from "./body-parser-output";
+export { UnparsedBody } from "./unparsed-body";
 
-export interface BodyParser<TParsed> {
-  <TInput extends BodyParserInput, TSuccessfulOutput, TFailureOutput>(
-    onSuccessful: EventHandler<
-      Pick<TInput, Exclude<keyof TInput, keyof BodyParserOutput<TParsed>>> &
-        BodyParserOutput<TParsed>,
-      TSuccessfulOutput
-    >,
-    onFailure: EventHandler<TInput, TFailureOutput>
-  ): EventHandler<TInput, TSuccessfulOutput | TFailureOutput>;
+export {
+  SuccessfulBodyParserResult,
+  UnsuccessfulBodyParserResult,
+  BodyParserResult,
+} from "./body-parser-result";
+
+export interface BodyParser<TParsedLimit> {
+  <TParsed extends TParsedLimit>(body: UnparsedBody): Promise<
+    BodyParserResult<TParsed>
+  >;
 }

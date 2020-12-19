@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/body-parser",
   "description": "Types for event handlers which attempt to parse the input's body.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=10.19.0"
   },
@@ -20,9 +20,6 @@
     "url": "https://github.com/jameswilddev/endless-trash"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@endless-trash/event-handler": "0.0.3"
-  },
   "types": "index.d.ts",
   "sideEffects": false
 }

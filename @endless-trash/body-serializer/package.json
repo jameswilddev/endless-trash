@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/body-serializer",
   "description": "Types for event handlers which serialize the output's body.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=10.19.0"
   },
@@ -20,9 +20,6 @@
     "url": "https://github.com/jameswilddev/endless-trash"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@endless-trash/event-handler": "0.0.3"
-  },
   "types": "index.d.ts",
   "sideEffects": false
 }
