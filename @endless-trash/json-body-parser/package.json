@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/json-body-parser",
   "description": "A body parser which parses the incoming request as JSON.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=10.19.0"
   },
@@ -24,7 +24,7 @@
     "@endless-trash/text-body-parser": "0.0.0"
   },
   "devDependencies": {
-    "@endless-trash/body-parser": "0.0.0",
+    "@endless-trash/body-parser": "0.0.1",
     "@endless-trash/event-handler": "0.0.3",
     "@endless-trash/immutable-json-type": "0.0.2"
   },
