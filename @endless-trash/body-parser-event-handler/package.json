@@ -1,6 +1,6 @@
 {
-  "name": "@endless-trash/text-body-parser",
-  "description": "A body parser which parses the incoming request as text.",
+  "name": "@endless-trash/body-parser-event-handler",
+  "description": "Converts a body parser into an event handler.",
   "version": "0.0.0",
   "engines": {
     "node": ">=10.19.0"
@@ -21,7 +21,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@endless-trash/body-parser": "0.0.3"
+    "@endless-trash/body-parser": "0.0.3",
+    "@endless-trash/event-handler": "0.0.3"
   },
   "types": "index.d.ts",
   "sideEffects": false

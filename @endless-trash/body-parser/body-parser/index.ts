@@ -9,8 +9,6 @@ export {
   BodyParserResult,
 } from "./body-parser-result";
 
-export interface BodyParser<TParsedLimit> {
-  <TParsed extends TParsedLimit>(body: UnparsedBody): Promise<
-    BodyParserResult<TParsed>
-  >;
+export interface BodyParser<TParsed> {
+  (body: UnparsedBody): Promise<BodyParserResult<TParsed>>;
 }
