@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@endless-trash/body-parser": "0.0.1",
+    "@endless-trash/body-parser": "0.0.2",
     "@endless-trash/event-handler": "0.0.3"
   },
   "types": "index.d.ts",
