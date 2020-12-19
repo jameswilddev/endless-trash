@@ -22,7 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "@endless-trash/prompt": "0.0.11",
-    "@endless-trash/websocket-host-body-serializer": "0.0.0",
+    "@endless-trash/websocket-host-body-serializer": "0.0.1",
     "lodash": "4.17.20"
   },
   "devDependencies": {
