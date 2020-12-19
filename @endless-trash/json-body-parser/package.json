@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@endless-trash/text-body-parser": "0.0.0"
+    "@endless-trash/text-body-parser": "0.0.1"
   },
   "devDependencies": {
     "@endless-trash/body-parser": "0.0.1",
