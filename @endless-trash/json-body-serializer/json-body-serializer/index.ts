@@ -20,10 +20,7 @@ export function jsonBodySerializer(space?: number): BodySerializer<Json> {
     }
   }
 
-  return async (input) => {
-    return {
-      ...input,
-      body: JSON.stringify(input.body, null, space),
-    };
+  return async (unserialized) => {
+    return JSON.stringify(unserialized, null, space);
   };
 }
