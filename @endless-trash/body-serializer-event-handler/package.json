@@ -1,0 +1,29 @@
+{
+  "name": "@endless-trash/body-serializer-event-handler",
+  "description": "Converts a body serializer into an event handler.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=10.19.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/endless-trash"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@endless-trash/body-serializer": "0.0.4",
+    "@endless-trash/event-handler": "0.0.3"
+  },
+  "types": "index.d.ts",
+  "sideEffects": false
+}
