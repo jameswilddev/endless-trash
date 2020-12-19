@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/json-body-serializer",
   "description": "A body serializer which serializes the outgoing response as JSON.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=10.19.0"
   },
@@ -21,8 +21,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@endless-trash/body-serializer": "0.0.3",
-    "@endless-trash/event-handler": "0.0.3",
+    "@endless-trash/body-serializer": "0.0.4",
     "@endless-trash/immutable-json-type": "0.0.2"
   },
   "types": "index.d.ts",
