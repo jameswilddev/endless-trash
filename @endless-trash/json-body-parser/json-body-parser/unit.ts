@@ -459,7 +459,7 @@ describe(`jsonBodyParser`, () => {
       });
 
       it(`returns unsuccessfully`, () => {
-        expect(result).toHaveBeenCalledWith({
+        expect(result).toEqual({
           type: `unsuccessful`,
         });
       });
@@ -893,7 +893,13 @@ describe(`jsonBodyParser`, () => {
       it(`returns successfully`, () => {
         expect(result).toEqual({
           type: `successful`,
-          body: `uh`,
+          body: {
+            testBodyA: {
+              testBodyB: {
+                testBodyC: [true, false, null, 4.32, `Test String`],
+              },
+            },
+          },
         } as BodyParserResult<Json>);
       });
     });
