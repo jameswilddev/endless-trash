@@ -16,7 +16,10 @@ export function websocketHostBodySerializer<TParsed>(
     const messages: WebsocketHostOutputMessage[] = [];
 
     for (const message of input.messages) {
-      messages.push(await bodySerializer(message));
+      messages.push({
+        ...message,
+        body: await bodySerializer(message.body),
+      });
     }
 
     return {

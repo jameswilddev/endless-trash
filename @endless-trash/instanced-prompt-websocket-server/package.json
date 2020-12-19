@@ -22,12 +22,12 @@
   "license": "MIT",
   "dependencies": {
     "@endless-trash/prompt": "0.0.11",
-    "@endless-trash/websocket-host-body-serializer": "0.0.0",
+    "@endless-trash/websocket-host-body-serializer": "0.0.1",
     "lodash": "4.17.20"
   },
   "devDependencies": {
     "@endless-trash/body-parser": "0.0.3",
-    "@endless-trash/body-serializer": "0.0.3",
+    "@endless-trash/body-serializer": "0.0.4",
     "@endless-trash/event-handler": "0.0.3",
     "@endless-trash/immutable-json-type": "0.0.2",
     "@endless-trash/key-value-store": "0.0.5",

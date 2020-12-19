@@ -1,45 +1,27 @@
+import { SerializedBody } from "@endless-trash/body-serializer";
+import { Json } from "@endless-trash/immutable-json-type";
 import { jsonBodySerializer } from "..";
 
-type TestInput = {
-  readonly body: {
-    readonly testBodyA: {
-      readonly testBodyB: {
-        readonly testBodyC: readonly [true, false, null, 4.32, "Test String"];
-      };
-    };
-  };
-  readonly testInjectedKey: `Test Injected Value`;
-};
-
-const testInput: TestInput = {
-  body: {
-    testBodyA: {
-      testBodyB: {
-        testBodyC: [true, false, null, 4.32, `Test String`],
-      },
+const testInput: Json = {
+  testBodyA: {
+    testBodyB: {
+      testBodyC: [true, false, null, 4.32, `Test String`],
     },
   },
-  testInjectedKey: `Test Injected Value`,
-};
-
-type TestOutput = {
-  readonly body: null | string | Buffer;
-  readonly testInjectedKey: `Test Injected Value`;
 };
 
 describe(`jsonBodySerializer`, () => {
   describe(`when space is not defined`, () => {
-    let output: TestOutput;
+    let output: SerializedBody;
 
     beforeAll(async () => {
       output = await jsonBodySerializer()(testInput);
     });
 
     it(`serializes the body to JSON`, () => {
-      expect(output).toEqual({
-        body: `{"testBodyA":{"testBodyB":{"testBodyC":[true,false,null,4.32,"Test String"]}}}`,
-        testInjectedKey: `Test Injected Value`,
-      });
+      expect(output).toEqual(
+        `{"testBodyA":{"testBodyB":{"testBodyC":[true,false,null,4.32,"Test String"]}}}`
+      );
     });
   });
 
@@ -164,30 +146,28 @@ describe(`jsonBodySerializer`, () => {
   });
 
   describe(`when space is zero`, () => {
-    let output: TestOutput;
+    let output: SerializedBody;
 
     beforeAll(async () => {
       output = await jsonBodySerializer(0)(testInput);
     });
 
     it(`serializes the body to JSON`, () => {
-      expect(output).toEqual({
-        body: `{"testBodyA":{"testBodyB":{"testBodyC":[true,false,null,4.32,"Test String"]}}}`,
-        testInjectedKey: `Test Injected Value`,
-      });
+      expect(output).toEqual(
+        `{"testBodyA":{"testBodyB":{"testBodyC":[true,false,null,4.32,"Test String"]}}}`
+      );
     });
   });
 
   describe(`when space is ten`, () => {
-    let output: TestOutput;
+    let output: SerializedBody;
 
     beforeAll(async () => {
       output = await jsonBodySerializer(10)(testInput);
     });
 
     it(`serializes the body to JSON`, () => {
-      expect(output).toEqual({
-        body: `{
+      expect(output).toEqual(`{
           "testBodyA": {
                     "testBodyB": {
                               "testBodyC": [
@@ -199,22 +179,19 @@ describe(`jsonBodySerializer`, () => {
                               ]
                     }
           }
-}`,
-        testInjectedKey: `Test Injected Value`,
-      });
+}`);
     });
   });
 
   describe(`when space between zero and ten`, () => {
-    let output: TestOutput;
+    let output: SerializedBody;
 
     beforeAll(async () => {
       output = await jsonBodySerializer(4)(testInput);
     });
 
     it(`serializes the body to JSON`, () => {
-      expect(output).toEqual({
-        body: `{
+      expect(output).toEqual(`{
     "testBodyA": {
         "testBodyB": {
             "testBodyC": [
@@ -226,9 +203,7 @@ describe(`jsonBodySerializer`, () => {
             ]
         }
     }
-}`,
-        testInjectedKey: `Test Injected Value`,
-      });
+}`);
     });
   });
 });

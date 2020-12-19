@@ -1,5 +1,4 @@
 import { websocketHostBodySerializer } from "..";
-import { WebsocketHostUnserializedOutputMessage } from "../websocket-host-unserialized-output";
 
 describe(`websocketHostBodySerializer`, () => {
   describe(`on construction`, () => {
@@ -37,32 +36,16 @@ describe(`websocketHostBodySerializer`, () => {
 
       bodySerializer = jasmine
         .createSpy(`bodySerializer`)
-        .and.callFake(
-          async (
-            input: WebsocketHostUnserializedOutputMessage<TestInputMessage>
-          ) => {
-            switch (input.body) {
-              case `Test Message A Input Body`:
-                return {
-                  testMessageAKey: `Test Message A Value`,
-                  sessionId: `Test Message A Session Id`,
-                  body: `Test Message A Output Body`,
-                };
-              case `Test Message B Input Body`:
-                return {
-                  testMessageBKey: `Test Message B Value`,
-                  sessionId: `Test Message B Session Id`,
-                  body: `Test Message B Output Body`,
-                };
-              case `Test Message C Input Body`:
-                return {
-                  testMessageCKey: `Test Message C Value`,
-                  sessionId: `Test Message C Session Id`,
-                  body: `Test Message C Output Body`,
-                };
-            }
+        .and.callFake(async (input: TestInputMessage) => {
+          switch (input) {
+            case `Test Message A Input Body`:
+              return `Test Message A Output Body`;
+            case `Test Message B Input Body`:
+              return `Test Message B Output Body`;
+            case `Test Message C Input Body`:
+              return `Test Message C Output Body`;
           }
-        );
+        });
 
       const constructed = websocketHostBodySerializer<TestInputMessage>(
         bodySerializer
@@ -95,23 +78,11 @@ describe(`websocketHostBodySerializer`, () => {
     });
 
     it(`calls the body serializer with the untransformed messages`, () => {
-      expect(bodySerializer).toHaveBeenCalledWith({
-        testMessageAKey: `Test Message A Value`,
-        sessionId: `Test Message A Session Id`,
-        body: `Test Message A Input Body`,
-      });
+      expect(bodySerializer).toHaveBeenCalledWith(`Test Message A Input Body`);
 
-      expect(bodySerializer).toHaveBeenCalledWith({
-        testMessageBKey: `Test Message B Value`,
-        sessionId: `Test Message B Session Id`,
-        body: `Test Message B Input Body`,
-      });
+      expect(bodySerializer).toHaveBeenCalledWith(`Test Message B Input Body`);
 
-      expect(bodySerializer).toHaveBeenCalledWith({
-        testMessageCKey: `Test Message C Value`,
-        sessionId: `Test Message C Session Id`,
-        body: `Test Message C Input Body`,
-      });
+      expect(bodySerializer).toHaveBeenCalledWith(`Test Message C Input Body`);
     });
 
     it(`returns the transformed input`, () => {

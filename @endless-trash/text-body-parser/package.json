@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/text-body-parser",
   "description": "A body parser which parses the incoming request as text.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=10.19.0"
   },
