@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@endless-trash/body-serializer": "0.0.3",
+    "@endless-trash/body-serializer": "0.0.4",
     "@endless-trash/event-handler": "0.0.3",
     "@endless-trash/websocket-host": "0.0.2"
   },
