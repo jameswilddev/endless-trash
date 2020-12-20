@@ -1,22 +1,32 @@
+import { BodySerializer } from "@endless-trash/body-serializer";
+import { EventHandler } from "@endless-trash/event-handler";
+import { WebsocketHostInput } from "@endless-trash/websocket-host/websocket-host-input";
 import { websocketHostBodySerializer } from "..";
 
 describe(`websocketHostBodySerializer`, () => {
   describe(`on construction`, () => {
     let bodySerializer: jasmine.Spy;
+    let wrapped: jasmine.Spy;
 
     beforeAll(() => {
       bodySerializer = jasmine.createSpy(`bodySerializer`);
+      wrapped = jasmine.createSpy(`wrapped`);
 
-      websocketHostBodySerializer(bodySerializer);
+      websocketHostBodySerializer(bodySerializer, wrapped);
     });
 
     it(`does not call the body serializer`, () => {
       expect(bodySerializer).not.toHaveBeenCalled();
     });
+
+    it(`does not call the wrapped event handler`, () => {
+      expect(wrapped).not.toHaveBeenCalled();
+    });
   });
 
   describe(`on invocation`, () => {
     let bodySerializer: jasmine.Spy;
+    let wrapped: jasmine.Spy;
     let output: {
       messages: ReadonlyArray<{
         readonly testMessageAKey?: string;
@@ -47,11 +57,7 @@ describe(`websocketHostBodySerializer`, () => {
           }
         });
 
-      const constructed = websocketHostBodySerializer<TestInputMessage>(
-        bodySerializer
-      );
-
-      output = await constructed({
+      wrapped = jasmine.createSpy(`wrapped`).and.resolveTo({
         messages: [
           {
             testMessageAKey: `Test Message A Value`,
@@ -71,6 +77,46 @@ describe(`websocketHostBodySerializer`, () => {
         ],
         testOutputKey: `Test Output Value`,
       });
+
+      const constructed = websocketHostBodySerializer<
+        {
+          sessionId: string;
+          body: null | string | Buffer;
+          testInputKey: `Test Input Value`;
+        },
+        TestInputMessage,
+        {
+          messages: ReadonlyArray<{
+            readonly testMessageAKey?: string;
+            readonly testMessageBKey?: string;
+            readonly testMessageCKey?: string;
+            readonly sessionId: string;
+            readonly body: TestInputMessage;
+          }>;
+          readonly testOutputKey: string;
+        }
+      >(
+        bodySerializer as BodySerializer<TestInputMessage>,
+        wrapped as EventHandler<
+          WebsocketHostInput,
+          {
+            messages: ReadonlyArray<{
+              readonly testMessageAKey?: string;
+              readonly testMessageBKey?: string;
+              readonly testMessageCKey?: string;
+              readonly sessionId: string;
+              readonly body: TestInputMessage;
+            }>;
+            readonly testOutputKey: string;
+          }
+        >
+      );
+
+      output = await constructed({
+        sessionId: `Test Session Id`,
+        body: `Test Body`,
+        testInputKey: `Test Input Value`,
+      });
     });
 
     it(`calls the body serializer once per message`, () => {
@@ -83,6 +129,18 @@ describe(`websocketHostBodySerializer`, () => {
       expect(bodySerializer).toHaveBeenCalledWith(`Test Message B Input Body`);
 
       expect(bodySerializer).toHaveBeenCalledWith(`Test Message C Input Body`);
+    });
+
+    it(`calls the wrapped event handler once`, () => {
+      expect(wrapped).toHaveBeenCalledTimes(1);
+    });
+
+    it(`calls the wrapped event handler with the input`, () => {
+      expect(wrapped).toHaveBeenCalledWith({
+        sessionId: `Test Session Id`,
+        body: `Test Body`,
+        testInputKey: `Test Input Value`,
+      });
     });
 
     it(`returns the transformed input`, () => {

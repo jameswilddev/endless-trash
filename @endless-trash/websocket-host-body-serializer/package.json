@@ -1,7 +1,7 @@
 {
   "name": "@endless-trash/websocket-host-body-serializer",
   "description": "Adapts a body serializer to serialize the output messages of a WebSocket host event handler.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=10.19.0"
   },
