@@ -6,14 +6,13 @@ import {
   FormSubmissionCommand,
   Prompt,
 } from "@endless-trash/prompt";
-import {
-  WebsocketHostInput,
-  WebsocketHostParsedInput,
-} from "@endless-trash/websocket-host";
+import { WebsocketHostParsedInput } from "@endless-trash/websocket-host";
 import { WebsocketHostUnserializedOutput } from "@endless-trash/websocket-host-body-serializer";
+import { HasInvalidRequestEventHandler } from "../has-invalid-request-event-handler";
 import { Session } from "../session";
 
-export interface InstancedPromptApplication<TState extends Json, TVersion> {
+export interface InstancedPromptApplication<TState extends Json, TVersion>
+  extends HasInvalidRequestEventHandler {
   readonly stateKeyValueStore: KeyValueStore<TState, TVersion>;
 
   renderPrompt(
@@ -41,13 +40,6 @@ export interface InstancedPromptApplication<TState extends Json, TVersion> {
   ): Promise<void>;
 
   listSessions(state: TState): Promise<ReadonlyArray<Session>>;
-
-  readonly invalidRequestEventHandler: EventHandler<
-    | WebsocketHostInput
-    | WebsocketHostParsedInput<Json>
-    | WebsocketHostParsedInput<AtLeastPartiallyValidRequest>,
-    WebsocketHostUnserializedOutput<Prompt>
-  >;
 
   readonly nonexistentInstanceEventHandler: EventHandler<
     WebsocketHostParsedInput<AtLeastPartiallyValidRequest>,
