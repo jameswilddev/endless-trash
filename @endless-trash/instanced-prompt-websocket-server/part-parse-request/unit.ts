@@ -1,31 +1,38 @@
 import { Prompt } from "@endless-trash/prompt";
 import { WebsocketHostUnserializedOutput } from "@endless-trash/websocket-host-body-serializer";
 import { partParseRequest } from ".";
+import { HasInvalidRequestEventHandler } from "../has-invalid-request-event-handler";
 
 describe(`partParseRequest`, () => {
   describe(`on construction`, () => {
     let onSuccessful: jasmine.Spy;
-    let onFailure: jasmine.Spy;
+    let invalidRequestEventHandler: jasmine.Spy;
+    let hasInvalidRequestEventHandler: HasInvalidRequestEventHandler;
 
     beforeAll(() => {
       onSuccessful = jasmine.createSpy(`onSuccessful`);
-      onFailure = jasmine.createSpy(`onFailure`);
 
-      partParseRequest(onSuccessful, onFailure);
+      invalidRequestEventHandler = jasmine.createSpy(
+        `invalidRequestEventHandler`
+      );
+      hasInvalidRequestEventHandler = { invalidRequestEventHandler };
+
+      partParseRequest(onSuccessful, hasInvalidRequestEventHandler);
     });
 
     it(`does not execute the success callback`, () => {
       expect(onSuccessful).not.toHaveBeenCalled();
     });
 
-    it(`does not execute the failure callback`, () => {
-      expect(onFailure).not.toHaveBeenCalled();
+    it(`does not execute the invalid request event handler`, () => {
+      expect(invalidRequestEventHandler).not.toHaveBeenCalled();
     });
   });
 
   describe(`given a valid request`, () => {
     let onSuccessful: jasmine.Spy;
-    let onFailure: jasmine.Spy;
+    let invalidRequestEventHandler: jasmine.Spy;
+    let hasInvalidRequestEventHandler: HasInvalidRequestEventHandler;
     let output: WebsocketHostUnserializedOutput<Prompt>;
 
     beforeAll(async () => {
@@ -40,11 +47,14 @@ describe(`partParseRequest`, () => {
         ],
       });
 
-      onFailure = jasmine.createSpy(`onFailure`);
+      invalidRequestEventHandler = jasmine.createSpy(
+        `invalidRequestEventHandler`
+      );
+      hasInvalidRequestEventHandler = { invalidRequestEventHandler };
 
       output = await partParseRequest(
         onSuccessful,
-        onFailure
+        hasInvalidRequestEventHandler
       )({
         sessionId: `Test Session Id`,
         body: {
@@ -68,8 +78,8 @@ describe(`partParseRequest`, () => {
       });
     });
 
-    it(`does not execute the failure callback`, () => {
-      expect(onFailure).not.toHaveBeenCalled();
+    it(`does not execute the invalid request event handler`, () => {
+      expect(invalidRequestEventHandler).not.toHaveBeenCalled();
     });
 
     it(`returns the output of the failure callback`, () => {
@@ -88,26 +98,30 @@ describe(`partParseRequest`, () => {
 
   describe(`given an invalid request`, () => {
     let onSuccessful: jasmine.Spy;
-    let onFailure: jasmine.Spy;
+    let invalidRequestEventHandler: jasmine.Spy;
+    let hasInvalidRequestEventHandler: HasInvalidRequestEventHandler;
     let output: WebsocketHostUnserializedOutput<Prompt>;
 
     beforeAll(async () => {
       onSuccessful = jasmine.createSpy(`onSuccessful`);
 
-      onFailure = jasmine.createSpy(`onFailure`).and.resolveTo({
-        messages: [
-          {
-            body: {
-              formGroups: [{ name: `Test Failure Form Group`, forms: [] }],
+      invalidRequestEventHandler = jasmine
+        .createSpy(`invalidRequestEventHandler`)
+        .and.resolveTo({
+          messages: [
+            {
+              body: {
+                formGroups: [{ name: `Test Failure Form Group`, forms: [] }],
+              },
+              sessionId: `Test Session Id`,
             },
-            sessionId: `Test Session Id`,
-          },
-        ],
-      });
+          ],
+        });
+      hasInvalidRequestEventHandler = { invalidRequestEventHandler };
 
       output = await partParseRequest(
         onSuccessful,
-        onFailure
+        hasInvalidRequestEventHandler
       )({
         sessionId: `Test Session Id`,
         body: `Test Invalid Body`,
@@ -118,15 +132,21 @@ describe(`partParseRequest`, () => {
       expect(onSuccessful).not.toHaveBeenCalled();
     });
 
-    it(`executes the failure callback once`, () => {
-      expect(onFailure).toHaveBeenCalledTimes(1);
+    it(`executes the invalid request event handler once`, () => {
+      expect(invalidRequestEventHandler).toHaveBeenCalledTimes(1);
     });
 
-    it(`executes the failure callback with the event`, () => {
-      expect(onFailure).toHaveBeenCalledWith({
+    it(`executes the invalid request event handler with the event`, () => {
+      expect(invalidRequestEventHandler).toHaveBeenCalledWith({
         sessionId: `Test Session Id`,
         body: `Test Invalid Body`,
       });
+    });
+
+    it(`executes the invalid request event handler with the correct "this"`, () => {
+      for (const call of invalidRequestEventHandler.calls.all()) {
+        expect(call.object).toBe(hasInvalidRequestEventHandler);
+      }
     });
 
     it(`returns the output of the failure callback`, () => {

@@ -7,16 +7,14 @@ import {
 } from "@endless-trash/prompt";
 import { WebsocketHostParsedInput } from "@endless-trash/websocket-host";
 import { WebsocketHostUnserializedOutput } from "@endless-trash/websocket-host-body-serializer";
+import { HasInvalidRequestEventHandler } from "../has-invalid-request-event-handler";
 
 export function partParseRequest(
   onSuccessful: EventHandler<
     WebsocketHostParsedInput<AtLeastPartiallyValidRequest>,
     WebsocketHostUnserializedOutput<Prompt>
   >,
-  onFailure: EventHandler<
-    WebsocketHostParsedInput<Json>,
-    WebsocketHostUnserializedOutput<Prompt>
-  >
+  hasInvalidRequestEventHandler: HasInvalidRequestEventHandler
 ): EventHandler<
   WebsocketHostParsedInput<Json>,
   WebsocketHostUnserializedOutput<Prompt>
@@ -25,7 +23,9 @@ export function partParseRequest(
     const body = requestIsAtLeastPartiallyValid(event.body);
 
     if (body === null) {
-      return await onFailure(event);
+      return await hasInvalidRequestEventHandler.invalidRequestEventHandler(
+        event
+      );
     } else {
       return await onSuccessful({ ...event, body });
     }

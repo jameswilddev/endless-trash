@@ -1,30 +1,44 @@
 import { JsonObject } from "@endless-trash/immutable-json-type";
+import { Prompt } from "@endless-trash/prompt";
 import { AtLeastPartiallyValidRequest } from "@endless-trash/prompt/at-least-partially-valid-request";
+import { WebsocketHostUnserializedOutput } from "@endless-trash/websocket-host-body-serializer";
 import { parseMetadata } from ".";
+import { HasInvalidRequestEventHandler } from "../has-invalid-request-event-handler";
 
 describe(`parseMetadata`, () => {
   describe(`when valid`, () => {
     let onSuccessful: jasmine.Spy;
-    let onFailure: jasmine.Spy;
-    let output: `Test Successful Output` | `Test Failure Output`;
+    let invalidRequestEventHandler: jasmine.Spy;
+    let hasInvalidRequestEventHandler: HasInvalidRequestEventHandler;
+    let output: WebsocketHostUnserializedOutput<Prompt>;
 
     beforeAll(async () => {
-      onSuccessful = jasmine
-        .createSpy(`onSuccess`)
-        .and.resolveTo(`Test Successful Output`);
-      onFailure = jasmine.createSpy(`onFailure`);
+      onSuccessful = jasmine.createSpy(`onSuccess`).and.resolveTo({
+        messages: [
+          {
+            body: {
+              formGroups: [
+                { name: `Test Successful Form Group Name`, forms: [] },
+              ],
+            },
+            sessionId: `Test Session Id`,
+          },
+        ],
+      });
 
-      output = await parseMetadata<
-        {
-          readonly body: AtLeastPartiallyValidRequest;
-          readonly sessionId: string;
-          readonly testAdditionalKey: `Test Additional Value`;
-        },
-        `Test Successful Output`,
-        `Test Failure Output`
-      >(
+      invalidRequestEventHandler = jasmine.createSpy(
+        `invalidRequestEventHandler`
+      );
+
+      hasInvalidRequestEventHandler = { invalidRequestEventHandler };
+
+      output = await parseMetadata<{
+        readonly body: AtLeastPartiallyValidRequest;
+        readonly sessionId: string;
+        readonly testAdditionalKey: `Test Additional Value`;
+      }>(
         onSuccessful,
-        onFailure
+        hasInvalidRequestEventHandler
       )({
         body: {
           metadata: {
@@ -57,37 +71,59 @@ describe(`parseMetadata`, () => {
     });
 
     it(`returns the result of the success callback`, () => {
-      expect(output).toEqual(`Test Successful Output`);
+      expect(output).toEqual({
+        messages: [
+          {
+            body: {
+              formGroups: [
+                { name: `Test Successful Form Group Name`, forms: [] },
+              ],
+            },
+            sessionId: `Test Session Id`,
+          },
+        ],
+      });
     });
 
-    it(`does not execute the failure callback`, () => {
-      expect(onFailure).not.toHaveBeenCalled();
+    it(`does not execute the invalid request event handler`, () => {
+      expect(invalidRequestEventHandler).not.toHaveBeenCalled();
     });
   });
 
   function rejects(description: string, metadata: JsonObject): void {
     describe(description, () => {
       let onSuccessful: jasmine.Spy;
-      let onFailure: jasmine.Spy;
-      let output: `Test Successful Output` | `Test Failure Output`;
+      let invalidRequestEventHandler: jasmine.Spy;
+      let hasInvalidRequestEventHandler: HasInvalidRequestEventHandler;
+      let output: WebsocketHostUnserializedOutput<Prompt>;
 
       beforeAll(async () => {
         onSuccessful = jasmine.createSpy(`onSuccess`);
-        onFailure = jasmine
-          .createSpy(`onFailure`)
-          .and.resolveTo(`Test Failure Output`);
 
-        output = await parseMetadata<
-          {
-            readonly body: AtLeastPartiallyValidRequest;
-            readonly sessionId: string;
-            readonly testAdditionalKey: `Test Additional Value`;
-          },
-          `Test Successful Output`,
-          `Test Failure Output`
-        >(
+        invalidRequestEventHandler = jasmine
+          .createSpy(`invalidRequestEventHandler`)
+          .and.resolveTo({
+            messages: [
+              {
+                body: {
+                  formGroups: [
+                    { name: `Test Failure Form Group Name`, forms: [] },
+                  ],
+                },
+                sessionId: `Test Session Id`,
+              },
+            ],
+          });
+
+        hasInvalidRequestEventHandler = { invalidRequestEventHandler };
+
+        output = await parseMetadata<{
+          readonly body: AtLeastPartiallyValidRequest;
+          readonly sessionId: string;
+          readonly testAdditionalKey: `Test Additional Value`;
+        }>(
           onSuccessful,
-          onFailure
+          hasInvalidRequestEventHandler
         )({
           body: { metadata: metadata, command: `Test Command` },
           sessionId: `Test Session Id`,
@@ -99,20 +135,37 @@ describe(`parseMetadata`, () => {
         expect(onSuccessful).not.toHaveBeenCalled();
       });
 
-      it(`executes the failure callback once`, () => {
-        expect(onFailure).toHaveBeenCalledTimes(1);
+      it(`executes the invalid request event handler once`, () => {
+        expect(invalidRequestEventHandler).toHaveBeenCalledTimes(1);
       });
 
-      it(`executes the failure callback with the event`, () => {
-        expect(onFailure).toHaveBeenCalledWith({
+      it(`executes the invalid request event handler with the event`, () => {
+        expect(invalidRequestEventHandler).toHaveBeenCalledWith({
           body: { metadata: metadata, command: `Test Command` },
           sessionId: `Test Session Id`,
           testAdditionalKey: `Test Additional Value`,
         });
       });
 
+      it(`executes the invalid request event handler with the correct "this"`, () => {
+        for (const call of invalidRequestEventHandler.calls.all()) {
+          expect(call.object).toBe(hasInvalidRequestEventHandler);
+        }
+      });
+
       it(`returns the result of the failure callback`, () => {
-        expect(output).toEqual(`Test Failure Output`);
+        expect(output).toEqual({
+          messages: [
+            {
+              body: {
+                formGroups: [
+                  { name: `Test Failure Form Group Name`, forms: [] },
+                ],
+              },
+              sessionId: `Test Session Id`,
+            },
+          ],
+        });
       });
     });
   }
