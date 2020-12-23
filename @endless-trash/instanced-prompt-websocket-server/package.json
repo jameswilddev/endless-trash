@@ -21,6 +21,9 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@endless-trash/body-parser-event-handler": "0.0.0",
+    "@endless-trash/json-body-parser": "0.0.2",
+    "@endless-trash/json-body-serializer": "0.0.1",
     "@endless-trash/prompt": "0.0.11",
     "@endless-trash/websocket-host-body-serializer": "0.0.2",
     "lodash": "4.17.20"
