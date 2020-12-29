@@ -26,13 +26,13 @@
   "devDependencies": {
     "@endless-trash/channel": "0.0.2",
     "@endless-trash/immutable-json-type": "0.0.2",
-    "ws": "7.4.1",
+    "ws": "7.4.2",
     "utf-8-validate": "5.0.3",
     "bufferutil": "4.0.2",
     "@types/ws": "7.4.0"
   },
   "peerDependencies": {
-    "ws": "7.4.1",
+    "ws": "7.4.2",
     "utf-8-validate": "5.0.3",
     "bufferutil": "4.0.2"
   },
