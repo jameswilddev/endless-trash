@@ -23,7 +23,7 @@ This package has the following runtime dependencies:
 
 Name    | Version                                                                                      
 ------- | ---------------------------------------------------------------------------------------------
-aws-sdk | [![2.829.0](https://img.shields.io/npm/v/aws-sdk.svg)](https://www.npmjs.com/package/aws-sdk)
+aws-sdk | [![2.830.0](https://img.shields.io/npm/v/aws-sdk.svg)](https://www.npmjs.com/package/aws-sdk)
 
 ## Peer Dependencies
 
