@@ -8,7 +8,7 @@ This package has the following runtime dependencies:
 
 Name    | Version                                                                                      
 ------- | ---------------------------------------------------------------------------------------------
-aws-sdk | [![2.833.0](https://img.shields.io/npm/v/aws-sdk.svg)](https://www.npmjs.com/package/aws-sdk)
+aws-sdk | [![2.834.0](https://img.shields.io/npm/v/aws-sdk.svg)](https://www.npmjs.com/package/aws-sdk)
 express | [![4.17.1](https://img.shields.io/npm/v/express.svg)](https://www.npmjs.com/package/express) 
 
 ## Peer Dependencies
