@@ -8,7 +8,7 @@ This package has the following runtime dependencies:
 
 Name    | Version                                                                                    
 ------- | -------------------------------------------------------------------------------------------
-sqlite3 | [![5.0.1](https://img.shields.io/npm/v/sqlite3.svg)](https://www.npmjs.com/package/sqlite3)
+sqlite3 | [![5.0.2](https://img.shields.io/npm/v/sqlite3.svg)](https://www.npmjs.com/package/sqlite3)
 
 ## Peer Dependencies
 
