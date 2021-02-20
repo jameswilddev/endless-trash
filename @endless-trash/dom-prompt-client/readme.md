@@ -9,7 +9,7 @@ This package has the following runtime dependencies:
 Name         | Version                                                                                              
 ------------ | -----------------------------------------------------------------------------------------------------
 hyperapp-cjs | [![2.0.8](https://img.shields.io/npm/v/hyperapp-cjs.svg)](https://www.npmjs.com/package/hyperapp-cjs)
-lodash       | [![4.17.20](https://img.shields.io/npm/v/lodash.svg)](https://www.npmjs.com/package/lodash)          
+lodash       | [![4.17.21](https://img.shields.io/npm/v/lodash.svg)](https://www.npmjs.com/package/lodash)          
 
 ## Peer Dependencies
 
