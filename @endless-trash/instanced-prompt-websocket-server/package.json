@@ -26,7 +26,7 @@
     "@endless-trash/json-body-serializer": "0.0.1",
     "@endless-trash/prompt": "0.0.11",
     "@endless-trash/websocket-host-body-serializer": "0.0.2",
-    "lodash": "4.17.20"
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "@endless-trash/body-parser": "0.0.3",
