@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "2.848.0"
+    "aws-sdk": "2.849.0"
   },
   "devDependencies": {
     "@endless-trash/file-store": "0.0.5",
