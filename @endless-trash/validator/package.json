@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "ajv": "6.12.6"
+    "ajv": "7.2.1"
   },
   "devDependencies": {
     "@endless-trash/event-handler": "0.0.2",
