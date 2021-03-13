@@ -29,7 +29,7 @@
     "@endless-trash/prompt": "0.0.11",
     "@endless-trash/immutable-json-type": "0.0.2",
     "@types/jsdom": "16.2.7",
-    "@types/lodash": "4.14.165",
+    "@types/lodash": "4.14.168",
     "jsdom": "16.5.1"
   },
   "types": "index.d.ts",

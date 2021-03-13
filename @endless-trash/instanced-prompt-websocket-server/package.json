@@ -35,7 +35,7 @@
     "@endless-trash/immutable-json-type": "0.0.2",
     "@endless-trash/key-value-store": "0.0.5",
     "@endless-trash/websocket-host": "0.0.2",
-    "@types/lodash": "4.14.165"
+    "@types/lodash": "4.14.168"
   },
   "types": "index.d.ts",
   "sideEffects": false
